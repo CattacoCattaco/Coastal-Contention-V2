@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bn743l82h46ws"]
+
+[ext_resource type="Texture2D" uid="uid://k75gujg6y26p" path="res://game/map/map.png" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://reedyuyhbiie" path="res://game/map/map.gd" id="2_e2o6t"]
+
+[node name="Game" type="Control" unique_id=1334612111]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game")]
+texture = ExtResource("1_80nbo")
+centered = false
+script = ExtResource("2_e2o6t")
+game = NodePath("..")

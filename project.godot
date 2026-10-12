@@ -11,13 +11,19 @@ config_version=5
 [application]
 
 config/name="Coastal Contention"
+run/main_scene="uid://bn743l82h46ws"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=2
+
 [display]
 
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/stretch/aspect="ignore"
 
 [editor]
 
@@ -28,6 +34,14 @@ version_control/autoload_on_startup=true
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 
+[input]
+
+drag={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(191, 14),"global_position":Vector2(205, 87),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
@@ -37,3 +51,6 @@ enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.30980393, 0.56078434, 0.7294118, 1)
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
