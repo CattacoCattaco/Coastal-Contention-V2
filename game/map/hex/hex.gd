@@ -10,14 +10,6 @@ var troop_count: int = 0
 func _ready() -> void:
 	troop.hide()
 	troop_count_label.hide()
-	await get_tree().create_timer(3).timeout
-	add_troops(2)
-	await get_tree().create_timer(3).timeout
-	remove_troops(1)
-	await get_tree().create_timer(3).timeout
-	remove_troops(5)
-	await get_tree().create_timer(3).timeout
-	add_troops(5)
 
 
 func add_troops(count: int) -> void:
