@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ContinentData" format=3 uid="uid://b3vhxkpt6h2kd"]
+
+[ext_resource type="Script" uid="uid://r0b2ggf1sf3k" path="res://game/map/territory/continent_data/continent_data.gd" id="1_kpbn8"]
+[ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="2_s7lnn"]
+[ext_resource type="Resource" uid="uid://j15qhf5mkw5" path="res://game/map/territory/data/magenta/forest.tres" id="3_kpbn8"]
+[ext_resource type="Resource" uid="uid://bsqbhhlplisaq" path="res://game/map/territory/data/magenta/south_swamp.tres" id="3_ukhmr"]
+[ext_resource type="Resource" uid="uid://b2a4jtno1ir0q" path="res://game/map/territory/data/magenta/mountains.tres" id="4_f28ry"]
+[ext_resource type="Resource" uid="uid://cref8hblgq4o0" path="res://game/map/territory/data/magenta/north_swamp.tres" id="5_exkwp"]
+[ext_resource type="Resource" uid="uid://b4sld6qr4d88i" path="res://game/map/territory/data/magenta/plains.tres" id="6_s7lnn"]
+
+[resource]
+script = ExtResource("1_kpbn8")
+territories = Array[ExtResource("2_s7lnn")]([ExtResource("3_kpbn8"), ExtResource("4_f28ry"), ExtResource("5_exkwp"), ExtResource("6_s7lnn"), ExtResource("3_ukhmr")])
+metadata/_custom_type_script = "uid://r0b2ggf1sf3k"
