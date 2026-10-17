@@ -8,7 +8,6 @@ extends Sprite2D
 var is_dragging: bool = false
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	game.gui_input.connect(game_input)
 	get_tree().root.size_changed.connect(scale_to_fit_screen)

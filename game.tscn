@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://k75gujg6y26p" path="res://game/map/map.png" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://reedyuyhbiie" path="res://game/map/map.gd" id="2_e2o6t"]
+[ext_resource type="PackedScene" uid="uid://bbms8sp8rdq78" path="res://game/map/hex/hex.tscn" id="3_feb5d"]
 
 [node name="Game" type="Control" unique_id=1334612111]
 layout_mode = 3
@@ -16,3 +17,6 @@ texture = ExtResource("1_80nbo")
 centered = false
 script = ExtResource("2_e2o6t")
 game = NodePath("..")
+
+[node name="Hex" parent="Map" unique_id=1038356430 instance=ExtResource("3_feb5d")]
+position = Vector2(146, 122)
