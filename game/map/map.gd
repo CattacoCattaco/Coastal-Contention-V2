@@ -3,12 +3,15 @@ extends Sprite2D
 
 const HEX_ORIGIN = Vector2(706, 442)
 
-const PLUS_Y = Vector2(0, 32)
-const PLUS_X = Vector2(28, -16)
+const PLUS_Y = Vector2(0, -32)
+const PLUS_X = Vector2(28, 16)
 
 @export var hex_scene: PackedScene
 
 @export var game: Control
+@export var territory_borders: Sprite2D
+
+@export var territory: TerritoryData
 
 @onready var texture_size: Vector2 = texture.get_size()
 
@@ -20,6 +23,9 @@ func _ready() -> void:
 	game.gui_input.connect(_game_input)
 	get_tree().root.size_changed.connect(scale_to_fit_screen)
 	scale_to_fit_screen()
+	
+	place_territory(territory)
+	territory_borders.move_to_front()
 
 
 func _game_input(event: InputEvent) -> void:
@@ -39,6 +45,11 @@ func _game_input(event: InputEvent) -> void:
 		get_tree().root.set_input_as_handled()
 
 
+func place_territory(territory: TerritoryData) -> void:
+	for pos: Vector2i in territory.hexes:
+		add_hex(pos)
+
+
 func add_hex(pos: Vector2i) -> void:
 	if pos in hexes:
 		return
@@ -49,6 +60,7 @@ func add_hex(pos: Vector2i) -> void:
 	add_child(hex)
 	
 	hex.position = HEX_ORIGIN + pos.x * PLUS_X + pos.y * PLUS_Y
+	hex.add_troops(1)
 
 
 func scale_to_fit_screen() -> void:

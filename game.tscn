@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://k75gujg6y26p" path="res://game/map/map.png" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://reedyuyhbiie" path="res://game/map/map.gd" id="2_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://bbms8sp8rdq78" path="res://game/map/hex/hex.tscn" id="3_feb5d"]
+[ext_resource type="Resource" uid="uid://bn5vjo852gfgp" path="res://game/map/territory/data/red/north_plains.tres" id="4_7jktm"]
 [ext_resource type="Texture2D" uid="uid://cllvxsicymkbw" path="res://game/map/map_territory_lines.png" id="4_fc0e3"]
 
 [node name="Game" type="Control" unique_id=1334612111]
@@ -13,15 +14,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game")]
+[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "territory_borders")]
 texture = ExtResource("1_80nbo")
 centered = false
 script = ExtResource("2_e2o6t")
 hex_scene = ExtResource("3_feb5d")
 game = NodePath("..")
-
-[node name="Hex" parent="Map" unique_id=1038356430 instance=ExtResource("3_feb5d")]
-position = Vector2(706, 410)
+territory_borders = NodePath("MapTerritoryLines")
+territory = ExtResource("4_7jktm")
 
 [node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
 texture = ExtResource("4_fc0e3")
