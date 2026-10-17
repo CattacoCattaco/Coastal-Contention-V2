@@ -11,7 +11,7 @@ const PLUS_X = Vector2(28, 16)
 @export var game: Control
 @export var territory_borders: Sprite2D
 
-@export var territory: TerritoryData
+@export var continents: Array[ContinentData]
 
 @onready var texture_size: Vector2 = texture.get_size()
 
@@ -24,7 +24,10 @@ func _ready() -> void:
 	get_tree().root.size_changed.connect(scale_to_fit_screen)
 	scale_to_fit_screen()
 	
-	place_territory(territory)
+	for continent: ContinentData in continents:
+		for territory: TerritoryData in continent.territories:
+			place_territory(territory)
+	
 	territory_borders.move_to_front()
 
 

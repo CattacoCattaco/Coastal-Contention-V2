@@ -3,8 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://k75gujg6y26p" path="res://game/map/map.png" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://reedyuyhbiie" path="res://game/map/map.gd" id="2_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://bbms8sp8rdq78" path="res://game/map/hex/hex.tscn" id="3_feb5d"]
-[ext_resource type="Resource" uid="uid://bn5vjo852gfgp" path="res://game/map/territory/data/red/north_plains.tres" id="4_7jktm"]
 [ext_resource type="Texture2D" uid="uid://cllvxsicymkbw" path="res://game/map/map_territory_lines.png" id="4_fc0e3"]
+[ext_resource type="Script" uid="uid://r0b2ggf1sf3k" path="res://game/map/territory/continent_data/continent_data.gd" id="4_ryrav"]
+[ext_resource type="Resource" uid="uid://loc83esmfuki" path="res://game/map/territory/continent_data/continents/red.tres" id="5_eow3j"]
 
 [node name="Game" type="Control" unique_id=1334612111]
 layout_mode = 3
@@ -21,7 +22,7 @@ script = ExtResource("2_e2o6t")
 hex_scene = ExtResource("3_feb5d")
 game = NodePath("..")
 territory_borders = NodePath("MapTerritoryLines")
-territory = ExtResource("4_7jktm")
+continents = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j")])
 
 [node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
 texture = ExtResource("4_fc0e3")
