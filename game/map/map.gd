@@ -2,6 +2,7 @@ class_name Map
 extends Sprite2D
 
 const Faction = Globals.Faction
+const Continent = Globals.Continent
 
 const HEX_ORIGIN = Vector2(706, 442)
 
@@ -13,10 +14,11 @@ const PLUS_X = Vector2(28, 16)
 @export var game: Control
 @export var territory_borders: Sprite2D
 
-@export var continents: Array[ContinentData]
+@export var continents_data: Array[ContinentData]
 
 @onready var texture_size: Vector2 = texture.get_size()
 
+var continents: Array[Array] = []
 var is_dragging: bool = false
 
 
@@ -25,11 +27,22 @@ func _ready() -> void:
 	get_tree().root.size_changed.connect(scale_to_fit_screen)
 	scale_to_fit_screen()
 	
-	for continent: ContinentData in continents:
+	for continent: ContinentData in continents_data:
+		var continent_territories: Array[Territory] = []
+		
 		for territory: TerritoryData in continent.territories:
-			place_territory(territory)
+			continent_territories.append(place_territory(territory))
+		
+		continents.append(continent_territories)
 	
 	territory_borders.move_to_front()
+	
+	for i in range(3):
+		var red_territory: Territory = continents[Continent.RED].pick_random()
+		while Faction.PIRATES in red_territory.troop_hexes:
+			red_territory = continents[Continent.RED].pick_random()
+		
+		red_territory.add_troops(3, Faction.PIRATES)
 
 
 func _game_input(event: InputEvent) -> void:
@@ -49,7 +62,7 @@ func _game_input(event: InputEvent) -> void:
 		get_tree().root.set_input_as_handled()
 
 
-func place_territory(territory_data: TerritoryData) -> void:
+func place_territory(territory_data: TerritoryData) -> Territory:
 	var territory := Territory.new(territory_data)
 	add_child(territory)
 	
@@ -69,8 +82,7 @@ func place_territory(territory_data: TerritoryData) -> void:
 	for hex: Hex in hexes:
 		hex.reparent(territory)
 	
-	territory.add_troops(1, Faction.PIRATES)
-	territory.add_troops(1, Faction.MYCOLINGS)
+	return territory
 
 
 func add_hex(pos: Vector2i, territory: Territory) -> Hex:

@@ -27,7 +27,7 @@ script = ExtResource("2_e2o6t")
 hex_scene = ExtResource("3_feb5d")
 game = NodePath("..")
 territory_borders = NodePath("MapTerritoryLines")
-continents = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_hve3p"), ExtResource("6_vef74"), ExtResource("6_j5wjh"), ExtResource("6_eow3j"), ExtResource("10_mfdv2")])
+continents_data = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_hve3p"), ExtResource("6_j5wjh"), ExtResource("6_vef74"), ExtResource("6_eow3j"), ExtResource("10_mfdv2")])
 
 [node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
 z_index = 5

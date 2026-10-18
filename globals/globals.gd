@@ -9,6 +9,15 @@ enum Faction {
 	ROBOTS,
 }
 
+enum Continent {
+	RED,
+	GOLD,
+	BROWN,
+	GREEN,
+	MAGENTA,
+	SILVER,
+}
+
 const faction_troops: Array[Texture2D] = [
 	preload("res://game/map/hex/troop/pirate.png"),
 	preload("res://game/map/hex/troop/cleric.png"),
