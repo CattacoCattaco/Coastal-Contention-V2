@@ -6,5 +6,6 @@
 [resource]
 script = ExtResource("1_276gk")
 hexes = Array[Vector2i]([Vector2i(-4, 0), Vector2i(-3, -1), Vector2i(-3, 0), Vector2i(-3, 1), Vector2i(-2, 0), Vector2i(-2, 1)])
+borders = Array[String](["uid://wtnchhwaejiq", "uid://vikgssidk2sq", "uid://chkrrlblh68pa"])
 silhouette = ExtResource("2_5do8a")
 metadata/_custom_type_script = "uid://dyscggb6qquwv"
