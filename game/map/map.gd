@@ -136,9 +136,7 @@ func scale_to_fit_screen() -> void:
 	if (get_viewport_rect().size.x > texture_size.x
 			or get_viewport_rect().size.y > texture_size.y):
 		var size_ratio: Vector2 = get_viewport_rect().size / texture_size
-		print(size_ratio)
 		var scale_factor: int = ceili(max_dimension(size_ratio))
-		print(scale_factor)
 		
 		game.scale = Vector2(scale_factor, scale_factor)
 	else:
