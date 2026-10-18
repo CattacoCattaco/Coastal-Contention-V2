@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_u676n")
+continent = 5
 hexes = Array[Vector2i]([Vector2i(-13, 2), Vector2i(-13, 3), Vector2i(-12, 2), Vector2i(-12, 3), Vector2i(-12, 4), Vector2i(-11, 3), Vector2i(-10, 4), Vector2i(-9, 5)])
 borders = Array[String](["uid://bf0dmklkvqwbu", "uid://bi1vy3ypkxpx4", "uid://cuogorm1bjr6k", "uid://7qyhw3q57et8"])
 silhouette = ExtResource("2_mtrsn")

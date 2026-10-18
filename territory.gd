@@ -6,6 +6,7 @@ const Faction = Globals.Faction
 var territory: TerritoryData
 var hexes: Dictionary[Vector2i, Hex] = {}
 var troop_hexes: Dictionary[Faction, Hex] = {}
+var border_territories: Array[Territory] = []
 
 var is_down: bool = false
 

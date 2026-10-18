@@ -82,6 +82,19 @@ func place_territory(territory_data: TerritoryData) -> Territory:
 	for hex: Hex in hexes:
 		hex.reparent(territory)
 	
+	
+	for border_uid: String in territory_data.borders:
+		var border: TerritoryData = load(border_uid)
+		
+		if continents.size() < border.continent + 1:
+			continue
+		
+		for potential_match: Territory in continents[border.continent]:
+			if potential_match.territory == border:
+				potential_match.border_territories.append(territory)
+				territory.border_territories.append(potential_match)
+				break
+	
 	return territory
 
 
