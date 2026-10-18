@@ -9,10 +9,11 @@ const HEX_ORIGIN = Vector2(706, 442)
 const PLUS_Y = Vector2(0, -32)
 const PLUS_X = Vector2(28, 16)
 
+signal territory_added(territory: Territory)
+
 @export var hex_scene: PackedScene
 
 @export var game: Control
-@export var territory_borders: Sprite2D
 
 @export var continents_data: Array[ContinentData]
 
@@ -32,8 +33,6 @@ func _ready() -> void:
 		
 		for territory: TerritoryData in continent.territories:
 			continents[-1].append(place_territory(territory))
-	
-	territory_borders.move_to_front()
 	
 	for i in range(3):
 		var red_territory: Territory = continents[Continent.RED].pick_random()
@@ -97,6 +96,8 @@ func place_territory(territory_data: TerritoryData) -> Territory:
 				potential_match.border_territories.append(territory)
 				territory.border_territories.append(potential_match)
 				break
+	
+	territory_added.emit(territory)
 	
 	return territory
 
