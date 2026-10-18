@@ -10,6 +10,7 @@ font = ExtResource("3_rjy37")
 font_size = 6
 
 [node name="Hex" type="Sprite2D" unique_id=1038356430 node_paths=PackedStringArray("troop", "troop_count_label")]
+z_index = -5
 texture = ExtResource("1_5nuwp")
 centered = false
 script = ExtResource("2_rjy37")

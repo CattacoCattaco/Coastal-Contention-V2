@@ -4,6 +4,8 @@ extends TextureButton
 var territory: TerritoryData
 var hexes: Dictionary[Vector2i, Hex] = {}
 
+var is_down: bool = false
+
 
 func _init(p_territory: TerritoryData) -> void:
 	territory = p_territory
@@ -16,4 +18,31 @@ func _init(p_territory: TerritoryData) -> void:
 
 
 func _ready() -> void:
-	pass # Replace with function body.
+	z_index = 5
+	
+	self_modulate.a = .5 if is_hovered() else 0.0
+	
+	button_down.connect(_button_down)
+	button_up.connect(_button_up)
+	mouse_entered.connect(_mouse_entered)
+	mouse_exited.connect(_mouse_exited)
+
+
+func _button_down() -> void:
+	is_down = true
+	
+	self_modulate.a = .75
+
+
+func _button_up() -> void:
+	is_down = false
+	
+	self_modulate.a = .5 if is_hovered() else 0.0
+
+
+func _mouse_entered() -> void:
+	self_modulate.a = .75 if is_down else .5
+
+
+func _mouse_exited() -> void:
+	self_modulate.a = .75 if is_down else 0.0
