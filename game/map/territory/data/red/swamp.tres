@@ -1,8 +1,10 @@
 [gd_resource type="Resource" script_class="TerritoryData" format=3 uid="uid://uadfwuh7ymgx"]
 
 [ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="1_sjqwi"]
+[ext_resource type="Texture2D" uid="uid://by6hj2o56sffx" path="res://game/map/territory/silhouette/silver_swamp.png" id="2_ahge5"]
 
 [resource]
 script = ExtResource("1_sjqwi")
 hexes = Array[Vector2i]([Vector2i(12, -2), Vector2i(12, -1), Vector2i(13, -1), Vector2i(14, 0), Vector2i(14, 1), Vector2i(14, 2), Vector2i(15, 1), Vector2i(15, 2)])
+silhouette = ExtResource("2_ahge5")
 metadata/_custom_type_script = "uid://dyscggb6qquwv"

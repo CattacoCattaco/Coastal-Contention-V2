@@ -1,8 +1,10 @@
 [gd_resource type="Resource" script_class="TerritoryData" format=3 uid="uid://dd4mh6h7hjbtt"]
 
 [ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="1_2i5nb"]
+[ext_resource type="Texture2D" uid="uid://v7kox8tygbwk" path="res://game/map/territory/silhouette/red_west_mountains.png" id="2_td4w5"]
 
 [resource]
 script = ExtResource("1_2i5nb")
 hexes = Array[Vector2i]([Vector2i(-21, -2), Vector2i(-21, -1), Vector2i(-20, -3), Vector2i(-20, -2), Vector2i(-20, -1), Vector2i(-20, 0), Vector2i(-19, -2), Vector2i(-19, -1)])
+silhouette = ExtResource("2_td4w5")
 metadata/_custom_type_script = "uid://dyscggb6qquwv"

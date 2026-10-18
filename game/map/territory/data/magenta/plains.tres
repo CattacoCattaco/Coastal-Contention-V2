@@ -1,8 +1,10 @@
 [gd_resource type="Resource" script_class="TerritoryData" format=3 uid="uid://b4sld6qr4d88i"]
 
 [ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="1_r43n4"]
+[ext_resource type="Texture2D" uid="uid://bchgtuvsj1fas" path="res://game/map/territory/silhouette/magenta_plains.png" id="2_2mhjr"]
 
 [resource]
 script = ExtResource("1_r43n4")
 hexes = Array[Vector2i]([Vector2i(12, 13), Vector2i(13, 13), Vector2i(14, 12), Vector2i(14, 13), Vector2i(15, 12), Vector2i(15, 13), Vector2i(15, 14), Vector2i(16, 13)])
+silhouette = ExtResource("2_2mhjr")
 metadata/_custom_type_script = "uid://dyscggb6qquwv"

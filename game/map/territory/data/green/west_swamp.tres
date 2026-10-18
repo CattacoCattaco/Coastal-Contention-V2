@@ -1,8 +1,10 @@
 [gd_resource type="Resource" script_class="TerritoryData" format=3 uid="uid://vikgssidk2sq"]
 
-[ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="1_1lykt"]
+[ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="1_hfw4t"]
+[ext_resource type="Texture2D" uid="uid://ogblssg1gx6n" path="res://game/map/territory/silhouette/green_west_swamp.png" id="2_my2i3"]
 
 [resource]
-script = ExtResource("1_1lykt")
+script = ExtResource("1_hfw4t")
 hexes = Array[Vector2i]([Vector2i(-3, 4), Vector2i(-3, 5), Vector2i(-2, 5), Vector2i(-2, 6), Vector2i(-1, 6), Vector2i(-1, 7), Vector2i(0, 7)])
+silhouette = ExtResource("2_my2i3")
 metadata/_custom_type_script = "uid://dyscggb6qquwv"

@@ -15,7 +15,6 @@ const PLUS_X = Vector2(28, 16)
 
 @onready var texture_size: Vector2 = texture.get_size()
 
-var hexes: Dictionary[Vector2i, Hex] = {}
 var is_dragging: bool = false
 
 
@@ -48,22 +47,37 @@ func _game_input(event: InputEvent) -> void:
 		get_tree().root.set_input_as_handled()
 
 
-func place_territory(territory: TerritoryData) -> void:
-	for pos: Vector2i in territory.hexes:
-		add_hex(pos)
-
-
-func add_hex(pos: Vector2i) -> void:
-	if pos in hexes:
-		return
+func place_territory(territory_data: TerritoryData) -> void:
+	var territory := Territory.new(territory_data)
+	add_child(territory)
 	
+	var tl: Vector2 = texture_size * scale * 2
+	
+	var hexes: Array[Hex] = []
+	for pos: Vector2i in territory_data.hexes:
+		hexes.append(add_hex(pos, territory))
+		
+		if hexes[-1].position.x < tl.x:
+			tl.x = hexes[-1].position.x
+		if hexes[-1].position.y < tl.y:
+			tl.y = hexes[-1].position.y
+	
+	territory.position = tl + Vector2(1, 1)
+	
+	for hex: Hex in hexes:
+		hex.reparent(territory)
+
+
+func add_hex(pos: Vector2i, territory: Territory) -> Hex:
 	var hex: Hex = hex_scene.instantiate()
 	
-	hexes[pos] = hex
+	territory.hexes[pos] = hex
 	add_child(hex)
 	
 	hex.position = HEX_ORIGIN + pos.x * PLUS_X + pos.y * PLUS_Y
 	hex.add_troops(1)
+	
+	return hex
 
 
 func scale_to_fit_screen() -> void:
