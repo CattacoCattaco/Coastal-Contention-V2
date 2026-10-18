@@ -1,6 +1,8 @@
 class_name Map
 extends Sprite2D
 
+const Faction = Globals.Faction
+
 const HEX_ORIGIN = Vector2(706, 442)
 
 const PLUS_Y = Vector2(0, -32)
@@ -66,6 +68,9 @@ func place_territory(territory_data: TerritoryData) -> void:
 	
 	for hex: Hex in hexes:
 		hex.reparent(territory)
+	
+	territory.add_troops(1, Faction.PIRATES)
+	territory.add_troops(1, Faction.MYCOLINGS)
 
 
 func add_hex(pos: Vector2i, territory: Territory) -> Hex:
@@ -75,7 +80,6 @@ func add_hex(pos: Vector2i, territory: Territory) -> Hex:
 	add_child(hex)
 	
 	hex.position = HEX_ORIGIN + pos.x * PLUS_X + pos.y * PLUS_Y
-	hex.add_troops(1)
 	
 	return hex
 

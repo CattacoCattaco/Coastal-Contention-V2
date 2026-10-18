@@ -1,6 +1,8 @@
 class_name Hex
 extends Sprite2D
 
+const Faction = Globals.Faction
+
 @export var troop: Sprite2D
 @export var troop_count_label: Label
 
@@ -10,6 +12,10 @@ var troop_count: int = 0
 func _ready() -> void:
 	troop.hide()
 	troop_count_label.hide()
+
+
+func set_faction(faction: Faction) -> void:
+	troop.texture = Globals.faction_troops[faction]
 
 
 func add_troops(count: int) -> void:
@@ -29,3 +35,7 @@ func remove_troops(count: int) -> void:
 		troop_count_label.hide()
 	
 	troop_count_label.text = str(troop_count)
+
+
+func is_empty() -> bool:
+	return troop_count == 0

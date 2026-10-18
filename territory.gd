@@ -1,8 +1,11 @@
 class_name Territory
 extends TextureButton
 
+const Faction = Globals.Faction
+
 var territory: TerritoryData
 var hexes: Dictionary[Vector2i, Hex] = {}
+var troop_hexes: Dictionary[Faction, Hex] = {}
 
 var is_down: bool = false
 
@@ -26,6 +29,23 @@ func _ready() -> void:
 	button_up.connect(_button_up)
 	mouse_entered.connect(_mouse_entered)
 	mouse_exited.connect(_mouse_exited)
+
+
+func add_troops(count: int, faction: Faction) -> void:
+	if faction in troop_hexes:
+		troop_hexes[faction].add_troops(count)
+	else:
+		for hex: Hex in hexes.values():
+			if hex.is_empty():
+				hex.set_faction(faction)
+				hex.add_troops(count)
+				troop_hexes[faction] = hex
+				break
+
+
+func remove_troops(count: int, faction: Faction) -> void:
+	if faction in troop_hexes:
+		troop_hexes[faction].remove_troops(count)
 
 
 func _button_down() -> void:
