@@ -44,9 +44,16 @@ func add_troops(count: int, faction: Faction) -> void:
 				break
 
 
+func remove_all_troops() -> void:
+	for faction: Faction in troop_hexes:
+		remove_troops(troop_hexes[faction].troop_count, faction)
+
+
 func remove_troops(count: int, faction: Faction) -> void:
 	if faction in troop_hexes:
 		troop_hexes[faction].remove_troops(count)
+		if troop_hexes[faction].troop_count == 0:
+			troop_hexes.erase(faction)
 
 
 func _button_down() -> void:

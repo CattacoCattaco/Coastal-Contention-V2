@@ -18,6 +18,8 @@ const Faction = Globals.Faction
 @export var troop_count_selection_panel: PanelContainer
 @export var troop_count_box: SpinBox
 @export var finish_move_button: Button
+@export var victory_screen: ColorRect
+@export var victory_label: Label
 
 var selected_territories: Array[Territory] = []
 var current_action: Action = Action.NONE
@@ -114,3 +116,51 @@ func finish_attack(faction_attacked: Faction) -> void:
 	current_action = Action.NONE
 	
 	instruction_label.hide()
+	
+	var attacked_lost: bool = true
+	var attacker_lost: bool = true
+	for continent_territories: Array in map.continents:
+		for territory: Territory in continent_territories:
+			if faction_attacked in territory.troop_hexes:
+				attacked_lost = false
+				
+				if Faction.PIRATES in territory.troop_hexes:
+					attacker_lost = false
+				
+				break
+			elif Faction.PIRATES in territory.troop_hexes:
+				attacker_lost = false
+				break
+	
+	if attacked_lost and attacker_lost:
+		do_draw([faction_attacked, Faction.PIRATES])
+	elif attacked_lost:
+		do_victory(Faction.PIRATES)
+	elif attacker_lost:
+		do_victory(faction_attacked)
+
+
+func do_draw(factions: Array[Faction]) -> void:
+	victory_screen.show()
+	
+	var faction_names: Array[String] = [
+		Globals.faction_names[factions[0]]
+	]
+	for i: int in range(1, factions.size()):
+		faction_names.append(Globals.faction_names[factions[i]].to_lower())
+	
+	if factions.size() == 2:
+		victory_label.text = "%s and %s drew." % faction_names
+	else:
+		victory_label.text = ""
+		
+		for i: int in range(factions.size() - 1):
+			victory_label.text += faction_names[i] + ", "
+		
+		victory_label.text += "and %s drew." % faction_names[-1]
+
+
+func do_victory(faction: Faction) -> void:
+	victory_screen.show()
+	
+	victory_label.text = "%s won!" % Globals.faction_names[faction]
