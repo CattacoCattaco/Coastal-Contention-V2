@@ -123,10 +123,8 @@ func _finish_move() -> void:
 
 
 func finish_attack(faction_attacked: Faction) -> void:
-	print(selected_territories[0].troop_hexes)
 	selected_territories[0].remove_troops(1, Faction.PIRATES)
 	selected_territories[0].remove_troops(2, faction_attacked)
-	print(selected_territories[0].troop_hexes)
 	
 	current_action = Action.NONE
 	
