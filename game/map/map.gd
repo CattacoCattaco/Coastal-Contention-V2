@@ -28,12 +28,10 @@ func _ready() -> void:
 	scale_to_fit_screen()
 	
 	for continent: ContinentData in continents_data:
-		var continent_territories: Array[Territory] = []
+		continents.append([])
 		
 		for territory: TerritoryData in continent.territories:
-			continent_territories.append(place_territory(territory))
-		
-		continents.append(continent_territories)
+			continents[-1].append(place_territory(territory))
 	
 	territory_borders.move_to_front()
 	
@@ -43,6 +41,11 @@ func _ready() -> void:
 			red_territory = continents[Continent.RED].pick_random()
 		
 		red_territory.add_troops(3, Faction.PIRATES)
+	
+	for territory: Territory in continents[Continent.MAGENTA]:
+		for border_territory: Territory in territory.border_territories:
+			if Faction.MYCOLINGS not in border_territory.troop_hexes:
+				border_territory.add_troops(1, Faction.MYCOLINGS)
 
 
 func _game_input(event: InputEvent) -> void:
