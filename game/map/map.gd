@@ -55,6 +55,8 @@ func setup() -> void:
 		for border_territory: Territory in territory.border_territories:
 			if Faction.MYCOLINGS not in border_territory.troop_hexes:
 				border_territory.add_troops(1, Faction.MYCOLINGS)
+			if border_territory.territory.continent == Continent.RED:
+				border_territory.add_troops(8, Faction.CLERICS)
 
 
 func _game_input(event: InputEvent) -> void:
