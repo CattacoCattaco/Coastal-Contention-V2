@@ -3,5 +3,5 @@
 [ext_resource type="FontFile" uid="uid://kmddsd6nb4n8" path="res://UI/pixel_font_8px.ttf" id="1_6ojoc"]
 
 [resource]
-Button/font_sizes/font_size = 24
+Button/font_sizes/font_size = 16
 Button/fonts/font = ExtResource("1_6ojoc")

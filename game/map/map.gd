@@ -104,7 +104,6 @@ func place_territory(territory_data: TerritoryData) -> Territory:
 	for hex: Hex in hexes:
 		hex.reparent(territory)
 	
-	
 	for border_uid: String in territory_data.borders:
 		var border: TerritoryData = load(border_uid)
 		
@@ -134,29 +133,33 @@ func add_hex(pos: Vector2i, territory: Territory) -> Hex:
 
 
 func scale_to_fit_screen() -> void:
-	if game.size > texture_size:
-		var size_ratio: Vector2 = game.size / texture_size
+	if (get_viewport_rect().size.x > texture_size.x
+			or get_viewport_rect().size.y > texture_size.y):
+		var size_ratio: Vector2 = get_viewport_rect().size / texture_size
+		print(size_ratio)
 		var scale_factor: int = ceili(max_dimension(size_ratio))
-		var old_scale: Vector2 = scale
-		scale = Vector2(scale_factor, scale_factor)
+		print(scale_factor)
 		
-		position *= scale / old_scale
+		game.scale = Vector2(scale_factor, scale_factor)
 	else:
-		position /= scale
-		
-		scale = Vector2(1, 1)
+		game.scale = Vector2(1, 1)
+	
+	game.custom_minimum_size = get_viewport_rect().size / game.scale
+	game.custom_maximum_size = game.custom_minimum_size
+	
+	clamp_pos()
 
 
 func clamp_pos() -> void:
 	if position.x > 0:
 		position.x = 0
-	elif position.x < -texture_size.x:
-		position.x = -texture_size.x
+	elif position.x < -(texture_size - game.size).x:
+		position.x = -(texture_size - game.size).x
 	
 	if position.y > 0:
 		position.y = 0
-	elif position.y < -texture_size.y:
-		position.y = -texture_size.y
+	elif position.y < -(texture_size - game.size).y:
+		position.y = -(texture_size - game.size).y
 
 
 func max_dimension(vec: Vector2) -> float:
