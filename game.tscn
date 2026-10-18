@@ -55,7 +55,7 @@ grow_horizontal = 2
 text = "Pick a territory to move from"
 label_settings = SubResource("LabelSettings_024of")
 
-[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("map", "instruction_label", "move_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button")]
+[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("map", "instruction_label", "move_button", "attack_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button")]
 z_index = 10
 layout_mode = 1
 anchors_preset = 1
@@ -68,6 +68,7 @@ script = ExtResource("12_iotsf")
 map = NodePath("../Map")
 instruction_label = NodePath("../ActionInstructionLabel")
 move_button = NodePath("MoveButton")
+attack_button = NodePath("Attack")
 troop_count_selection_panel = NodePath("../TroopCountSelectionPanel")
 troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/TroopCountBox")
 finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
@@ -76,6 +77,11 @@ finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxC
 layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Move"
+
+[node name="Attack" type="Button" parent="ActionHandler" unique_id=284375928]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+text = "Attack"
 
 [node name="TroopCountSelectionPanel" type="PanelContainer" parent="." unique_id=776206875]
 z_index = 10

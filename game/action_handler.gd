@@ -5,6 +5,7 @@ enum Action {
 	MOVE_PART_ONE,
 	MOVE_PART_TWO,
 	MOVE_PART_THREE,
+	ATTACK_PART_ONE,
 	NONE,
 }
 
@@ -13,6 +14,7 @@ const Faction = Globals.Faction
 @export var map: Map
 @export var instruction_label: Label
 @export var move_button: Button
+@export var attack_button: Button
 @export var troop_count_selection_panel: PanelContainer
 @export var troop_count_box: SpinBox
 @export var finish_move_button: Button
@@ -32,6 +34,7 @@ func _ready() -> void:
 	map.territory_added.connect(_territory_added)
 	
 	move_button.pressed.connect(_start_move)
+	attack_button.pressed.connect(_start_attack)
 	finish_move_button.pressed.connect(_finish_move)
 
 
@@ -42,24 +45,35 @@ func _territory_added(territory: Territory) -> void:
 func _territory_pressed(territory: Territory) -> void:
 	match current_action:
 		Action.MOVE_PART_ONE:
-			print(territory.troop_hexes)
-			if Faction.PIRATES in territory.troop_hexes:
-				selected_territories.append(territory)
-				current_action = Action.MOVE_PART_TWO
-				instruction_label.text = "Choose a territory to move to"
+			if Faction.PIRATES not in territory.troop_hexes:
+				return
+			
+			selected_territories.append(territory)
+			current_action = Action.MOVE_PART_TWO
+			instruction_label.text = "Choose a territory to move to"
 		Action.MOVE_PART_TWO:
-			if territory in selected_territories[0].border_territories:
-				selected_territories.append(territory)
-				current_action = Action.MOVE_PART_THREE
-				instruction_label.text = "Choose how many troops to move"
-				
-				var troop_hexes: Dictionary[Faction, Hex]
-				troop_hexes = selected_territories[0].troop_hexes
-				var troop_hex: Hex = troop_hexes[Faction.PIRATES]
-				
-				troop_count_selection_panel.show()
-				troop_count_box.value = 1
-				troop_count_box.max_value = troop_hex.troop_count
+			if territory not in selected_territories[0].border_territories:
+				return
+			
+			selected_territories.append(territory)
+			current_action = Action.MOVE_PART_THREE
+			instruction_label.text = "Choose how many troops to move"
+			
+			var troop_hexes: Dictionary[Faction, Hex]
+			troop_hexes = selected_territories[0].troop_hexes
+			var troop_hex: Hex = troop_hexes[Faction.PIRATES]
+			
+			troop_count_selection_panel.show()
+			troop_count_box.value = 1
+			troop_count_box.max_value = troop_hex.troop_count
+		Action.ATTACK_PART_ONE:
+			if Faction.PIRATES not in territory.troop_hexes:
+				return
+			if territory.troop_hexes.size() == 1:
+				return
+			
+			selected_territories.append(territory)
+			finish_attack(Faction.MYCOLINGS)
 		Action.MOVE_PART_THREE, Action.NONE:
 			return
 
@@ -68,7 +82,18 @@ func _start_move() -> void:
 	instruction_label.show()
 	instruction_label.text = "Choose a territory to move from"
 	
+	selected_territories = []
+	
 	current_action = Action.MOVE_PART_ONE
+
+
+func _start_attack() -> void:
+	instruction_label.show()
+	instruction_label.text = "Choose a territory to attack in"
+	
+	selected_territories = []
+	
+	current_action = Action.ATTACK_PART_ONE
 
 
 func _finish_move() -> void:
@@ -77,7 +102,15 @@ func _finish_move() -> void:
 	selected_territories[1].add_troops(move_count, Faction.PIRATES)
 	
 	current_action = Action.NONE
-	selected_territories = []
 	
 	troop_count_selection_panel.hide()
+	instruction_label.hide()
+
+
+func finish_attack(faction_attacked: Faction) -> void:
+	selected_territories[0].remove_troops(1, Faction.PIRATES)
+	selected_territories[0].remove_troops(2, faction_attacked)
+	
+	current_action = Action.NONE
+	
 	instruction_label.hide()
