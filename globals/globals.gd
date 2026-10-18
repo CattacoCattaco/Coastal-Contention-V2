@@ -27,6 +27,15 @@ const faction_names: Array[String] = [
 	"Robots",
 ]
 
+const faction_colors: Array[Color] = [
+	Color("#a53030"),
+	Color("#be772b"),
+	Color("#ad7757"),
+	Color("#75a743"),
+	Color("#a23e8c"),
+	Color("#577277"),
+]
+
 const faction_troops: Array[Texture2D] = [
 	preload("res://game/map/hex/troop/pirate.png"),
 	preload("res://game/map/hex/troop/cleric.png"),
