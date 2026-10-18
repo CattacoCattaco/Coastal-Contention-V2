@@ -6,18 +6,20 @@ enum Action {
 	MOVE_PART_TWO,
 	MOVE_PART_THREE,
 	ATTACK_PART_ONE,
+	ATTACK_PART_TWO,
 	NONE,
 }
 
 const Faction = Globals.Faction
 
-@export var map: Map
+@export var player_bar: PlayerBar
 @export var instruction_label: Label
 @export var move_button: Button
 @export var attack_button: Button
 @export var troop_count_selection_panel: PanelContainer
 @export var troop_count_box: SpinBox
 @export var finish_move_button: Button
+@export var map: Map
 @export var victory_screen: ColorRect
 @export var victory_label: Label
 
@@ -29,15 +31,17 @@ func _ready() -> void:
 	instruction_label.hide()
 	troop_count_selection_panel.hide()
 	
-	for continent_territories: Array in map.continents:
-		for territory: Territory in continent_territories:
-			territory.pressed.connect(_territory_pressed.bind(territory))
-	
+	player_bar.player_added.connect(_player_name_added)
 	map.territory_added.connect(_territory_added)
 	
 	move_button.pressed.connect(_start_move)
 	attack_button.pressed.connect(_start_attack)
 	finish_move_button.pressed.connect(_finish_move)
+
+
+func _player_name_added(faction: Faction) -> void:
+	var player_button: Button = player_bar.player_name_buttons[faction]
+	player_button.pressed.connect(_player_selected.bind(faction))
 
 
 func _territory_added(territory: Territory) -> void:
@@ -75,9 +79,18 @@ func _territory_pressed(territory: Territory) -> void:
 				return
 			
 			selected_territories.append(territory)
-			finish_attack(Faction.MYCOLINGS)
-		Action.MOVE_PART_THREE, Action.NONE:
-			return
+			current_action = Action.ATTACK_PART_TWO
+			instruction_label.text = "Choose a player to attack"
+
+
+func _player_selected(faction: Faction) -> void:
+	match current_action:
+		Action.ATTACK_PART_TWO:
+			if faction not in selected_territories[0].troop_hexes:
+				return
+			if faction == Faction.PIRATES:
+				return
+			finish_attack(faction)
 
 
 func _start_move() -> void:
@@ -133,11 +146,21 @@ func finish_attack(faction_attacked: Faction) -> void:
 		if not (attacked_lost or attacker_lost): break
 	
 	if attacked_lost and attacker_lost:
-		do_draw([faction_attacked, Faction.PIRATES])
+		player_bar.remove_player(faction_attacked)
+		player_bar.remove_player(Faction.PIRATES)
+		
+		if player_bar.players.size() == 0:
+			do_draw([faction_attacked, Faction.PIRATES])
 	elif attacked_lost:
-		do_victory(Faction.PIRATES)
+		player_bar.remove_player(faction_attacked)
+		
+		if player_bar.players.size() == 1:
+			do_victory(Faction.PIRATES)
 	elif attacker_lost:
-		do_victory(faction_attacked)
+		player_bar.remove_player(Faction.PIRATES)
+		
+		if player_bar.players.size() == 1:
+			do_victory(faction_attacked)
 
 
 func do_draw(factions: Array[Faction]) -> void:

@@ -14,6 +14,7 @@ signal territory_added(territory: Territory)
 @export var hex_scene: PackedScene
 
 @export var game: Control
+@export var player_bar: PlayerBar
 @export var victory_screen: ColorRect
 @export var new_game_button: Button
 
@@ -38,6 +39,15 @@ func _ready() -> void:
 		for territory: TerritoryData in continent.territories:
 			continents[-1].append(place_territory(territory))
 	
+	setup()
+
+
+func _reset() -> void:
+	for continent_territories: Array in continents:
+		for territory: Territory in continent_territories:
+			territory.remove_all_troops()
+	
+	player_bar.reset_player_bar()
 	setup()
 
 
@@ -74,14 +84,6 @@ func _game_input(event: InputEvent) -> void:
 	elif event.is_action("drag"):
 		is_dragging = event.is_pressed()
 		get_tree().root.set_input_as_handled()
-
-
-func _reset() -> void:
-	for continent_territories: Array in continents:
-		for territory: Territory in continent_territories:
-			territory.remove_all_troops()
-	
-	setup()
 
 
 func place_territory(territory_data: TerritoryData) -> Territory:

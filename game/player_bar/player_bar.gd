@@ -3,16 +3,33 @@ extends PanelContainer
 
 const Faction = Globals.Faction
 
+signal player_added(faction: Faction)
+
 @export var names_holder: HBoxContainer
 
-@export var players: Array[Faction]
+@export var starting_players: Array[Faction]
 @export var label_settings: LabelSettings
 
+var players: Array[Faction]
 var player_names: Dictionary[Faction, ColorRect] = {}
 var player_name_buttons: Dictionary[Faction, Button] = {}
 
 
 func _ready() -> void:
+	setup_player_bar()
+
+
+func reset_player_bar() -> void:
+	for faction in players:
+		player_names[faction].queue_free()
+	
+	player_names = {}
+	player_name_buttons = {}
+
+
+func setup_player_bar() -> void:
+	players = starting_players
+	
 	for player: Faction in players:
 		var name_rect := ColorRect.new()
 		names_holder.add_child(name_rect)
@@ -38,3 +55,12 @@ func _ready() -> void:
 		
 		name_button.set_anchors_preset(Control.PRESET_FULL_RECT, true)
 		name_button.self_modulate = Color.TRANSPARENT
+		
+		player_added.emit(player)
+
+
+func remove_player(faction: Faction) -> void:
+	player_names[faction].queue_free()
+	players.erase(faction)
+	player_names.erase(faction)
+	player_name_buttons.erase(faction)

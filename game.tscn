@@ -51,6 +51,55 @@ anchors_preset = 0
 offset_right = 1450.0
 offset_bottom = 885.0
 
+[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "move_button", "attack_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label")]
+z_index = 10
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.95
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.05
+offset_left = -86.0
+offset_bottom = 52.0
+grow_horizontal = 0
+script = ExtResource("12_iotsf")
+player_bar = NodePath("../PlayerBar")
+instruction_label = NodePath("../ActionInstructionLabel")
+move_button = NodePath("MoveButton")
+attack_button = NodePath("Attack")
+troop_count_selection_panel = NodePath("../TroopCountSelectionPanel")
+troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/TroopCountBox")
+finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
+map = NodePath("../Map")
+victory_screen = NodePath("../VictoryScreen")
+victory_label = NodePath("../VictoryScreen/VictoryLabel")
+
+[node name="MoveButton" type="Button" parent="ActionHandler" unique_id=82463609]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+text = "Move"
+
+[node name="Attack" type="Button" parent="ActionHandler" unique_id=284375928]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+text = "Attack"
+
+[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "player_bar", "victory_screen", "new_game_button")]
+texture = ExtResource("1_80nbo")
+centered = false
+script = ExtResource("2_e2o6t")
+hex_scene = ExtResource("3_feb5d")
+game = NodePath("..")
+player_bar = NodePath("../PlayerBar")
+victory_screen = NodePath("../VictoryScreen")
+new_game_button = NodePath("../VictoryScreen/NewGameButton")
+continents_data = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_hve3p"), ExtResource("6_j5wjh"), ExtResource("6_vef74"), ExtResource("6_eow3j"), ExtResource("10_mfdv2")])
+
+[node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
+z_index = 5
+texture = ExtResource("4_fc0e3")
+centered = false
+
 [node name="PlayerBar" type="PanelContainer" parent="." unique_id=1844579216 node_paths=PackedStringArray("names_holder")]
 z_index = 10
 layout_mode = 1
@@ -63,7 +112,7 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_80cx4")
 script = ExtResource("1_80cx4")
 names_holder = NodePath("MarginContainer/HBoxContainer")
-players = Array[int]([0, 1, 4])
+starting_players = Array[int]([0, 1, 4])
 label_settings = SubResource("LabelSettings_k6pfa")
 
 [node name="MarginContainer" type="MarginContainer" parent="PlayerBar" unique_id=1523135867]
@@ -89,36 +138,6 @@ offset_top = 40.0
 grow_horizontal = 2
 text = "Pick a territory to move from"
 label_settings = SubResource("LabelSettings_024of")
-
-[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("map", "instruction_label", "move_button", "attack_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "victory_screen", "victory_label")]
-z_index = 10
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.95
-anchor_top = 0.05
-anchor_right = 0.95
-anchor_bottom = 0.05
-grow_horizontal = 0
-script = ExtResource("12_iotsf")
-map = NodePath("../Map")
-instruction_label = NodePath("../ActionInstructionLabel")
-move_button = NodePath("MoveButton")
-attack_button = NodePath("Attack")
-troop_count_selection_panel = NodePath("../TroopCountSelectionPanel")
-troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/TroopCountBox")
-finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
-victory_screen = NodePath("../VictoryScreen")
-victory_label = NodePath("../VictoryScreen/VictoryLabel")
-
-[node name="MoveButton" type="Button" parent="ActionHandler" unique_id=82463609]
-layout_mode = 2
-theme = ExtResource("14_215e1")
-text = "Move"
-
-[node name="Attack" type="Button" parent="ActionHandler" unique_id=284375928]
-layout_mode = 2
-theme = ExtResource("14_215e1")
-text = "Attack"
 
 [node name="TroopCountSelectionPanel" type="PanelContainer" parent="." unique_id=776206875]
 z_index = 10
@@ -155,7 +174,6 @@ theme = ExtResource("14_215e1")
 text = "Finish Move"
 
 [node name="VictoryScreen" type="ColorRect" parent="." unique_id=1137230470]
-visible = false
 z_index = 25
 layout_mode = 1
 anchors_preset = 15
@@ -189,18 +207,3 @@ grow_vertical = 2
 theme = ExtResource("14_215e1")
 theme_override_font_sizes/font_size = 32
 text = "New Game"
-
-[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "victory_screen", "new_game_button")]
-texture = ExtResource("1_80nbo")
-centered = false
-script = ExtResource("2_e2o6t")
-hex_scene = ExtResource("3_feb5d")
-game = NodePath("..")
-victory_screen = NodePath("../VictoryScreen")
-new_game_button = NodePath("../VictoryScreen/NewGameButton")
-continents_data = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_hve3p"), ExtResource("6_j5wjh"), ExtResource("6_vef74"), ExtResource("6_eow3j"), ExtResource("10_mfdv2")])
-
-[node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
-z_index = 5
-texture = ExtResource("4_fc0e3")
-centered = false
