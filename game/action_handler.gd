@@ -110,8 +110,10 @@ func _finish_move() -> void:
 
 
 func finish_attack(faction_attacked: Faction) -> void:
+	print(selected_territories[0].troop_hexes)
 	selected_territories[0].remove_troops(1, Faction.PIRATES)
 	selected_territories[0].remove_troops(2, faction_attacked)
+	print(selected_territories[0].troop_hexes)
 	
 	current_action = Action.NONE
 	
@@ -123,14 +125,12 @@ func finish_attack(faction_attacked: Faction) -> void:
 		for territory: Territory in continent_territories:
 			if faction_attacked in territory.troop_hexes:
 				attacked_lost = false
-				
-				if Faction.PIRATES in territory.troop_hexes:
-					attacker_lost = false
-				
-				break
-			elif Faction.PIRATES in territory.troop_hexes:
+			if Faction.PIRATES in territory.troop_hexes:
 				attacker_lost = false
-				break
+			
+			if not (attacked_lost or attacker_lost): break
+		
+		if not (attacked_lost or attacker_lost): break
 	
 	if attacked_lost and attacker_lost:
 		do_draw([faction_attacked, Faction.PIRATES])
