@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TerritoryData" format=3 uid="uid://bj3hxvrk27nh2"]
+
+[ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="1_d8e24"]
+
+[resource]
+script = ExtResource("1_d8e24")
+hexes = Array[Vector2i]([Vector2i(-16, -15), Vector2i(-16, -14), Vector2i(-15, -16), Vector2i(-15, -15), Vector2i(-15, -14), Vector2i(-14, -15)])
+metadata/_custom_type_script = "uid://dyscggb6qquwv"

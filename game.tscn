@@ -7,7 +7,9 @@
 [ext_resource type="Script" uid="uid://r0b2ggf1sf3k" path="res://game/map/territory/continent_data/continent_data.gd" id="4_ryrav"]
 [ext_resource type="Resource" uid="uid://loc83esmfuki" path="res://game/map/territory/continent_data/continents/red.tres" id="5_eow3j"]
 [ext_resource type="Resource" uid="uid://b3vhxkpt6h2kd" path="res://game/map/territory/continent_data/continents/magenta.tres" id="6_eow3j"]
+[ext_resource type="Resource" uid="uid://cttfgxky4gik" path="res://game/map/territory/continent_data/continents/gold.tres" id="6_hve3p"]
 [ext_resource type="Resource" uid="uid://so138fdqkeba" path="res://game/map/territory/continent_data/continents/brown.tres" id="6_j5wjh"]
+[ext_resource type="Resource" uid="uid://fhutr54vjjn3" path="res://game/map/territory/continent_data/continents/green.tres" id="6_vef74"]
 
 [node name="Game" type="Control" unique_id=1334612111]
 layout_mode = 3
@@ -24,7 +26,7 @@ script = ExtResource("2_e2o6t")
 hex_scene = ExtResource("3_feb5d")
 game = NodePath("..")
 territory_borders = NodePath("MapTerritoryLines")
-continents = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_j5wjh"), ExtResource("6_eow3j")])
+continents = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_hve3p"), ExtResource("6_vef74"), ExtResource("6_j5wjh"), ExtResource("6_eow3j")])
 
 [node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
 texture = ExtResource("4_fc0e3")

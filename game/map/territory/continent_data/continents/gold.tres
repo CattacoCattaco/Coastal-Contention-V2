@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ContinentData" format=3 uid="uid://cttfgxky4gik"]
+
+[ext_resource type="Script" uid="uid://r0b2ggf1sf3k" path="res://game/map/territory/continent_data/continent_data.gd" id="1_25xqn"]
+[ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="2_b1qis"]
+[ext_resource type="Resource" uid="uid://c0mk76o4a1cho" path="res://game/map/territory/data/gold/east_mountains.tres" id="3_eciak"]
+[ext_resource type="Resource" uid="uid://sa8oxrjuxloh" path="res://game/map/territory/data/gold/east_plains.tres" id="4_buis4"]
+[ext_resource type="Resource" uid="uid://dumwcwiig6hrp" path="res://game/map/territory/data/gold/north_forest.tres" id="5_t3jlv"]
+[ext_resource type="Resource" uid="uid://cqnlqelvfkmry" path="res://game/map/territory/data/gold/north_swamp.tres" id="6_550pf"]
+[ext_resource type="Resource" uid="uid://bj3hxvrk27nh2" path="res://game/map/territory/data/gold/south_forest.tres" id="7_bav6e"]
+[ext_resource type="Resource" uid="uid://tk72qjonhfo" path="res://game/map/territory/data/gold/south_swamp.tres" id="8_bjjn6"]
+[ext_resource type="Resource" uid="uid://cvnyh1kr18q7w" path="res://game/map/territory/data/gold/west_mountains.tres" id="9_2pxtv"]
+[ext_resource type="Resource" uid="uid://us23i3rv3405" path="res://game/map/territory/data/gold/west_plains.tres" id="10_iqbr4"]
+
+[resource]
+script = ExtResource("1_25xqn")
+territories = Array[ExtResource("2_b1qis")]([ExtResource("3_eciak"), ExtResource("4_buis4"), ExtResource("5_t3jlv"), ExtResource("6_550pf"), ExtResource("7_bav6e"), ExtResource("8_bjjn6"), ExtResource("9_2pxtv"), ExtResource("10_iqbr4")])
+metadata/_custom_type_script = "uid://r0b2ggf1sf3k"
