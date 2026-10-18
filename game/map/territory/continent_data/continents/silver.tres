@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContinentData" format=3 uid="uid://cmy0dqv0vybeq"]
+
+[ext_resource type="Script" uid="uid://r0b2ggf1sf3k" path="res://game/map/territory/continent_data/continent_data.gd" id="1_xyf3g"]
+[ext_resource type="Script" uid="uid://dyscggb6qquwv" path="res://game/map/territory/data/territory_data.gd" id="2_b1ffk"]
+[ext_resource type="Resource" uid="uid://bf0dmklkvqwbu" path="res://game/map/territory/data/silver/east_mountains.tres" id="3_b1ffk"]
+[ext_resource type="Resource" uid="uid://bi1vy3ypkxpx4" path="res://game/map/territory/data/silver/east_plains.tres" id="4_ukc56"]
+[ext_resource type="Resource" uid="uid://dx5yd0g3qfahv" path="res://game/map/territory/data/silver/forest.tres" id="5_0lbrd"]
+[ext_resource type="Resource" uid="uid://c1h64oan78xyk" path="res://game/map/territory/data/silver/swamp.tres" id="6_2hjh6"]
+[ext_resource type="Resource" uid="uid://dd4mh6h7hjbtt" path="res://game/map/territory/data/silver/west_mountains.tres" id="7_ayij2"]
+[ext_resource type="Resource" uid="uid://cuogorm1bjr6k" path="res://game/map/territory/data/silver/west_plains.tres" id="8_m7hva"]
+
+[resource]
+script = ExtResource("1_xyf3g")
+territories = Array[ExtResource("2_b1ffk")]([ExtResource("3_b1ffk"), ExtResource("4_ukc56"), ExtResource("5_0lbrd"), ExtResource("6_2hjh6"), ExtResource("7_ayij2"), ExtResource("8_m7hva")])
+metadata/_custom_type_script = "uid://r0b2ggf1sf3k"
