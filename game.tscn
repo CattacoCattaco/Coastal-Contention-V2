@@ -52,7 +52,7 @@ anchors_preset = 0
 offset_right = 1450.0
 offset_bottom = 885.0
 
-[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "move_button", "attack_button", "next_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label")]
+[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "move_button", "attack_button", "next_button", "cancel_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label", "new_game_button")]
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
@@ -69,12 +69,14 @@ instruction_label = NodePath("../ActionInstructionLabel")
 move_button = NodePath("MoveButton")
 attack_button = NodePath("AttackButton")
 next_button = NodePath("NextButton")
+cancel_button = NodePath("CancelButton")
 troop_count_selection_panel = NodePath("../TroopCountSelectionPanel")
 troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/TroopCountBox")
 finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
 map = NodePath("../Map")
 victory_screen = NodePath("../VictoryScreen")
 victory_label = NodePath("../VictoryScreen/VictoryLabel")
+new_game_button = NodePath("../VictoryScreen/NewGameButton")
 
 [node name="MoveButton" type="Button" parent="ActionHandler" unique_id=82463609]
 layout_mode = 2
@@ -89,7 +91,12 @@ text = "Attack"
 [node name="NextButton" type="Button" parent="ActionHandler" unique_id=64369736]
 layout_mode = 2
 theme = ExtResource("14_215e1")
-text = "Next"
+text = "Next Turn"
+
+[node name="CancelButton" type="Button" parent="ActionHandler" unique_id=355828802]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+text = "Cancel"
 
 [node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "player_bar", "victory_screen", "new_game_button")]
 texture = ExtResource("1_80nbo")

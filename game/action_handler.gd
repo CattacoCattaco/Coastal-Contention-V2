@@ -17,12 +17,14 @@ const Faction = Globals.Faction
 @export var move_button: Button
 @export var attack_button: Button
 @export var next_button: Button
+@export var cancel_button: Button
 @export var troop_count_selection_panel: PanelContainer
 @export var troop_count_box: SpinBox
 @export var finish_move_button: Button
 @export var map: Map
 @export var victory_screen: ColorRect
 @export var victory_label: Label
+@export var new_game_button: Button
 
 var selected_territories: Array[Territory] = []
 var current_action: Action = Action.NONE
@@ -38,7 +40,9 @@ func _ready() -> void:
 	move_button.pressed.connect(_start_move)
 	attack_button.pressed.connect(_start_attack)
 	next_button.pressed.connect(_next_turn)
+	cancel_button.pressed.connect(_cancel_action)
 	finish_move_button.pressed.connect(_finish_move)
+	new_game_button.pressed.connect(_reset_turn)
 
 
 func _player_name_added(faction: Faction) -> void:
@@ -95,28 +99,22 @@ func _player_selected(faction: Faction) -> void:
 			finish_attack(faction)
 
 
-func _next_turn() -> void:
-	player_bar.next()
-	
-	current_action = Action.NONE
-	
-	instruction_label.hide()
-
-
 func _start_move() -> void:
+	_cancel_action()
+	cancel_button.show()
+	
 	instruction_label.show()
 	instruction_label.text = "Choose a territory to move from"
-	
-	selected_territories = []
 	
 	current_action = Action.MOVE_PART_ONE
 
 
 func _start_attack() -> void:
+	_cancel_action()
+	cancel_button.show()
+	
 	instruction_label.show()
 	instruction_label.text = "Choose a territory to attack in"
-	
-	selected_territories = []
 	
 	current_action = Action.ATTACK_PART_ONE
 
@@ -127,19 +125,14 @@ func _finish_move() -> void:
 	selected_territories[0].remove_troops(move_count, current_player)
 	selected_territories[1].add_troops(move_count, current_player)
 	
-	current_action = Action.NONE
-	
-	troop_count_selection_panel.hide()
-	instruction_label.hide()
+	_cancel_action()
 
 
 func finish_attack(faction_attacked: Faction) -> void:
 	selected_territories[0].remove_troops(1, player_bar.get_current_player())
 	selected_territories[0].remove_troops(2, faction_attacked)
 	
-	current_action = Action.NONE
-	
-	instruction_label.hide()
+	_cancel_action()
 	
 	var attacked_lost: bool = true
 	var attacker_lost: bool = true
@@ -170,6 +163,24 @@ func finish_attack(faction_attacked: Faction) -> void:
 		
 		if player_bar.players.size() == 1:
 			do_victory(faction_attacked)
+
+
+func _next_turn() -> void:
+	player_bar.next()
+	
+	_reset_turn()
+
+
+func _reset_turn() -> void:
+	_cancel_action()
+
+
+func _cancel_action() -> void:
+	selected_territories = []
+	current_action = Action.NONE
+	instruction_label.hide()
+	troop_count_selection_panel.hide()
+	cancel_button.hide()
 
 
 func do_draw(factions: Array[Faction]) -> void:
