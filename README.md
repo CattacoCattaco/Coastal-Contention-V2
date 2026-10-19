@@ -24,4 +24,8 @@ To play, go to {https://cattacocattaco.github.io/Coastal-Contention-V2/}.
 
 The goal is to be the last one standing.
 
-## Screenshots (Add these)
+## Screenshots
+
+![Attacking](/screenshots/attacking.png)
+![Last Action](/screenshots/last_action.png)
+![Cleric Turn](/screenshots/cleric_turn.png)
