@@ -23,7 +23,7 @@ content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.65882355, 0.70980394, 0.69803923, 1)
+bg_color = Color(0.08235294, 0.11372549, 0.15686275, 1)
 corner_detail = 1
 
 [sub_resource type="LabelSettings" id="LabelSettings_k6pfa"]
@@ -52,7 +52,7 @@ anchors_preset = 0
 offset_right = 1450.0
 offset_bottom = 885.0
 
-[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "move_button", "attack_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label")]
+[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "move_button", "attack_button", "next_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label")]
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
@@ -67,7 +67,8 @@ script = ExtResource("12_iotsf")
 player_bar = NodePath("../PlayerBar")
 instruction_label = NodePath("../ActionInstructionLabel")
 move_button = NodePath("MoveButton")
-attack_button = NodePath("Attack")
+attack_button = NodePath("AttackButton")
+next_button = NodePath("NextButton")
 troop_count_selection_panel = NodePath("../TroopCountSelectionPanel")
 troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/TroopCountBox")
 finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
@@ -80,10 +81,15 @@ layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Move"
 
-[node name="Attack" type="Button" parent="ActionHandler" unique_id=284375928]
+[node name="AttackButton" type="Button" parent="ActionHandler" unique_id=284375928]
 layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Attack"
+
+[node name="NextButton" type="Button" parent="ActionHandler" unique_id=64369736]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+text = "Next"
 
 [node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "player_bar", "victory_screen", "new_game_button")]
 texture = ExtResource("1_80nbo")

@@ -16,6 +16,7 @@ const Faction = Globals.Faction
 @export var instruction_label: Label
 @export var move_button: Button
 @export var attack_button: Button
+@export var next_button: Button
 @export var troop_count_selection_panel: PanelContainer
 @export var troop_count_box: SpinBox
 @export var finish_move_button: Button
@@ -36,6 +37,7 @@ func _ready() -> void:
 	
 	move_button.pressed.connect(_start_move)
 	attack_button.pressed.connect(_start_attack)
+	next_button.pressed.connect(_next_turn)
 	finish_move_button.pressed.connect(_finish_move)
 
 
@@ -51,7 +53,7 @@ func _territory_added(territory: Territory) -> void:
 func _territory_pressed(territory: Territory) -> void:
 	match current_action:
 		Action.MOVE_PART_ONE:
-			if Faction.PIRATES not in territory.troop_hexes:
+			if player_bar.get_current_player() not in territory.troop_hexes:
 				return
 			
 			selected_territories.append(territory)
@@ -67,13 +69,13 @@ func _territory_pressed(territory: Territory) -> void:
 			
 			var troop_hexes: Dictionary[Faction, Hex]
 			troop_hexes = selected_territories[0].troop_hexes
-			var troop_hex: Hex = troop_hexes[Faction.PIRATES]
+			var troop_hex: Hex = troop_hexes[player_bar.get_current_player()]
 			
 			troop_count_selection_panel.show()
 			troop_count_box.value = 1
 			troop_count_box.max_value = troop_hex.troop_count
 		Action.ATTACK_PART_ONE:
-			if Faction.PIRATES not in territory.troop_hexes:
+			if player_bar.get_current_player() not in territory.troop_hexes:
 				return
 			if territory.troop_hexes.size() == 1:
 				return
@@ -88,9 +90,17 @@ func _player_selected(faction: Faction) -> void:
 		Action.ATTACK_PART_TWO:
 			if faction not in selected_territories[0].troop_hexes:
 				return
-			if faction == Faction.PIRATES:
+			if faction == player_bar.get_current_player():
 				return
 			finish_attack(faction)
+
+
+func _next_turn() -> void:
+	player_bar.next()
+	
+	current_action = Action.NONE
+	
+	instruction_label.hide()
 
 
 func _start_move() -> void:
@@ -112,9 +122,10 @@ func _start_attack() -> void:
 
 
 func _finish_move() -> void:
+	var current_player: Faction = player_bar.get_current_player()
 	var move_count: int = roundi(troop_count_box.value)
-	selected_territories[0].remove_troops(move_count, Faction.PIRATES)
-	selected_territories[1].add_troops(move_count, Faction.PIRATES)
+	selected_territories[0].remove_troops(move_count, current_player)
+	selected_territories[1].add_troops(move_count, current_player)
 	
 	current_action = Action.NONE
 	
@@ -123,7 +134,7 @@ func _finish_move() -> void:
 
 
 func finish_attack(faction_attacked: Faction) -> void:
-	selected_territories[0].remove_troops(1, Faction.PIRATES)
+	selected_territories[0].remove_troops(1, player_bar.get_current_player())
 	selected_territories[0].remove_troops(2, faction_attacked)
 	
 	current_action = Action.NONE
@@ -136,7 +147,7 @@ func finish_attack(faction_attacked: Faction) -> void:
 		for territory: Territory in continent_territories:
 			if faction_attacked in territory.troop_hexes:
 				attacked_lost = false
-			if Faction.PIRATES in territory.troop_hexes:
+			if player_bar.get_current_player() in territory.troop_hexes:
 				attacker_lost = false
 			
 			if not (attacked_lost or attacker_lost): break
@@ -145,17 +156,17 @@ func finish_attack(faction_attacked: Faction) -> void:
 	
 	if attacked_lost and attacker_lost:
 		player_bar.remove_player(faction_attacked)
-		player_bar.remove_player(Faction.PIRATES)
+		player_bar.remove_player(player_bar.get_current_player())
 		
 		if player_bar.players.size() == 0:
-			do_draw([faction_attacked, Faction.PIRATES])
+			do_draw([faction_attacked, player_bar.get_current_player()])
 	elif attacked_lost:
 		player_bar.remove_player(faction_attacked)
 		
 		if player_bar.players.size() == 1:
-			do_victory(Faction.PIRATES)
+			do_victory(player_bar.get_current_player())
 	elif attacker_lost:
-		player_bar.remove_player(Faction.PIRATES)
+		player_bar.remove_player(player_bar.get_current_player())
 		
 		if player_bar.players.size() == 1:
 			do_victory(faction_attacked)

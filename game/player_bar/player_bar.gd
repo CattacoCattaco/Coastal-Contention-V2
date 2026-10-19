@@ -11,6 +11,8 @@ signal player_added(faction: Faction)
 @export var label_settings: LabelSettings
 @export var outline_shader: Shader
 
+var current_turn: int = -1
+
 var players: Array[Faction]
 var player_names: Dictionary[Faction, ColorRect] = {}
 var player_name_buttons: Dictionary[Faction, Button] = {}
@@ -26,6 +28,7 @@ func reset_player_bar() -> void:
 	
 	player_names = {}
 	player_name_buttons = {}
+	current_turn = -1
 
 
 func setup_player_bar() -> void:
@@ -54,10 +57,15 @@ func setup_player_bar() -> void:
 		
 		var name_rect_material := ShaderMaterial.new()
 		name_rect_material.shader = outline_shader
-		name_rect_material.set_shader_parameter("size_pixels", name_rect.size)
-		name_rect_material.set_shader_parameter("override_opaque_color", name_rect.color)
-		name_rect_material.set_shader_parameter("use_override_opaque_color", true)
-		name_rect_material.set_shader_parameter("outline_color", Color(0, 0, 0, 1))
+		name_rect_material.set_shader_parameter(
+				"size_pixels", name_rect.size)
+		name_rect_material.set_shader_parameter(
+				"override_opaque_color", name_rect.color)
+		name_rect_material.set_shader_parameter(
+				"use_override_opaque_color", true)
+		name_rect_material.set_shader_parameter(
+				"outline_color", Color.TRANSPARENT)
+		
 		name_rect.material = name_rect_material
 		
 		var name_button := Button.new()
@@ -68,6 +76,8 @@ func setup_player_bar() -> void:
 		name_button.self_modulate = Color.TRANSPARENT
 		
 		player_added.emit(player)
+	
+	next()
 
 
 func remove_player(faction: Faction) -> void:
@@ -75,3 +85,20 @@ func remove_player(faction: Faction) -> void:
 	players.erase(faction)
 	player_names.erase(faction)
 	player_name_buttons.erase(faction)
+
+
+func next() -> void:
+	if current_turn != -1:
+		player_names[players[current_turn]].material.set_shader_parameter(
+				"outline_color", Color.TRANSPARENT)
+	
+	current_turn += 1
+	if current_turn == players.size():
+		current_turn = 0
+	
+	player_names[players[current_turn]].material.set_shader_parameter(
+				"outline_color", Color("#e8c170"))
+
+
+func get_current_player() -> Faction:
+	return players[current_turn]
