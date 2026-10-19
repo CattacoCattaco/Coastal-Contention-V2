@@ -28,10 +28,10 @@ const Faction = Globals.Faction
 
 var selected_territories: Array[Territory] = []
 var current_action: Action = Action.NONE
+var actions_left: int = 3
 
 
 func _ready() -> void:
-	instruction_label.hide()
 	troop_count_selection_panel.hide()
 	
 	player_bar.player_added.connect(_player_name_added)
@@ -42,7 +42,7 @@ func _ready() -> void:
 	next_button.pressed.connect(_next_turn)
 	cancel_button.pressed.connect(_cancel_action)
 	finish_move_button.pressed.connect(_finish_move)
-	new_game_button.pressed.connect(_reset_turn)
+	new_game_button.pressed.connect(_new_turn)
 
 
 func _player_name_added(faction: Faction) -> void:
@@ -103,7 +103,6 @@ func _start_move() -> void:
 	_cancel_action()
 	cancel_button.show()
 	
-	instruction_label.show()
 	instruction_label.text = "Choose a territory to move from"
 	
 	current_action = Action.MOVE_PART_ONE
@@ -113,7 +112,6 @@ func _start_attack() -> void:
 	_cancel_action()
 	cancel_button.show()
 	
-	instruction_label.show()
 	instruction_label.text = "Choose a territory to attack in"
 	
 	current_action = Action.ATTACK_PART_ONE
@@ -125,12 +123,20 @@ func _finish_move() -> void:
 	selected_territories[0].remove_troops(move_count, current_player)
 	selected_territories[1].add_troops(move_count, current_player)
 	
+	actions_left -= 1
+	if actions_left == 0:
+		_next_turn()
+	
 	_cancel_action()
 
 
 func finish_attack(faction_attacked: Faction) -> void:
 	selected_territories[0].remove_troops(1, player_bar.get_current_player())
 	selected_territories[0].remove_troops(2, faction_attacked)
+	
+	actions_left -= 1
+	if actions_left == 0:
+		_next_turn()
 	
 	_cancel_action()
 	
@@ -168,17 +174,20 @@ func finish_attack(faction_attacked: Faction) -> void:
 func _next_turn() -> void:
 	player_bar.next()
 	
-	_reset_turn()
+	_new_turn()
 
 
-func _reset_turn() -> void:
+func _new_turn() -> void:
+	actions_left = 3
+	
 	_cancel_action()
 
 
 func _cancel_action() -> void:
 	selected_territories = []
 	current_action = Action.NONE
-	instruction_label.hide()
+	instruction_label.text = "Choose an action. (%d/3 actions left)"
+	instruction_label.text %= actions_left
 	troop_count_selection_panel.hide()
 	cancel_button.hide()
 

@@ -52,6 +52,22 @@ anchors_preset = 0
 offset_right = 1450.0
 offset_bottom = 885.0
 
+[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "player_bar", "victory_screen", "new_game_button")]
+texture = ExtResource("1_80nbo")
+centered = false
+script = ExtResource("2_e2o6t")
+hex_scene = ExtResource("3_feb5d")
+game = NodePath("..")
+player_bar = NodePath("../PlayerBar")
+victory_screen = NodePath("../VictoryScreen")
+new_game_button = NodePath("../VictoryScreen/NewGameButton")
+continents_data = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_hve3p"), ExtResource("6_j5wjh"), ExtResource("6_vef74"), ExtResource("6_eow3j"), ExtResource("10_mfdv2")])
+
+[node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
+z_index = 5
+texture = ExtResource("4_fc0e3")
+centered = false
+
 [node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "move_button", "attack_button", "next_button", "cancel_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label", "new_game_button")]
 z_index = 10
 layout_mode = 1
@@ -98,22 +114,6 @@ layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Cancel"
 
-[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "player_bar", "victory_screen", "new_game_button")]
-texture = ExtResource("1_80nbo")
-centered = false
-script = ExtResource("2_e2o6t")
-hex_scene = ExtResource("3_feb5d")
-game = NodePath("..")
-player_bar = NodePath("../PlayerBar")
-victory_screen = NodePath("../VictoryScreen")
-new_game_button = NodePath("../VictoryScreen/NewGameButton")
-continents_data = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_hve3p"), ExtResource("6_j5wjh"), ExtResource("6_vef74"), ExtResource("6_eow3j"), ExtResource("10_mfdv2")])
-
-[node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
-z_index = 5
-texture = ExtResource("4_fc0e3")
-centered = false
-
 [node name="PlayerBar" type="PanelContainer" parent="." unique_id=1844579216 node_paths=PackedStringArray("names_holder")]
 z_index = 10
 layout_mode = 1
@@ -151,7 +151,7 @@ anchor_right = 0.5
 anchor_bottom = 0.04
 offset_top = 40.0
 grow_horizontal = 2
-text = "Pick a territory to move from"
+text = "Choose an action. (3/3 actions left)"
 label_settings = SubResource("LabelSettings_024of")
 
 [node name="TroopCountSelectionPanel" type="PanelContainer" parent="." unique_id=776206875]
