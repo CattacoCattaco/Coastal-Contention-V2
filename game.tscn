@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dg77awfqbk81r" path="res://game/player_bar/player_bar.gd" id="1_80cx4"]
 [ext_resource type="Texture2D" uid="uid://k75gujg6y26p" path="res://game/map/map.png" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://reedyuyhbiie" path="res://game/map/map.gd" id="2_e2o6t"]
+[ext_resource type="Shader" uid="uid://bou8wuu7p2d22" path="res://shaders/outline.gdshader" id="3_e8heu"]
 [ext_resource type="PackedScene" uid="uid://bbms8sp8rdq78" path="res://game/map/hex/hex.tscn" id="3_feb5d"]
 [ext_resource type="Texture2D" uid="uid://cllvxsicymkbw" path="res://game/map/map_territory_lines.png" id="4_fc0e3"]
 [ext_resource type="Script" uid="uid://r0b2ggf1sf3k" path="res://game/map/territory/continent_data/continent_data.gd" id="4_ryrav"]
@@ -114,6 +115,7 @@ script = ExtResource("1_80cx4")
 names_holder = NodePath("MarginContainer/HBoxContainer")
 starting_players = Array[int]([0, 1, 4])
 label_settings = SubResource("LabelSettings_k6pfa")
+outline_shader = ExtResource("3_e8heu")
 
 [node name="MarginContainer" type="MarginContainer" parent="PlayerBar" unique_id=1523135867]
 layout_mode = 2

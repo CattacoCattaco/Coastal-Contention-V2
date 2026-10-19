@@ -1,6 +1,9 @@
 shader_type canvas_item;
 
 uniform bool include_corners = true;
+uniform vec2 size_pixels = vec2(0.0f, 0.0f);
+uniform vec4 override_opaque_color: source_color = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+uniform bool use_override_opaque_color = false;
 uniform vec4 outline_color: source_color = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 bool valid_UV(vec2 uv) {
@@ -13,15 +16,14 @@ bool is_opaque(vec2 uv, sampler2D comp_texture) {
 }
 
 void vertex() {
-	VERTEX += (VERTEX * 2.0f * TEXTURE_PIXEL_SIZE - vec2(1.0f));
+	VERTEX += VERTEX / size_pixels * 2.0f - vec2(1.0f);
 }
 
 void fragment() {
-	vec2 SIZE_PIXELS = vec2(1.0f) / TEXTURE_PIXEL_SIZE;
-	vec2 EXPANDED_SIZE_PIXELS = SIZE_PIXELS + vec2(2.0f);
+	vec2 EXPANDED_SIZE_PIXELS = size_pixels + vec2(2.0f);
 	
-	vec2 old_UV = UV * EXPANDED_SIZE_PIXELS - vec2(1.0f);
-	old_UV *= TEXTURE_PIXEL_SIZE;
+	vec2 old_UV = UV * EXPANDED_SIZE_PIXELS / size_pixels;
+	old_UV -= 1.0f / size_pixels;
 	vec4 base;
 	if(valid_UV(old_UV)) {
 		base = texture(TEXTURE, old_UV);
@@ -63,7 +65,7 @@ void fragment() {
 		}
 	}
 	else {
-		COLOR = base;
+		COLOR = use_override_opaque_color ? override_opaque_color : base;
 	}
 }
 

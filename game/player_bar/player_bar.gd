@@ -9,6 +9,7 @@ signal player_added(faction: Faction)
 
 @export var starting_players: Array[Faction]
 @export var label_settings: LabelSettings
+@export var outline_shader: Shader
 
 var players: Array[Faction]
 var player_names: Dictionary[Faction, ColorRect] = {}
@@ -48,6 +49,16 @@ func setup_player_bar() -> void:
 		
 		name_rect.custom_minimum_size = name_label.size + Vector2(2, 4)
 		name_label.position = Vector2(2, 2)
+		
+		await RenderingServer.frame_post_draw
+		
+		var name_rect_material := ShaderMaterial.new()
+		name_rect_material.shader = outline_shader
+		name_rect_material.set_shader_parameter("size_pixels", name_rect.size)
+		name_rect_material.set_shader_parameter("override_opaque_color", name_rect.color)
+		name_rect_material.set_shader_parameter("use_override_opaque_color", true)
+		name_rect_material.set_shader_parameter("outline_color", Color(0, 0, 0, 1))
+		name_rect.material = name_rect_material
 		
 		var name_button := Button.new()
 		name_rect.add_child(name_button)
