@@ -129,6 +129,7 @@ func add_hex(pos: Vector2i, territory: Territory) -> Hex:
 	territory.hexes[pos] = hex
 	add_child(hex)
 	
+	hex.z_index = -1
 	hex.position = HEX_ORIGIN + pos.x * PLUS_X + pos.y * PLUS_Y
 	
 	return hex

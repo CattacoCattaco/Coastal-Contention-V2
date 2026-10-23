@@ -12,6 +12,15 @@ enum Action {
 
 const Faction = Globals.Faction
 
+const ACTION_COLORS: Array[Color] = [
+	Color("#73bed3"),
+	Color("#73bed3"),
+	Color("#73bed3"),
+	Color("#a53030"),
+	Color("#a53030"),
+	Color("#0000"),
+]
+
 @export var player_bar: PlayerBar
 @export var instruction_label: Label
 @export var move_button: Button
@@ -26,6 +35,7 @@ const Faction = Globals.Faction
 @export var victory_label: Label
 @export var new_game_button: Button
 
+var highlighted_territories: Array[Territory] = []
 var selected_territories: Array[Territory] = []
 var current_action: Action = Action.NONE
 var actions_left: int = 3
@@ -36,6 +46,10 @@ func _ready() -> void:
 	
 	player_bar.player_added.connect(_player_name_added)
 	map.territory_added.connect(_territory_added)
+	
+	for continent: Array in map.continents:
+		for territory: Territory in continent:
+			territory.pressed.connect(_territory_pressed.bind(territory))
 	
 	move_button.pressed.connect(_start_move)
 	attack_button.pressed.connect(_start_attack)
@@ -57,15 +71,26 @@ func _territory_added(territory: Territory) -> void:
 func _territory_pressed(territory: Territory) -> void:
 	match current_action:
 		Action.MOVE_PART_ONE:
-			if player_bar.get_current_player() not in territory.troop_hexes:
+			if territory not in highlighted_territories:
 				return
+			
+			unhighlight_territories()
+			highlighted_territories = []
 			
 			selected_territories.append(territory)
 			current_action = Action.MOVE_PART_TWO
 			instruction_label.text = "Choose a territory to move to"
+			
+			for neighbor: Territory in territory.border_territories:
+				highlighted_territories.append(neighbor)
+			
+			highlight_territories()
 		Action.MOVE_PART_TWO:
-			if territory not in selected_territories[0].border_territories:
+			if territory not in highlighted_territories:
 				return
+			
+			unhighlight_territories()
+			highlighted_territories = []
 			
 			selected_territories.append(territory)
 			current_action = Action.MOVE_PART_THREE
@@ -79,10 +104,11 @@ func _territory_pressed(territory: Territory) -> void:
 			troop_count_box.value = 1
 			troop_count_box.max_value = troop_hex.troop_count
 		Action.ATTACK_PART_ONE:
-			if player_bar.get_current_player() not in territory.troop_hexes:
+			if territory not in highlighted_territories:
 				return
-			if territory.troop_hexes.size() == 1:
-				return
+			
+			unhighlight_territories()
+			highlighted_territories = []
 			
 			selected_territories.append(territory)
 			current_action = Action.ATTACK_PART_TWO
@@ -106,6 +132,13 @@ func _start_move() -> void:
 	instruction_label.text = "Choose a territory to move from"
 	
 	current_action = Action.MOVE_PART_ONE
+	
+	for continent: Array in map.continents:
+		for territory: Territory in continent:
+			if player_bar.get_current_player() in territory.troop_hexes:
+				highlighted_territories.append(territory)
+	
+	highlight_territories()
 
 
 func _start_attack() -> void:
@@ -115,6 +148,14 @@ func _start_attack() -> void:
 	instruction_label.text = "Choose a territory to attack in"
 	
 	current_action = Action.ATTACK_PART_ONE
+	
+	for continent: Array in map.continents:
+		for territory: Territory in continent:
+			if (player_bar.get_current_player() in territory.troop_hexes
+					and territory.troop_hexes.size() > 1):
+				highlighted_territories.append(territory)
+	
+	highlight_territories()
 
 
 func _finish_move() -> void:
@@ -184,12 +225,27 @@ func _new_turn() -> void:
 
 
 func _cancel_action() -> void:
-	selected_territories = []
 	current_action = Action.NONE
+	
 	instruction_label.text = "Choose an action. (%d/3 actions left)"
 	instruction_label.text %= actions_left
+	
+	unhighlight_territories()
+	highlighted_territories = []
+	selected_territories = []
+	
 	troop_count_selection_panel.hide()
 	cancel_button.hide()
+
+
+func highlight_territories() -> void:
+	for highlighted_territory: Territory in highlighted_territories:
+		highlighted_territory.set_outline_color(ACTION_COLORS[current_action])
+
+
+func unhighlight_territories() -> void:
+	for highlighted_territory: Territory in highlighted_territories:
+		highlighted_territory.set_outline_color(ACTION_COLORS[Action.NONE])
 
 
 func do_draw(factions: Array[Faction]) -> void:

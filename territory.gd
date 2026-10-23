@@ -3,7 +3,10 @@ extends TextureButton
 
 const Faction = Globals.Faction
 
+const SHADER = preload("res://shaders/outline.gdshader")
+
 var territory: TerritoryData
+var shader_material: ShaderMaterial
 var hexes: Dictionary[Vector2i, Hex] = {}
 var troop_hexes: Dictionary[Faction, Hex] = {}
 var border_territories: Array[Territory] = []
@@ -19,12 +22,20 @@ func _init(p_territory: TerritoryData) -> void:
 	var click_mask := BitMap.new()
 	click_mask.create_from_image_alpha(territory.silhouette.get_image())
 	texture_click_mask = click_mask
+	
+	shader_material = ShaderMaterial.new()
+	shader_material.shader = SHADER
+	shader_material.set_shader_parameter("use_override_opaque_color", true)
+	material = shader_material
 
 
 func _ready() -> void:
 	z_index = 5
 	
-	self_modulate.a = .5 if is_hovered() else 0.0
+	await RenderingServer.frame_post_draw
+	
+	shader_material.set_shader_parameter("size_pixels", size)
+	set_fill_alpha(.5 if is_hovered() else 0.0)
 	
 	button_down.connect(_button_down)
 	button_up.connect(_button_up)
@@ -59,18 +70,28 @@ func remove_troops(count: int, faction: Faction) -> void:
 func _button_down() -> void:
 	is_down = true
 	
-	self_modulate.a = .75
+	set_fill_alpha(.75)
 
 
 func _button_up() -> void:
 	is_down = false
 	
-	self_modulate.a = .5 if is_hovered() else 0.0
+	set_fill_alpha(.5 if is_hovered() else 0.0)
 
 
 func _mouse_entered() -> void:
-	self_modulate.a = .75 if is_down else .5
+	set_fill_alpha(.75 if is_down else .5)
 
 
 func _mouse_exited() -> void:
-	self_modulate.a = .75 if is_down else 0.0
+	set_fill_alpha(.75 if is_down else 0.0)
+
+
+func set_outline_color(color: Color) -> void:
+	shader_material.set_shader_parameter("outline_color", color)
+
+
+func set_fill_alpha(alpha: float) -> void:
+	var color := Color("#394a50")
+	color.a = alpha
+	shader_material.set_shader_parameter("override_opaque_color", color)
