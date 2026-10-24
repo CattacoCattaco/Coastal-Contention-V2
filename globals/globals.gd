@@ -44,3 +44,20 @@ const FACTION_TROOPS: Array[Texture2D] = [
 	preload("res://game/map/hex/troop/mycoling.png"),
 	preload("res://game/map/hex/troop/pirate.png"),
 ]
+
+const FACTION_BAR_OVERRIDE_COLORS: Array[Dictionary] = [
+	{
+		Color("#a53030"): Color("#cf573c"),
+	},
+	{
+	},
+	{
+	},
+	{
+	},
+	{
+		Color("#a53030"): Color("#cf573c"),
+	},
+	{
+	},
+]

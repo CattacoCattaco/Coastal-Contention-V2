@@ -35,9 +35,9 @@ const ACTION_COLORS: Array[Color] = [
 @export var victory_label: Label
 @export var new_game_button: Button
 
+var highlighted_players: Array[Faction] = []
 var highlighted_territories: Array[Territory] = []
 var selected_territories: Array[Territory] = []
-var highlighted_players: Array[Faction] = []
 var current_action: Action = Action.NONE
 var actions_left: int = 3
 
@@ -219,9 +219,9 @@ func finish_attack(faction_attacked: Faction) -> void:
 
 
 func _next_turn() -> void:
-	player_bar.next()
-	
 	_new_turn()
+	
+	player_bar.next()
 
 
 func _new_turn() -> void:
@@ -236,14 +236,32 @@ func _cancel_action() -> void:
 	instruction_label.text = "Choose an action. (%d/3 actions left)"
 	instruction_label.text %= actions_left
 	
-	unhighlight_territories()
 	unhighlight_players()
+	unhighlight_territories()
 	
+	highlighted_players = []
 	highlighted_territories = []
 	selected_territories = []
 	
 	troop_count_selection_panel.hide()
 	cancel_button.hide()
+
+
+func highlight_players() -> void:
+	for player: Faction in highlighted_players:
+		var override_colors: Dictionary
+		override_colors = Globals.FACTION_BAR_OVERRIDE_COLORS[player]
+		
+		var highlight_color: Color = ACTION_COLORS[current_action]
+		if highlight_color in override_colors:
+			highlight_color = override_colors[highlight_color]
+		
+		player_bar.highlight_player(player, highlight_color)
+
+
+func unhighlight_players() -> void:
+	for player: Faction in highlighted_players:
+		player_bar.highlight_player(player, ACTION_COLORS[Action.NONE])
 
 
 func highlight_territories() -> void:
@@ -254,16 +272,6 @@ func highlight_territories() -> void:
 func unhighlight_territories() -> void:
 	for territory: Territory in highlighted_territories:
 		territory.set_outline_color(ACTION_COLORS[Action.NONE])
-
-
-func highlight_players() -> void:
-	for player: Faction in highlighted_players:
-		player_bar.highlight_player(player, ACTION_COLORS[current_action])
-
-
-func unhighlight_players() -> void:
-	for player: Faction in highlighted_players:
-		player_bar.highlight_player(player, ACTION_COLORS[Action.NONE])
 
 
 func do_draw(factions: Array[Faction]) -> void:
