@@ -27,7 +27,7 @@ func _init(p_outline_color := Color(), p_stage_count: int = 1) -> void:
 
 @abstract func _get_stage_input(stage: int) -> StageInput
 
-@abstract func _get_selectable_territories(continents: Array[Array],
+@abstract func _get_selectable_territories(map: Map, player_bar: PlayerBar,
 		stage: int, selected_territories: Array[Territory]) -> Array[Territory]
 
 @abstract func _get_selectable_players(player_bar: PlayerBar, stage: int,

@@ -16,13 +16,13 @@ func _get_stage_input(stage: int) -> StageInput:
 	return StageInput.ERROR
 
 
-func _get_selectable_territories(continents: Array[Array],
-		stage: int, selected_territories: Array[Territory]) -> Array[Territory]:
+func _get_selectable_territories(map: Map, _player_bar: PlayerBar, stage: int,
+		selected_territories: Array[Territory]) -> Array[Territory]:
 	var territories: Array[Territory] = []
 	
 	match stage:
 		1:
-			for continent: Array in continents:
+			for continent: Array in map.continents:
 				for territory: Territory in continent:
 					territories.append(territory)
 		2:
