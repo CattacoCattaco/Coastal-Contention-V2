@@ -1,30 +1,12 @@
 class_name ActionHandler
 extends VBoxContainer
 
-enum Action {
-	MOVE_PART_ONE,
-	MOVE_PART_TWO,
-	MOVE_PART_THREE,
-	ATTACK_PART_ONE,
-	ATTACK_PART_TWO,
-	NONE,
-}
-
 const Faction = Globals.Faction
-
-const ACTION_COLORS: Array[Color] = [
-	Color("#73bed3"),
-	Color("#73bed3"),
-	Color("#73bed3"),
-	Color("#a53030"),
-	Color("#a53030"),
-	Color("#0000"),
-]
+const StageInput = ActionData.StageInput
+const ActionMenu = ActionData.ActionMenu
 
 @export var player_bar: PlayerBar
 @export var instruction_label: Label
-@export var move_button: Button
-@export var attack_button: Button
 @export var next_button: Button
 @export var cancel_button: Button
 @export var troop_count_selection_panel: PanelContainer
@@ -35,10 +17,14 @@ const ACTION_COLORS: Array[Color] = [
 @export var victory_label: Label
 @export var new_game_button: Button
 
+@export var actions: Array[ActionData]
+@export var button_theme: Theme
+
 var highlighted_players: Array[Faction] = []
 var highlighted_territories: Array[Territory] = []
 var selected_territories: Array[Territory] = []
-var current_action: Action = Action.NONE
+var current_action: ActionData = null
+var current_stage: int = 1
 var actions_left: int = 3
 
 
@@ -52,8 +38,17 @@ func _ready() -> void:
 		for territory: Territory in continent:
 			territory.pressed.connect(_territory_pressed.bind(territory))
 	
-	move_button.pressed.connect(_start_move)
-	attack_button.pressed.connect(_start_attack)
+	for action: ActionData in actions:
+		var action_button := Button.new()
+		add_child(action_button)
+		
+		action_button.theme = button_theme
+		action_button.text = action.action_name
+		action_button.pressed.connect(_start_action.bind(action))
+	
+	next_button.move_to_front()
+	cancel_button.move_to_front()
+	
 	next_button.pressed.connect(_next_turn)
 	cancel_button.pressed.connect(_cancel_action)
 	finish_move_button.pressed.connect(_finish_move)
@@ -70,98 +65,35 @@ func _territory_added(territory: Territory) -> void:
 
 
 func _territory_pressed(territory: Territory) -> void:
-	match current_action:
-		Action.MOVE_PART_ONE:
-			if territory not in highlighted_territories:
-				return
-			
-			unhighlight_territories()
-			highlighted_territories = []
-			
-			selected_territories.append(territory)
-			current_action = Action.MOVE_PART_TWO
-			instruction_label.text = "Choose a territory to move to"
-			
-			for neighbor: Territory in territory.border_territories:
-				highlighted_territories.append(neighbor)
-			
-			highlight_territories()
-		Action.MOVE_PART_TWO:
-			if territory not in highlighted_territories:
-				return
-			
-			unhighlight_territories()
-			highlighted_territories = []
-			
-			selected_territories.append(territory)
-			current_action = Action.MOVE_PART_THREE
-			instruction_label.text = "Choose how many troops to move"
-			
-			var troop_hexes: Dictionary[Faction, Hex]
-			troop_hexes = selected_territories[0].troop_hexes
-			var troop_hex: Hex = troop_hexes[player_bar.get_current_player()]
-			
-			troop_count_selection_panel.show()
-			troop_count_box.value = 1
-			troop_count_box.max_value = troop_hex.troop_count
-		Action.ATTACK_PART_ONE:
-			if territory not in highlighted_territories:
-				return
-			
-			unhighlight_territories()
-			highlighted_territories = []
-			
-			selected_territories.append(territory)
-			current_action = Action.ATTACK_PART_TWO
-			instruction_label.text = "Choose a player to attack"
-			
-			for faction: Faction in player_bar.player_names:
-				if (faction in selected_territories[0].troop_hexes
-						and faction != player_bar.get_current_player()):
-					highlighted_players.append(faction)
-			
-			highlight_players()
+	if territory not in highlighted_territories:
+		return
+	
+	unhighlight_territories()
+	highlighted_territories = []
+	
+	selected_territories.append(territory)
+	current_stage += 1
+	instruction_label.text = current_action._get_stage_instruction(current_stage)
+	
+	start_stage()
 
 
 func _player_selected(faction: Faction) -> void:
-	match current_action:
-		Action.ATTACK_PART_TWO:
-			if faction not in highlighted_players:
-				return
-			finish_attack(faction)
+	if faction not in highlighted_players:
+		return
+	
+	finish_attack(faction)
 
 
-func _start_move() -> void:
+func _start_action(action: ActionData) -> void:
 	_cancel_action()
 	cancel_button.show()
 	
-	instruction_label.text = "Choose a territory to move from"
+	instruction_label.text = action._get_stage_instruction(1)
 	
-	current_action = Action.MOVE_PART_ONE
+	current_action = action
 	
-	for continent: Array in map.continents:
-		for territory: Territory in continent:
-			if player_bar.get_current_player() in territory.troop_hexes:
-				highlighted_territories.append(territory)
-	
-	highlight_territories()
-
-
-func _start_attack() -> void:
-	_cancel_action()
-	cancel_button.show()
-	
-	instruction_label.text = "Choose a territory to attack in"
-	
-	current_action = Action.ATTACK_PART_ONE
-	
-	for continent: Array in map.continents:
-		for territory: Territory in continent:
-			if (player_bar.get_current_player() in territory.troop_hexes
-					and territory.troop_hexes.size() > 1):
-				highlighted_territories.append(territory)
-	
-	highlight_territories()
+	start_stage()
 
 
 func _finish_move() -> void:
@@ -218,6 +150,34 @@ func finish_attack(faction_attacked: Faction) -> void:
 			do_victory(faction_attacked)
 
 
+func start_stage() -> void:
+	var stage_input: StageInput = current_action._get_stage_input(current_stage)
+	
+	match stage_input:
+		StageInput.TERRITORY_SELECT:
+			var selectable_territories: Array[Territory]
+			selectable_territories = current_action._get_selectable_territories(
+					map, player_bar, current_stage, selected_territories)
+			
+			for selectable_territory: Territory in selectable_territories:
+				highlighted_territories.append(selectable_territory)
+			
+			highlight_territories()
+		StageInput.PLAYER_SELECT:
+			var selectable_players: Array[Faction]
+			selectable_players = current_action._get_selectable_players(
+					player_bar, current_stage, selected_territories)
+			
+			for selectable_player: Faction in selectable_players:
+				highlighted_players.append(selectable_player)
+			
+			highlight_players()
+		StageInput.OPEN_MENU:
+			match current_action._get_action_menu(current_stage):
+				ActionMenu.MOVE_MENU:
+					troop_count_selection_panel.show()
+
+
 func _next_turn() -> void:
 	_new_turn()
 	
@@ -231,7 +191,8 @@ func _new_turn() -> void:
 
 
 func _cancel_action() -> void:
-	current_action = Action.NONE
+	current_action = null
+	current_stage = 1
 	
 	instruction_label.text = "Choose an action. (%d/3 actions left)"
 	instruction_label.text %= actions_left
@@ -252,7 +213,7 @@ func highlight_players() -> void:
 		var override_colors: Dictionary
 		override_colors = Globals.FACTION_BAR_OVERRIDE_COLORS[player]
 		
-		var highlight_color: Color = ACTION_COLORS[current_action]
+		var highlight_color: Color = current_action.outline_color
 		if highlight_color in override_colors:
 			highlight_color = override_colors[highlight_color]
 		
@@ -261,17 +222,17 @@ func highlight_players() -> void:
 
 func unhighlight_players() -> void:
 	for player: Faction in highlighted_players:
-		player_bar.highlight_player(player, ACTION_COLORS[Action.NONE])
+		player_bar.highlight_player(player, Color.TRANSPARENT)
 
 
 func highlight_territories() -> void:
 	for territory: Territory in highlighted_territories:
-		territory.set_outline_color(ACTION_COLORS[current_action])
+		territory.set_outline_color(current_action.outline_color)
 
 
 func unhighlight_territories() -> void:
 	for territory: Territory in highlighted_territories:
-		territory.set_outline_color(ACTION_COLORS[Action.NONE])
+		territory.set_outline_color(Color.TRANSPARENT)
 
 
 func do_draw(factions: Array[Faction]) -> void:

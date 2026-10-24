@@ -16,7 +16,10 @@
 [ext_resource type="Resource" uid="uid://cmy0dqv0vybeq" path="res://game/map/territory/continent_data/continents/silver.tres" id="10_mfdv2"]
 [ext_resource type="Script" uid="uid://cdik38j8pu6sx" path="res://game/action_handler/action_handler.gd" id="12_iotsf"]
 [ext_resource type="FontFile" uid="uid://kmddsd6nb4n8" path="res://UI/pixel_font_8px.ttf" id="12_lc2xo"]
+[ext_resource type="Script" uid="uid://bmnskqiojn3b2" path="res://game/faction_data/actions/action_data.gd" id="13_e36ub"]
 [ext_resource type="Theme" uid="uid://cracysihhat60" path="res://UI/big_button.tres" id="14_215e1"]
+[ext_resource type="Resource" uid="uid://mmv25a107lhl" path="res://game/faction_data/actions/data/attack.tres" id="14_hb5m1"]
+[ext_resource type="Resource" uid="uid://2ffomh74aadw" path="res://game/faction_data/actions/data/move.tres" id="15_x5p1p"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80cx4"]
 content_margin_left = 0.0
@@ -68,7 +71,7 @@ z_index = 5
 texture = ExtResource("4_fc0e3")
 centered = false
 
-[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "move_button", "attack_button", "next_button", "cancel_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label", "new_game_button")]
+[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "next_button", "cancel_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label", "new_game_button")]
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
@@ -82,8 +85,6 @@ grow_horizontal = 0
 script = ExtResource("12_iotsf")
 player_bar = NodePath("../PlayerBar")
 instruction_label = NodePath("../ActionInstructionLabel")
-move_button = NodePath("MoveButton")
-attack_button = NodePath("AttackButton")
 next_button = NodePath("NextButton")
 cancel_button = NodePath("CancelButton")
 troop_count_selection_panel = NodePath("../TroopCountSelectionPanel")
@@ -93,16 +94,8 @@ map = NodePath("../Map")
 victory_screen = NodePath("../VictoryScreen")
 victory_label = NodePath("../VictoryScreen/VictoryLabel")
 new_game_button = NodePath("../VictoryScreen/NewGameButton")
-
-[node name="MoveButton" type="Button" parent="ActionHandler" unique_id=82463609]
-layout_mode = 2
-theme = ExtResource("14_215e1")
-text = "Move"
-
-[node name="AttackButton" type="Button" parent="ActionHandler" unique_id=284375928]
-layout_mode = 2
-theme = ExtResource("14_215e1")
-text = "Attack"
+actions = Array[ExtResource("13_e36ub")]([ExtResource("14_hb5m1"), ExtResource("15_x5p1p")])
+button_theme = ExtResource("14_215e1")
 
 [node name="NextButton" type="Button" parent="ActionHandler" unique_id=64369736]
 layout_mode = 2

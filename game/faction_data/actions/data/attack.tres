@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AttackData" format=3 uid="uid://mmv25a107lhl"]
+
+[ext_resource type="Script" uid="uid://4dupallh46gs" path="res://game/faction_data/actions/attack_data.gd" id="1_a4hmv"]
+
+[resource]
+script = ExtResource("1_a4hmv")
+outline_color = Color(0.64705884, 0.1882353, 0.1882353, 1)
+stage_count = 2
+action_name = "Attack"
+metadata/_custom_type_script = "uid://4dupallh46gs"

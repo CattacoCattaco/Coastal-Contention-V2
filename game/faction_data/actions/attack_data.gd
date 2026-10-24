@@ -2,8 +2,9 @@ class_name AttackData
 extends ActionData
 
 
-func _init(p_outline_color := Color(), p_stage_count: int = 2) -> void:
-	super(p_outline_color, p_stage_count)
+func _init(p_outline_color := Color(), p_stage_count: int = 2,
+		p_action_name: String = "Attack") -> void:
+	super(p_outline_color, p_stage_count, p_action_name)
 
 
 func _get_stage_input(stage: int) -> StageInput:
@@ -16,6 +17,16 @@ func _get_stage_input(stage: int) -> StageInput:
 	return StageInput.ERROR
 
 
+func _get_stage_instruction(stage: int) -> String:
+	match stage:
+		1:
+			return "Choose territory to attack in"
+		2:
+			return "Choose player to attack"
+	
+	return ""
+
+
 func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 		_selected_territories: Array[Territory]) -> Array[Territory]:
 	var territories: Array[Territory] = []
@@ -23,6 +34,8 @@ func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 	if stage == 1:
 		for continent: Array in map.continents:
 			for territory: Territory in continent:
+				if territory.troop_hexes.size() < 2:
+					continue
 				if player_bar.get_current_player() not in territory.troop_hexes:
 					continue
 				

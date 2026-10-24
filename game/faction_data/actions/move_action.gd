@@ -2,8 +2,9 @@ class_name MoveData
 extends ActionData
 
 
-func _init(p_outline_color := Color(), p_stage_count: int = 3) -> void:
-	super(p_outline_color, p_stage_count)
+func _init(p_outline_color := Color(), p_stage_count: int = 3,
+		p_action_name: String = "Move") -> void:
+	super(p_outline_color, p_stage_count, p_action_name)
 
 
 func _get_stage_input(stage: int) -> StageInput:
@@ -16,14 +17,30 @@ func _get_stage_input(stage: int) -> StageInput:
 	return StageInput.ERROR
 
 
-func _get_selectable_territories(map: Map, _player_bar: PlayerBar, stage: int,
+func _get_stage_instruction(stage: int) -> String:
+	match stage:
+		1:
+			return "Choose territory to move from"
+		2:
+			return "Choose territory to move to"
+		3:
+			return "Choose number of troops to move"
+	
+	return ""
+
+
+func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 		selected_territories: Array[Territory]) -> Array[Territory]:
 	var territories: Array[Territory] = []
 	
 	match stage:
 		1:
+			var current_player: Faction = player_bar.get_current_player()
 			for continent: Array in map.continents:
 				for territory: Territory in continent:
+					if current_player not in territory.troop_hexes:
+						continue
+					
 					territories.append(territory)
 		2:
 			var neighbors: Array[Territory]
