@@ -14,7 +14,7 @@
 [ext_resource type="Resource" uid="uid://so138fdqkeba" path="res://game/map/territory/continent_data/continents/brown.tres" id="6_j5wjh"]
 [ext_resource type="Resource" uid="uid://fhutr54vjjn3" path="res://game/map/territory/continent_data/continents/green.tres" id="6_vef74"]
 [ext_resource type="Resource" uid="uid://cmy0dqv0vybeq" path="res://game/map/territory/continent_data/continents/silver.tres" id="10_mfdv2"]
-[ext_resource type="Script" uid="uid://cdik38j8pu6sx" path="res://game/action_handler.gd" id="12_iotsf"]
+[ext_resource type="Script" uid="uid://cdik38j8pu6sx" path="res://game/action_handler/action_handler.gd" id="12_iotsf"]
 [ext_resource type="FontFile" uid="uid://kmddsd6nb4n8" path="res://UI/pixel_font_8px.ttf" id="12_lc2xo"]
 [ext_resource type="Theme" uid="uid://cracysihhat60" path="res://UI/big_button.tres" id="14_215e1"]
 
