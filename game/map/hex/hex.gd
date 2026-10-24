@@ -15,7 +15,7 @@ func _ready() -> void:
 
 
 func set_faction(faction: Faction) -> void:
-	troop.texture = Globals.faction_troops[faction]
+	troop.texture = Globals.FACTION_TROOPS[faction]
 
 
 func add_troops(count: int) -> void:

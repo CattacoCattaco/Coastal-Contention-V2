@@ -18,7 +18,7 @@ enum Continent {
 	SILVER,
 }
 
-const faction_names: Array[String] = [
+const FACTION_NAMES: Array[String] = [
 	"Pirates",
 	"Clerics",
 	"Druids",
@@ -27,7 +27,7 @@ const faction_names: Array[String] = [
 	"Robots",
 ]
 
-const faction_colors: Array[Color] = [
+const FACTION_COLORS: Array[Color] = [
 	Color("#a53030"),
 	Color("#be772b"),
 	Color("#ad7757"),
@@ -36,7 +36,7 @@ const faction_colors: Array[Color] = [
 	Color("#577277"),
 ]
 
-const faction_troops: Array[Texture2D] = [
+const FACTION_TROOPS: Array[Texture2D] = [
 	preload("res://game/map/hex/troop/pirate.png"),
 	preload("res://game/map/hex/troop/cleric.png"),
 	preload("res://game/map/hex/troop/pirate.png"),

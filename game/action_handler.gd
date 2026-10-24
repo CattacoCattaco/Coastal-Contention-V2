@@ -16,7 +16,7 @@ const ACTION_COLORS: Array[Color] = [
 	Color("#73bed3"),
 	Color("#73bed3"),
 	Color("#73bed3"),
-	Color("#cf573c"),
+	Color("#a53030"),
 	Color("#a53030"),
 	Color("#0000"),
 ]
@@ -270,10 +270,10 @@ func do_draw(factions: Array[Faction]) -> void:
 	victory_screen.show()
 	
 	var faction_names: Array[String] = [
-		Globals.faction_names[factions[0]]
+		Globals.FACTION_NAMES[factions[0]]
 	]
 	for i: int in range(1, factions.size()):
-		faction_names.append(Globals.faction_names[factions[i]].to_lower())
+		faction_names.append(Globals.FACTION_NAMES[factions[i]].to_lower())
 	
 	if factions.size() == 2:
 		victory_label.text = "%s and %s drew." % faction_names
@@ -289,4 +289,4 @@ func do_draw(factions: Array[Faction]) -> void:
 func do_victory(faction: Faction) -> void:
 	victory_screen.show()
 	
-	victory_label.text = "%s won!" % Globals.faction_names[faction]
+	victory_label.text = "%s won!" % Globals.FACTION_NAMES[faction]

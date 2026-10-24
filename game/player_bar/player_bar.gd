@@ -39,13 +39,13 @@ func setup_player_bar() -> void:
 		names_holder.add_child(name_rect)
 		player_names[player] = name_rect
 		
-		name_rect.color = Globals.faction_colors[player]
+		name_rect.color = Globals.FACTION_COLORS[player]
 		
 		var name_label := Label.new()
 		name_rect.add_child(name_label)
 		
 		name_label.label_settings = label_settings
-		name_label.text = Globals.faction_names[player]
+		name_label.text = Globals.FACTION_NAMES[player]
 		name_label.size = Vector2(0, 0)
 		
 		await RenderingServer.frame_post_draw
