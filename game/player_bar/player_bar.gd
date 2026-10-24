@@ -89,15 +89,17 @@ func remove_player(faction: Faction) -> void:
 
 func next() -> void:
 	if current_turn != -1:
-		player_names[players[current_turn]].material.set_shader_parameter(
-				"outline_color", Color.TRANSPARENT)
+		highlight_player(get_current_player(), Color.TRANSPARENT)
 	
 	current_turn += 1
 	if current_turn == players.size():
 		current_turn = 0
 	
-	player_names[players[current_turn]].material.set_shader_parameter(
-				"outline_color", Color("#e8c170"))
+	highlight_player(get_current_player(), Color("#e8c170"))
+
+
+func highlight_player(player: Faction, color: Color) -> void:
+	player_names[player].material.set_shader_parameter("outline_color", color)
 
 
 func get_current_player() -> Faction:

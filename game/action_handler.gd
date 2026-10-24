@@ -16,7 +16,7 @@ const ACTION_COLORS: Array[Color] = [
 	Color("#73bed3"),
 	Color("#73bed3"),
 	Color("#73bed3"),
-	Color("#a53030"),
+	Color("#cf573c"),
 	Color("#a53030"),
 	Color("#0000"),
 ]
@@ -37,6 +37,7 @@ const ACTION_COLORS: Array[Color] = [
 
 var highlighted_territories: Array[Territory] = []
 var selected_territories: Array[Territory] = []
+var highlighted_players: Array[Faction] = []
 var current_action: Action = Action.NONE
 var actions_left: int = 3
 
@@ -113,14 +114,19 @@ func _territory_pressed(territory: Territory) -> void:
 			selected_territories.append(territory)
 			current_action = Action.ATTACK_PART_TWO
 			instruction_label.text = "Choose a player to attack"
+			
+			for faction: Faction in player_bar.player_names:
+				if (faction in selected_territories[0].troop_hexes
+						and faction != player_bar.get_current_player()):
+					highlighted_players.append(faction)
+			
+			highlight_players()
 
 
 func _player_selected(faction: Faction) -> void:
 	match current_action:
 		Action.ATTACK_PART_TWO:
-			if faction not in selected_territories[0].troop_hexes:
-				return
-			if faction == player_bar.get_current_player():
+			if faction not in highlighted_players:
 				return
 			finish_attack(faction)
 
@@ -231,6 +237,8 @@ func _cancel_action() -> void:
 	instruction_label.text %= actions_left
 	
 	unhighlight_territories()
+	unhighlight_players()
+	
 	highlighted_territories = []
 	selected_territories = []
 	
@@ -239,13 +247,23 @@ func _cancel_action() -> void:
 
 
 func highlight_territories() -> void:
-	for highlighted_territory: Territory in highlighted_territories:
-		highlighted_territory.set_outline_color(ACTION_COLORS[current_action])
+	for territory: Territory in highlighted_territories:
+		territory.set_outline_color(ACTION_COLORS[current_action])
 
 
 func unhighlight_territories() -> void:
-	for highlighted_territory: Territory in highlighted_territories:
-		highlighted_territory.set_outline_color(ACTION_COLORS[Action.NONE])
+	for territory: Territory in highlighted_territories:
+		territory.set_outline_color(ACTION_COLORS[Action.NONE])
+
+
+func highlight_players() -> void:
+	for player: Faction in highlighted_players:
+		player_bar.highlight_player(player, ACTION_COLORS[current_action])
+
+
+func unhighlight_players() -> void:
+	for player: Faction in highlighted_players:
+		player_bar.highlight_player(player, ACTION_COLORS[Action.NONE])
 
 
 func do_draw(factions: Array[Faction]) -> void:
