@@ -69,5 +69,13 @@ func _do_action(selected_territories: Array[Territory],
 		player_bar: PlayerBar) -> void:
 	var current_player: FactionData = player_bar.get_current_player()
 	var move_count: int = roundi(troop_count_box.value)
+	
 	selected_territories[0].remove_troops(move_count, current_player)
 	selected_territories[1].add_troops(move_count, current_player)
+	
+	var troop_reduction: bool = 1
+	for territory: Territory in selected_territories:
+		if territory.controller == current_player:
+			troop_reduction = 0
+	
+	selected_territories[1].remove_troops(troop_reduction, current_player)
