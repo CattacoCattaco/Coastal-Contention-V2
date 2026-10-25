@@ -19,6 +19,10 @@ func set_control(faction: FactionData) -> void:
 	control_banners.texture = faction.control_banners
 
 
+func remove_control() -> void:
+	control_banners.hide()
+
+
 func set_faction(faction: FactionData) -> void:
 	troop.texture = faction.troop_sprite
 

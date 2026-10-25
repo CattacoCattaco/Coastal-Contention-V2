@@ -45,6 +45,7 @@ func _reset() -> void:
 	for continent_territories: Array in continents:
 		for territory: Territory in continent_territories:
 			territory.remove_all_troops()
+			territory.remove_control()
 	
 	player_bar.reset_player_bar()
 	setup()
@@ -89,7 +90,6 @@ func place_territory(territory_data: TerritoryData) -> Territory:
 			tl.y = hex.position.y
 	
 	territory.biome_hex = add_hex(territory_data.biome_hex)
-	territory.set_control(Globals.FACTIONS[0])
 	
 	territory.position = tl + Vector2(1, 1)
 	

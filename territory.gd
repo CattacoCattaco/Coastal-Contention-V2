@@ -9,6 +9,7 @@ var hexes: Dictionary[Vector2i, Hex] = {}
 var troop_hexes: Dictionary[FactionData, Hex] = {}
 var biome_hex: Hex
 var border_territories: Array[Territory] = []
+var controller: FactionData = null
 
 var is_down: bool = false
 
@@ -43,7 +44,13 @@ func _ready() -> void:
 
 
 func set_control(faction: FactionData) -> void:
+	controller = faction
 	biome_hex.set_control(faction)
+
+
+func remove_control() -> void:
+	controller = null
+	biome_hex.remove_control()
 
 
 func add_troops(count: int, faction: FactionData) -> void:
@@ -56,11 +63,23 @@ func add_troops(count: int, faction: FactionData) -> void:
 				hex.add_troops(count)
 				troop_hexes[faction] = hex
 				break
+	
+	if not controller:
+		set_control(faction)
+	elif faction != controller:
+		var new_troop_count: int = troop_hexes[faction].troop_count
+		
+		if new_troop_count > troop_hexes[controller].troop_count:
+			set_control(faction)
 
 
 func remove_all_troops() -> void:
+	var start_controller: FactionData = controller
+	
 	for faction: FactionData in troop_hexes:
 		remove_troops(troop_hexes[faction].troop_count, faction)
+	
+	controller = start_controller
 
 
 func remove_troops(count: int, faction: FactionData) -> void:
@@ -68,6 +87,19 @@ func remove_troops(count: int, faction: FactionData) -> void:
 		troop_hexes[faction].remove_troops(count)
 		if troop_hexes[faction].troop_count == 0:
 			troop_hexes.erase(faction)
+		
+		if faction == controller:
+			var new_troop_count: int
+			
+			if controller in troop_hexes:
+				new_troop_count = troop_hexes[controller].troop_count
+			else:
+				new_troop_count = 0
+			
+			for other: FactionData in troop_hexes:
+				if troop_hexes[other].troop_count > new_troop_count:
+					set_control(other)
+					new_troop_count = troop_hexes[other].troop_count
 
 
 func _button_down() -> void:
