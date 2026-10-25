@@ -64,13 +64,11 @@ func add_troops(count: int, faction: FactionData) -> void:
 				troop_hexes[faction] = hex
 				break
 	
-	if not controller:
-		set_control(faction)
-	elif faction != controller:
-		var new_troop_count: int = troop_hexes[faction].troop_count
+	if faction != controller:
+		var new_controller: FactionData = _get_new_controller()
 		
-		if new_troop_count > troop_hexes[controller].troop_count:
-			set_control(faction)
+		if new_controller == faction:
+			set_control(new_controller)
 
 
 func remove_all_troops() -> void:
@@ -89,17 +87,25 @@ func remove_troops(count: int, faction: FactionData) -> void:
 			troop_hexes.erase(faction)
 		
 		if faction == controller:
-			var new_troop_count: int
+			var new_controller: FactionData = _get_new_controller()
 			
-			if controller in troop_hexes:
-				new_troop_count = troop_hexes[controller].troop_count
-			else:
-				new_troop_count = 0
-			
-			for other: FactionData in troop_hexes:
-				if troop_hexes[other].troop_count > new_troop_count:
-					set_control(other)
-					new_troop_count = troop_hexes[other].troop_count
+			if new_controller and new_controller != faction:
+				set_control(new_controller)
+
+
+func _get_new_controller() -> FactionData:
+	var most_troops: int = 0
+	var new_controller: FactionData = null
+	
+	for faction: FactionData in troop_hexes:
+		var troop_count: int = troop_hexes[faction].troop_count
+		if troop_count > most_troops:
+			most_troops = troop_count
+			new_controller = faction
+		elif troop_count == most_troops:
+			new_controller = null
+	
+	return new_controller
 
 
 func _button_down() -> void:
