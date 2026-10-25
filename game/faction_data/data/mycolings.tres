@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="FactionData" format=3 uid="uid://dlbbby4nu4rfx"]
 
 [ext_resource type="Script" uid="uid://c61log6o4x8n3" path="res://game/faction_data/faction_data.gd" id="1_0rujk"]
+[ext_resource type="Texture2D" uid="uid://dpm8enptt4hxl" path="res://game/map/territory/control_banners/mycoling_banners.png" id="1_0u1g0"]
 [ext_resource type="Script" uid="uid://bmnskqiojn3b2" path="res://game/faction_data/actions/action_data.gd" id="2_0u1g0"]
 [ext_resource type="Resource" uid="uid://bfroqkotyypf" path="res://game/faction_data/actions/data/mycoling_recruit_setup.tres" id="3_0rujk"]
 [ext_resource type="Texture2D" uid="uid://10xhyw4wadch" path="res://game/map/hex/troop/mycoling.png" id="4_0u1g0"]
@@ -10,6 +11,7 @@ script = ExtResource("1_0rujk")
 name = "Mycolings"
 color = Color(0.63529414, 0.24313726, 0.54901963, 1)
 troop_sprite = ExtResource("4_0u1g0")
+control_banners = ExtResource("1_0u1g0")
 setup_actions = Array[ExtResource("2_0u1g0")]([ExtResource("3_0rujk")])
 name_highlight_overrides = Dictionary[Color, Color]({
 Color(0.64705884, 0.1882353, 0.1882353, 1): Color(0.8117647, 0.34117648, 0.23529412, 1)

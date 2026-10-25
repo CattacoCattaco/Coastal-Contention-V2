@@ -7,6 +7,7 @@
 script = ExtResource("1_r43n4")
 continent = 4
 hexes = Array[Vector2i]([Vector2i(12, 13), Vector2i(13, 13), Vector2i(14, 12), Vector2i(14, 13), Vector2i(15, 12), Vector2i(15, 13), Vector2i(15, 14), Vector2i(16, 13)])
+biome_hex = Vector2i(13, 12)
 borders = Array[String](["uid://j15qhf5mkw5", "uid://b2a4jtno1ir0q", "uid://cref8hblgq4o0", "uid://bsqbhhlplisaq", "uid://csdauuh3y66ya"])
 silhouette = ExtResource("2_2mhjr")
 metadata/_custom_type_script = "uid://dyscggb6qquwv"

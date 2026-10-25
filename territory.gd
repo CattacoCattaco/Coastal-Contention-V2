@@ -7,6 +7,7 @@ var territory: TerritoryData
 var shader_material: ShaderMaterial
 var hexes: Dictionary[Vector2i, Hex] = {}
 var troop_hexes: Dictionary[FactionData, Hex] = {}
+var biome_hex: Hex
 var border_territories: Array[Territory] = []
 
 var is_down: bool = false
@@ -39,6 +40,10 @@ func _ready() -> void:
 	button_up.connect(_button_up)
 	mouse_entered.connect(_mouse_entered)
 	mouse_exited.connect(_mouse_exited)
+
+
+func set_control(faction: FactionData) -> void:
+	biome_hex.set_control(faction)
 
 
 func add_troops(count: int, faction: FactionData) -> void:

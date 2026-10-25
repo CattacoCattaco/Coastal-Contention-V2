@@ -79,17 +79,24 @@ func place_territory(territory_data: TerritoryData) -> Territory:
 	
 	var hexes: Array[Hex] = []
 	for pos: Vector2i in territory_data.hexes:
-		hexes.append(add_hex(pos, territory))
+		var hex: Hex = add_hex(pos)
+		hexes.append(hex)
+		territory.hexes[pos] = hex
 		
-		if hexes[-1].position.x < tl.x:
-			tl.x = hexes[-1].position.x
-		if hexes[-1].position.y < tl.y:
-			tl.y = hexes[-1].position.y
+		if hex.position.x < tl.x:
+			tl.x = hex.position.x
+		if hex.position.y < tl.y:
+			tl.y = hex.position.y
+	
+	territory.biome_hex = add_hex(territory_data.biome_hex)
+	territory.set_control(Globals.FACTIONS[0])
 	
 	territory.position = tl + Vector2(1, 1)
 	
 	for hex: Hex in hexes:
 		hex.reparent(territory)
+	
+	territory.biome_hex.reparent(territory)
 	
 	for border_uid: String in territory_data.borders:
 		var border: TerritoryData = load(border_uid)
@@ -108,10 +115,9 @@ func place_territory(territory_data: TerritoryData) -> Territory:
 	return territory
 
 
-func add_hex(pos: Vector2i, territory: Territory) -> Hex:
+func add_hex(pos: Vector2i) -> Hex:
 	var hex: Hex = hex_scene.instantiate()
 	
-	territory.hexes[pos] = hex
 	add_child(hex)
 	
 	hex.z_index = -1

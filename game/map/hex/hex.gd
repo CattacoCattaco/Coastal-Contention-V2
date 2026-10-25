@@ -1,6 +1,7 @@
 class_name Hex
 extends Sprite2D
 
+@export var control_banners: Sprite2D
 @export var troop: Sprite2D
 @export var troop_count_label: Label
 
@@ -8,8 +9,14 @@ var troop_count: int = 0
 
 
 func _ready() -> void:
+	control_banners.hide()
 	troop.hide()
 	troop_count_label.hide()
+
+
+func set_control(faction: FactionData) -> void:
+	control_banners.show()
+	control_banners.texture = faction.control_banners
 
 
 func set_faction(faction: FactionData) -> void:
