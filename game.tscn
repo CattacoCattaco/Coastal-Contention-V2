@@ -26,6 +26,7 @@
 [ext_resource type="Resource" uid="uid://n65h33v0t7gq" path="res://game/faction_data/data/clerics.tres" id="23_bnpwn"]
 [ext_resource type="Resource" uid="uid://dlbbby4nu4rfx" path="res://game/faction_data/data/mycolings.tres" id="24_36jdj"]
 [ext_resource type="Script" uid="uid://duoqbhlw64rw1" path="res://game/options_screen/options_screen.gd" id="26_i2p71"]
+[ext_resource type="Script" uid="uid://d28nfpi7206w7" path="res://game/attack_screen.gd" id="26_xa8c5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80cx4"]
 content_margin_left = 0.0
@@ -41,6 +42,15 @@ font_size = 12
 font_color = Color(0.03529412, 0.039215688, 0.078431375, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_024of"]
+font = ExtResource("12_lc2xo")
+font_color = Color(0.92156863, 0.92941177, 0.9137255, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xa8c5"]
+font = ExtResource("12_lc2xo")
+font_size = 24
+font_color = Color(0.92156863, 0.92941177, 0.9137255, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5b14r"]
 font = ExtResource("12_lc2xo")
 font_color = Color(0.92156863, 0.92941177, 0.9137255, 1)
 
@@ -76,7 +86,7 @@ z_index = 5
 texture = ExtResource("4_fc0e3")
 centered = false
 
-[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "next_button", "cancel_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "new_game_button")]
+[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("map", "player_bar", "instruction_label", "next_button", "cancel_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "attack_screen", "new_game_button")]
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
@@ -88,6 +98,7 @@ offset_left = -86.0
 offset_bottom = 52.0
 grow_horizontal = 0
 script = ExtResource("12_iotsf")
+map = NodePath("../Map")
 player_bar = NodePath("../PlayerBar")
 instruction_label = NodePath("../ActionInstructionLabel")
 next_button = NodePath("NextButton")
@@ -95,7 +106,7 @@ cancel_button = NodePath("CancelButton")
 troop_count_selection_panel = NodePath("../TroopCountSelectionPanel")
 troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/TroopCountBox")
 finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
-map = NodePath("../Map")
+attack_screen = NodePath("../AttackScreen")
 new_game_button = NodePath("../VictoryScreen/NewGameButton")
 actions = Array[ExtResource("13_e36ub")]([ExtResource("14_hb5m1"), ExtResource("15_x5p1p"), ExtResource("16_vaj68")])
 button_theme = ExtResource("14_215e1")
@@ -186,6 +197,131 @@ rounded = true
 layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Finish Move"
+
+[node name="AttackScreen" type="Control" parent="." unique_id=939173465 node_paths=PackedStringArray("attacker_bg", "attacked_bg", "attacker_label", "attacked_label", "attacker_hits_label", "attacked_hits_label", "attacker_troops_label", "attacked_troops_label", "continue_button")]
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("26_xa8c5")
+attacker_bg = NodePath("AttackerBG")
+attacked_bg = NodePath("AttackedBG")
+attacker_label = NodePath("AttackerBG/AttackerLabel")
+attacked_label = NodePath("AttackedBG/AttackedLabel")
+attacker_hits_label = NodePath("AttackerBG/AttackerHitsLabel")
+attacked_hits_label = NodePath("AttackedBG/AttackedHitsLabel")
+attacker_troops_label = NodePath("AttackerBG/AttackerTroopsLabel")
+attacked_troops_label = NodePath("AttackedBG/AttackedTroopsLabel")
+continue_button = NodePath("ContinueButton")
+
+[node name="AttackerBG" type="ColorRect" parent="AttackScreen" unique_id=496770667]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+color = Color(0.64705884, 0.1882353, 0.1882353, 0.7529412)
+
+[node name="AttackerLabel" type="Label" parent="AttackScreen/AttackerBG" unique_id=1944419078]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.05
+anchor_right = 0.5
+anchor_bottom = 0.05
+grow_horizontal = 2
+grow_vertical = 2
+text = "Pirates"
+label_settings = SubResource("LabelSettings_xa8c5")
+horizontal_alignment = 1
+
+[node name="AttackerHitsLabel" type="Label" parent="AttackScreen/AttackerBG" unique_id=1990597945]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.9
+anchor_right = 0.5
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hits taken: 1"
+label_settings = SubResource("LabelSettings_5b14r")
+horizontal_alignment = 1
+
+[node name="AttackerTroopsLabel" type="Label" parent="AttackScreen/AttackerBG" unique_id=809765188]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.95
+anchor_right = 0.5
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+text = "Troops left: 3"
+label_settings = SubResource("LabelSettings_5b14r")
+horizontal_alignment = 1
+
+[node name="AttackedBG" type="ColorRect" parent="AttackScreen" unique_id=1134690679]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.74509805, 0.46666667, 0.16862746, 0.7490196)
+
+[node name="AttackedLabel" type="Label" parent="AttackScreen/AttackedBG" unique_id=466662150]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.05
+anchor_right = 0.5
+anchor_bottom = 0.05
+grow_horizontal = 2
+grow_vertical = 2
+text = "Clerics"
+label_settings = SubResource("LabelSettings_xa8c5")
+horizontal_alignment = 1
+
+[node name="AttackedHitsLabel" type="Label" parent="AttackScreen/AttackedBG" unique_id=1479107415]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.9
+anchor_right = 0.5
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hits taken: 2"
+label_settings = SubResource("LabelSettings_5b14r")
+horizontal_alignment = 1
+
+[node name="AttackedTroopsLabel" type="Label" parent="AttackScreen/AttackedBG" unique_id=2093818083]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.95
+anchor_right = 0.5
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+text = "Troops left: 1"
+label_settings = SubResource("LabelSettings_5b14r")
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="AttackScreen" unique_id=1044282917]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.925
+anchor_right = 0.5
+anchor_bottom = 0.925
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("14_215e1")
+theme_override_font_sizes/font_size = 24
+text = "Continue"
 
 [node name="VictoryScreen" type="ColorRect" parent="." unique_id=1137230470]
 visible = false

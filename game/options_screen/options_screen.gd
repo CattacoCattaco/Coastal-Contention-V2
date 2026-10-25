@@ -21,6 +21,8 @@ var player_faction_indeces: Dictionary[OptionButton, int] = {}
 
 
 func _ready() -> void:
+	show()
+	
 	player_count_box.value_changed.connect(_player_count_changed)
 	_player_count_changed(2.0)
 	

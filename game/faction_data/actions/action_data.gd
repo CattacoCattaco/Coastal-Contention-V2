@@ -43,4 +43,5 @@ func _init(p_outline_color := Color(), p_stage_count: int = 1,
 
 @abstract func _do_action(selected_territories: Array[Territory],
 		selected_players: Array[FactionData], map: Map,
-		troop_count_box: SpinBox, player_bar: PlayerBar) -> void
+		troop_count_box: SpinBox, player_bar: PlayerBar,
+		attack_screen: AttackScreen) -> void

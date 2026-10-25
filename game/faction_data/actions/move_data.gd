@@ -65,8 +65,9 @@ func _get_action_menu(stage: int) -> ActionMenu:
 
 
 func _do_action(selected_territories: Array[Territory],
-		_selected_players: Array[FactionData], _map: Map, troop_count_box: SpinBox,
-		player_bar: PlayerBar) -> void:
+		_selected_players: Array[FactionData], _map: Map,
+		troop_count_box: SpinBox, player_bar: PlayerBar,
+		_attack_screen: AttackScreen) -> void:
 	var current_player: FactionData = player_bar.get_current_player()
 	var move_count: int = roundi(troop_count_box.value)
 	

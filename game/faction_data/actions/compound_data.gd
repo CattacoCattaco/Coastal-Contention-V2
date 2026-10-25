@@ -84,8 +84,9 @@ func _get_action_menu(stage: int) -> ActionMenu:
 
 
 func _do_action(selected_territories: Array[Territory],
-		selected_players: Array[FactionData], map: Map, troop_count_box: SpinBox,
-		player_bar: PlayerBar) -> void:
+		selected_players: Array[FactionData], map: Map,
+		troop_count_box: SpinBox, player_bar: PlayerBar,
+		attack_screen: AttackScreen) -> void:
 	var current_selected_territory_index: int = 0
 	var current_selected_player_index: int = 0
 	
@@ -108,7 +109,7 @@ func _do_action(selected_territories: Array[Territory],
 					p_selected_players.append(selected_player)
 		
 		action._do_action(p_selected_territories, p_selected_players, map,
-				troop_count_box, player_bar)
+				troop_count_box, player_bar, attack_screen)
 
 
 func _get_action(stage: int) -> ActionData:

@@ -65,18 +65,54 @@ func _get_action_menu(_stage: int) -> ActionMenu:
 
 
 func _do_action(selected_territories: Array[Territory],
-		selected_players: Array[FactionData], map: Map, _troop_count_box: SpinBox,
-		player_bar: PlayerBar) -> void:
-	selected_territories[0].remove_troops(1, player_bar.get_current_player())
-	selected_territories[0].remove_troops(2, selected_players[0])
+		selected_players: Array[FactionData], map: Map,
+		_troop_count_box: SpinBox, player_bar: PlayerBar,
+		attack_screen: AttackScreen) -> void:
+	var attacker: FactionData = player_bar.get_current_player()
+	var attacked: FactionData = selected_players[0]
+	
+	attack_screen.show()
+	
+	attack_screen.attacker_bg.color = attacker.color
+	attack_screen.attacked_bg.color = attacked.color
+	attack_screen.attacker_bg.color.a = 0.75
+	attack_screen.attacked_bg.color.a = 0.75
+	
+	attack_screen.attacker_label.text = attacker.name
+	attack_screen.attacked_label.text = attacked.name
+	
+	var attacker_hits: int = 2
+	var attacked_hits: int = 1
+	
+	var attacker_troops: int
+	var attacked_troops: int
+	attacker_troops = selected_territories[0].troop_hexes[attacker].troop_count
+	attacked_troops = selected_territories[0].troop_hexes[attacked].troop_count
+	attacker_troops -= attacked_hits
+	attacked_troops -= attacker_hits
+	
+	if attacker_troops < 0:
+		attacker_troops = 0
+	if attacked_troops < 0:
+		attacked_troops = 0
+	
+	attack_screen.attacker_troops_label.text = (
+			"Troops left: %s" % attacker_troops)
+	attack_screen.attacked_troops_label.text = (
+			"Troops left: %s" % attacked_troops)
+	
+	await attack_screen.closed
+	
+	selected_territories[0].remove_troops(1, attacker)
+	selected_territories[0].remove_troops(2, attacked)
 	
 	var attacked_lost: bool = true
 	var attacker_lost: bool = true
 	for continent_territories: Array in map.continents:
 		for territory: Territory in continent_territories:
-			if selected_players[0] in territory.troop_hexes:
+			if attacked in territory.troop_hexes:
 				attacked_lost = false
-			if player_bar.get_current_player() in territory.troop_hexes:
+			if attacker in territory.troop_hexes:
 				attacker_lost = false
 			
 			if not (attacked_lost or attacker_lost): break
@@ -85,10 +121,10 @@ func _do_action(selected_territories: Array[Territory],
 	
 	if attacked_lost and attacker_lost:
 		player_bar.remove_players([
-			selected_players[0],
-			player_bar.get_current_player()
+			attacked,
+			attacker
 		])
 	elif attacked_lost:
-		player_bar.remove_player(selected_players[0])
+		player_bar.remove_player(attacked)
 	elif attacker_lost:
-		player_bar.remove_player(player_bar.get_current_player())
+		player_bar.remove_player(attacker)

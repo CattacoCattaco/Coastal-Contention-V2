@@ -6,6 +6,7 @@ signal action_completed
 const StageInput = ActionData.StageInput
 const ActionMenu = ActionData.ActionMenu
 
+@export var map: Map
 @export var player_bar: PlayerBar
 @export var instruction_label: Label
 @export var next_button: Button
@@ -13,7 +14,7 @@ const ActionMenu = ActionData.ActionMenu
 @export var troop_count_selection_panel: PanelContainer
 @export var troop_count_box: SpinBox
 @export var finish_move_button: Button
-@export var map: Map
+@export var attack_screen: AttackScreen
 @export var new_game_button: Button
 
 @export var actions: Array[ActionData]
@@ -30,6 +31,7 @@ var actions_left: int = 3
 
 func _ready() -> void:
 	troop_count_selection_panel.hide()
+	attack_screen.hide()
 	
 	player_bar.player_added.connect(_player_name_added)
 	map.territory_added.connect(_territory_added)
@@ -125,8 +127,11 @@ func start_stage() -> void:
 	if current_stage > current_action.stage_count:
 		var old_current_player: FactionData = player_bar.get_current_player()
 		
-		current_action._do_action(selected_territories, selected_players, map,
-				troop_count_box, player_bar)
+		# THIS DOES NOT REMOVE THE NEED FOR THE BELOW await!!!
+		# _do_action() may or may not be asyncronous
+		@warning_ignore("redundant_await")
+		await current_action._do_action(selected_territories, selected_players,
+				map, troop_count_box, player_bar, attack_screen)
 		
 		var new_current_player: FactionData = player_bar.get_current_player()
 		
@@ -210,6 +215,7 @@ func _cancel_action() -> void:
 	selected_territories = []
 	
 	troop_count_selection_panel.hide()
+	attack_screen.hide()
 	cancel_button.hide()
 
 
