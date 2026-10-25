@@ -4,7 +4,7 @@ This is a game I'm building with Godot that is a reboot of my scrapped project C
 
 ## How to Play
 
-To play, go to <https://cattacocattaco.github.io/Coastal-Contention-V2/>.
+To play, go to <https://cattacocattaco.github.io/Coastal-Contention-V2/v0_1_0>.
 
 ### Controls:
 
