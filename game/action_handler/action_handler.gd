@@ -64,8 +64,6 @@ func _setup() -> void:
 		for action: ActionData in faction.setup_actions:
 			_start_action(action)
 			
-			print(action)
-			
 			await action_completed
 		
 		_next_turn()
@@ -120,9 +118,6 @@ func _start_action(action: ActionData) -> void:
 	
 	current_action = action
 	
-	print(current_action)
-	print(current_action.stage_count)
-	
 	start_stage()
 
 
@@ -141,6 +136,8 @@ func start_stage() -> void:
 		else:
 			_cancel_action()
 		
+		# Important for awaiting action_completed after starting a zero stage
+		# action (Like Mycoling recruit). DO NOT REMOVE!!!
 		await RenderingServer.frame_post_draw
 		
 		action_completed.emit()
