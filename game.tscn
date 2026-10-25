@@ -20,6 +20,7 @@
 [ext_resource type="Theme" uid="uid://cracysihhat60" path="res://UI/big_button.tres" id="14_215e1"]
 [ext_resource type="Resource" uid="uid://mmv25a107lhl" path="res://game/faction_data/actions/data/attack.tres" id="14_hb5m1"]
 [ext_resource type="Resource" uid="uid://2ffomh74aadw" path="res://game/faction_data/actions/data/move.tres" id="15_x5p1p"]
+[ext_resource type="Resource" uid="uid://bgs4fvedug3of" path="res://game/faction_data/actions/data/pirate_recruit_setup.tres" id="16_hb5m1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80cx4"]
 content_margin_left = 0.0
@@ -92,7 +93,7 @@ troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxCont
 finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
 map = NodePath("../Map")
 new_game_button = NodePath("../VictoryScreen/NewGameButton")
-actions = Array[ExtResource("13_e36ub")]([ExtResource("14_hb5m1"), ExtResource("15_x5p1p")])
+actions = Array[ExtResource("13_e36ub")]([ExtResource("14_hb5m1"), ExtResource("15_x5p1p"), ExtResource("16_hb5m1")])
 button_theme = ExtResource("14_215e1")
 
 [node name="NextButton" type="Button" parent="ActionHandler" unique_id=64369736]

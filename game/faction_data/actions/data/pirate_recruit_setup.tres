@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="RecruitData" format=3 uid="uid://bgs4fvedug3of"]
+
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_ktin8"]
+[ext_resource type="Script" uid="uid://bqxbflsyhdvki" path="res://game/faction_data/actions/predicates/continent_predicate.gd" id="2_k4ojr"]
+[ext_resource type="Script" uid="uid://b6cihs35qjvgw" path="res://game/faction_data/actions/recruit_data.gd" id="2_lorfc"]
+
+[sub_resource type="Resource" id="Resource_k4ojr"]
+script = ExtResource("2_k4ojr")
+metadata/_custom_type_script = "uid://bqxbflsyhdvki"
+
+[resource]
+script = ExtResource("2_lorfc")
+troop_count = 4
+territory_count = 3
+predicates = Array[ExtResource("1_ktin8")]([SubResource("Resource_k4ojr")])
+outline_color = Color(0.45882353, 0.654902, 0.2627451, 1)
+stage_count = 3
+action_name = "Recruit"
+metadata/_custom_type_script = "uid://b6cihs35qjvgw"
