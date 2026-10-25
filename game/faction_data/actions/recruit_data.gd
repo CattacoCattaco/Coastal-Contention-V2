@@ -18,7 +18,7 @@ const RECRUIT_ALL: int = -2
 		if value == RECRUIT_ANY:
 			stage_count = -1
 		if value == RECRUIT_ALL:
-			stage_count = -2
+			stage_count = 0
 
 @export var predicates: Array[Predicate]
 
