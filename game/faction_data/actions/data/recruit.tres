@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="RecruitData" format=3 uid="uid://ihn54lf0afau"]
+
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_4fi1p"]
+[ext_resource type="Script" uid="uid://cxw0owyu8g5ph" path="res://game/faction_data/actions/predicates/control_predicate.gd" id="2_0ut7w"]
+[ext_resource type="Script" uid="uid://b6cihs35qjvgw" path="res://game/faction_data/actions/recruit_data.gd" id="2_fx2ug"]
+
+[sub_resource type="Resource" id="Resource_f1jbl"]
+script = ExtResource("2_0ut7w")
+metadata/_custom_type_script = "uid://cxw0owyu8g5ph"
+
+[resource]
+script = ExtResource("2_fx2ug")
+predicates = Array[ExtResource("1_4fi1p")]([SubResource("Resource_f1jbl")])
+outline_color = Color(0.45882353, 0.654902, 0.2627451, 1)
+stage_count = 1
+action_name = "Recruit"
+metadata/_custom_type_script = "uid://b6cihs35qjvgw"

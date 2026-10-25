@@ -51,7 +51,7 @@ func _get_stage_instruction(stage: int) -> String:
 	return ""
 
 
-func _get_selectable_territories(map: Map, _player_bar: PlayerBar, stage: int,
+func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 		selected_territories: Array[Territory]) -> Array[Territory]:
 	var territories: Array[Territory] = []
 	
@@ -60,7 +60,7 @@ func _get_selectable_territories(map: Map, _player_bar: PlayerBar, stage: int,
 			for territory: Territory in continent:
 				if territory in selected_territories:
 					continue
-				if not Predicate.fits_list(predicates, territory):
+				if not Predicate.fits_list(predicates, territory, player_bar):
 					continue
 				
 				territories.append(territory)
@@ -83,9 +83,7 @@ func _do_action(selected_territories: Array[Territory],
 	if territory_count == RECRUIT_ALL:
 		for continent: Array in map.continents:
 			for territory: Territory in continent:
-				if territory in selected_territories:
-					continue
-				if not Predicate.fits_list(predicates, territory):
+				if not Predicate.fits_list(predicates, territory, player_bar):
 					continue
 				
 				selected_territories.append(territory)

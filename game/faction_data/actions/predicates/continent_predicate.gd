@@ -10,5 +10,5 @@ func _init(p_continent: Continent = Continent.RED) -> void:
 	continent = p_continent
 
 
-func _fits(territory: Territory) -> bool:
+func _fits(territory: Territory, _player_bar: PlayerBar) -> bool:
 	return territory.territory.continent == continent
