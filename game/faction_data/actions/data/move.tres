@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MoveData" format=3 uid="uid://2ffomh74aadw"]
 
-[ext_resource type="Script" uid="uid://58ddo6te1bgg" path="res://game/faction_data/actions/move_action.gd" id="1_pvpw1"]
+[ext_resource type="Script" uid="uid://58ddo6te1bgg" path="res://game/faction_data/actions/move_data.gd" id="1_pvpw1"]
 
 [resource]
 script = ExtResource("1_pvpw1")
