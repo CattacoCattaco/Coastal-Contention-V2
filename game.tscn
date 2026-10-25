@@ -86,6 +86,8 @@ offset_left = -86.0
 offset_bottom = 52.0
 grow_horizontal = 0
 script = ExtResource("12_iotsf")
+actions = Array[ExtResource("13_e36ub")]([ExtResource("14_hb5m1"), ExtResource("15_x5p1p"), ExtResource("16_hb5m1"), ExtResource("17_x5p1p"), ExtResource("18_qhcbd")])
+button_theme = ExtResource("14_215e1")
 player_bar = NodePath("../PlayerBar")
 instruction_label = NodePath("../ActionInstructionLabel")
 next_button = NodePath("NextButton")
@@ -95,8 +97,6 @@ troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxCont
 finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
 map = NodePath("../Map")
 new_game_button = NodePath("../VictoryScreen/NewGameButton")
-actions = Array[ExtResource("13_e36ub")]([ExtResource("14_hb5m1"), ExtResource("15_x5p1p"), ExtResource("16_hb5m1"), ExtResource("17_x5p1p"), ExtResource("18_qhcbd")])
-button_theme = ExtResource("14_215e1")
 
 [node name="NextButton" type="Button" parent="ActionHandler" unique_id=64369736]
 layout_mode = 2
