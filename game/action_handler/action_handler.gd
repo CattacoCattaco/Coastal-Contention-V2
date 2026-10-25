@@ -149,6 +149,14 @@ func start_stage() -> void:
 			match current_action._get_action_menu(current_stage):
 				ActionMenu.MOVE_MENU:
 					troop_count_selection_panel.show()
+					
+					var player: Faction = player_bar.get_current_player()
+					var troop_hex: Hex
+					troop_hex = selected_territories[0].troop_hexes[player]
+					
+					troop_count_box.value = 1
+					troop_count_box.min_value = 1
+					troop_count_box.max_value = troop_hex.troop_count
 
 
 func _next_turn() -> void:
