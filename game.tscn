@@ -26,7 +26,7 @@
 [ext_resource type="Resource" uid="uid://n65h33v0t7gq" path="res://game/faction_data/data/clerics.tres" id="23_bnpwn"]
 [ext_resource type="Resource" uid="uid://dlbbby4nu4rfx" path="res://game/faction_data/data/mycolings.tres" id="24_36jdj"]
 [ext_resource type="Script" uid="uid://duoqbhlw64rw1" path="res://game/options_screen/options_screen.gd" id="26_i2p71"]
-[ext_resource type="Script" uid="uid://d28nfpi7206w7" path="res://game/attack_screen.gd" id="26_xa8c5"]
+[ext_resource type="Script" uid="uid://d28nfpi7206w7" path="res://game/attack_screen/attack_screen.gd" id="26_xa8c5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80cx4"]
 content_margin_left = 0.0
@@ -360,6 +360,7 @@ theme_override_font_sizes/font_size = 32
 text = "New Game"
 
 [node name="OptionsScreen" type="ColorRect" parent="." unique_id=1378528856 node_paths=PackedStringArray("map_size_options", "player_count_box", "player_faction_labels", "player_faction_options", "start_button")]
+visible = false
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
