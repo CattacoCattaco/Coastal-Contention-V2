@@ -141,6 +141,8 @@ func start_stage() -> void:
 		else:
 			_cancel_action()
 		
+		await RenderingServer.frame_post_draw
+		
 		action_completed.emit()
 		
 		return
