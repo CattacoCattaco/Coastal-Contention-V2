@@ -2,6 +2,7 @@ class_name Map
 extends Sprite2D
 
 const Continent = Globals.Continent
+const MapSizing = OptionsScreen.MapSizing
 
 const HEX_ORIGIN = Vector2(706, 442)
 
@@ -16,12 +17,14 @@ signal territory_added(territory: Territory)
 @export var player_bar: PlayerBar
 @export var victory_screen: ColorRect
 @export var new_game_button: Button
+@export var options_screen: OptionsScreen
 
 @export var continents_data: Array[ContinentData]
 
 @onready var texture_size: Vector2 = texture.get_size()
 
 var continents: Array[Array] = []
+var map_sizing: MapSizing
 var is_dragging: bool = false
 
 
@@ -38,7 +41,9 @@ func _ready() -> void:
 		for territory: TerritoryData in continent.territories:
 			continents[-1].append(place_territory(territory))
 	
-	setup()
+	victory_screen.hide()
+	
+	options_screen.map_sizing_selected.connect(_map_sizing_selected)
 
 
 func _reset() -> void:
@@ -48,10 +53,6 @@ func _reset() -> void:
 			territory.remove_control()
 	
 	player_bar.reset_player_bar()
-	setup()
-
-
-func setup() -> void:
 	victory_screen.hide()
 
 
@@ -70,6 +71,12 @@ func _game_input(event: InputEvent) -> void:
 	elif event.is_action("drag"):
 		is_dragging = event.is_pressed()
 		get_tree().root.set_input_as_handled()
+
+
+func _map_sizing_selected(_map_sizing: MapSizing) -> void:
+	map_sizing = _map_sizing
+	
+	scale_to_fit_screen()
 
 
 func place_territory(territory_data: TerritoryData) -> Territory:
@@ -130,7 +137,11 @@ func scale_to_fit_screen() -> void:
 	if (get_viewport_rect().size.x > texture_size.x
 			or get_viewport_rect().size.y > texture_size.y):
 		var size_ratio: Vector2 = get_viewport_rect().size / texture_size
-		var scale_factor: int = ceili(max_dimension(size_ratio))
+		var scale_factor: int
+		if map_sizing == MapSizing.COVER:
+			scale_factor = ceili(max_dimension(size_ratio))
+		else:
+			scale_factor = floori(min_dimension(size_ratio))
 		
 		game.scale = Vector2(scale_factor, scale_factor)
 	else:
@@ -139,10 +150,16 @@ func scale_to_fit_screen() -> void:
 	game.custom_minimum_size = get_viewport_rect().size / game.scale
 	game.custom_maximum_size = game.custom_minimum_size
 	
+	await RenderingServer.frame_post_draw
+	
 	clamp_pos()
 
 
 func clamp_pos() -> void:
+	if map_sizing == MapSizing.FIT:
+		position = (game.size - texture_size) / 2
+		return
+	
 	if position.x > 0:
 		position.x = 0
 	elif position.x < -(texture_size - game.size).x:
@@ -156,3 +173,7 @@ func clamp_pos() -> void:
 
 func max_dimension(vec: Vector2) -> float:
 	return vec.x if vec.x >= vec.y else vec.y
+
+
+func min_dimension(vec: Vector2) -> float:
+	return vec.x if vec.x <= vec.y else vec.y

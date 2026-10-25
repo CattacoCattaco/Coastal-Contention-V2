@@ -7,6 +7,7 @@ signal setup_complete
 @export var names_holder: HBoxContainer
 @export var victory_screen: ColorRect
 @export var victory_label: Label
+@export var options_screen: OptionsScreen
 
 @export var starting_players: Array[FactionData]
 @export var label_settings: LabelSettings
@@ -20,6 +21,11 @@ var player_name_buttons: Dictionary[FactionData, Button] = {}
 
 
 func _ready() -> void:
+	options_screen.players_selected.connect(_players_selected)
+
+
+func _players_selected(selected_players: Array[FactionData]) -> void:
+	starting_players = selected_players
 	setup_player_bar()
 
 

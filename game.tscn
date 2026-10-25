@@ -25,6 +25,7 @@
 [ext_resource type="Resource" uid="uid://dnrucd5i1dx2h" path="res://game/faction_data/data/pirates.tres" id="22_5b14r"]
 [ext_resource type="Resource" uid="uid://n65h33v0t7gq" path="res://game/faction_data/data/clerics.tres" id="23_bnpwn"]
 [ext_resource type="Resource" uid="uid://dlbbby4nu4rfx" path="res://game/faction_data/data/mycolings.tres" id="24_36jdj"]
+[ext_resource type="Script" uid="uid://duoqbhlw64rw1" path="res://game/options_screen/options_screen.gd" id="26_i2p71"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80cx4"]
 content_margin_left = 0.0
@@ -43,15 +44,13 @@ font_color = Color(0.03529412, 0.039215688, 0.078431375, 1)
 font = ExtResource("12_lc2xo")
 font_color = Color(0.92156863, 0.92941177, 0.9137255, 1)
 
-[sub_resource type="Theme" id="Theme_pgosp"]
-LineEdit/colors/font_color = Color(0.92156863, 0.92941177, 0.9137255, 1)
-LineEdit/colors/font_selected_color = Color(0.92156863, 0.92941177, 0.9137255, 1)
-LineEdit/font_sizes/font_size = 16
-LineEdit/fonts/font = ExtResource("12_lc2xo")
-
 [sub_resource type="LabelSettings" id="LabelSettings_5a5g6"]
 font = ExtResource("12_lc2xo")
 font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_vaj68"]
+font = ExtResource("12_lc2xo")
+font_size = 24
 
 [node name="Game" type="Control" unique_id=1334612111]
 custom_minimum_size = Vector2(1450, 885)
@@ -60,7 +59,7 @@ anchors_preset = 0
 offset_right = 1450.0
 offset_bottom = 885.0
 
-[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "player_bar", "victory_screen", "new_game_button")]
+[node name="Map" type="Sprite2D" parent="." unique_id=832444163 node_paths=PackedStringArray("game", "player_bar", "victory_screen", "new_game_button", "options_screen")]
 texture = ExtResource("1_80nbo")
 centered = false
 script = ExtResource("2_e2o6t")
@@ -69,6 +68,7 @@ game = NodePath("..")
 player_bar = NodePath("../PlayerBar")
 victory_screen = NodePath("../VictoryScreen")
 new_game_button = NodePath("../VictoryScreen/NewGameButton")
+options_screen = NodePath("../OptionsScreen")
 continents_data = Array[ExtResource("4_ryrav")]([ExtResource("5_eow3j"), ExtResource("6_hve3p"), ExtResource("6_j5wjh"), ExtResource("6_vef74"), ExtResource("6_eow3j"), ExtResource("10_mfdv2")])
 
 [node name="MapTerritoryLines" type="Sprite2D" parent="Map" unique_id=951256955]
@@ -110,7 +110,7 @@ layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Cancel"
 
-[node name="PlayerBar" type="PanelContainer" parent="." unique_id=1844579216 node_paths=PackedStringArray("names_holder", "victory_screen", "victory_label")]
+[node name="PlayerBar" type="PanelContainer" parent="." unique_id=1844579216 node_paths=PackedStringArray("names_holder", "victory_screen", "victory_label", "options_screen")]
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
@@ -124,6 +124,7 @@ script = ExtResource("1_80cx4")
 names_holder = NodePath("MarginContainer/HBoxContainer")
 victory_screen = NodePath("../VictoryScreen")
 victory_label = NodePath("../VictoryScreen/VictoryLabel")
+options_screen = NodePath("../OptionsScreen")
 starting_players = Array[ExtResource("21_xa8c5")]([ExtResource("22_5b14r"), ExtResource("23_bnpwn"), ExtResource("24_36jdj")])
 label_settings = SubResource("LabelSettings_k6pfa")
 outline_shader = ExtResource("3_e8heu")
@@ -176,7 +177,7 @@ theme_override_constants/separation = 8
 
 [node name="TroopCountBox" type="SpinBox" parent="TroopCountSelectionPanel/MarginContainer/VBoxContainer" unique_id=1227821556]
 layout_mode = 2
-theme = SubResource("Theme_pgosp")
+theme = ExtResource("14_215e1")
 min_value = 1.0
 value = 1.0
 rounded = true
@@ -221,3 +222,127 @@ grow_vertical = 2
 theme = ExtResource("14_215e1")
 theme_override_font_sizes/font_size = 32
 text = "New Game"
+
+[node name="OptionsScreen" type="ColorRect" parent="." unique_id=1378528856 node_paths=PackedStringArray("map_size_options", "player_count_box", "player_faction_labels", "player_faction_options", "start_button")]
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.34117648, 0.44705883, 0.46666667, 1)
+script = ExtResource("26_i2p71")
+map_size_options = NodePath("VBoxContainer/GridContainer/MapSizeOptions")
+player_count_box = NodePath("VBoxContainer/GridContainer/PlayerCountBox")
+player_faction_labels = [NodePath("VBoxContainer/GridContainer/Player1Label"), NodePath("VBoxContainer/GridContainer/Player2Label"), NodePath("VBoxContainer/GridContainer/Player3Label")]
+player_faction_options = [NodePath("VBoxContainer/GridContainer/Player1FactionOptions"), NodePath("VBoxContainer/GridContainer/Player2FactionOptions"), NodePath("VBoxContainer/GridContainer/Player3FactionOptions")]
+start_button = NodePath("VBoxContainer/StartButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsScreen" unique_id=1621565669]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="OptionsScreen/VBoxContainer" unique_id=1580693864]
+layout_mode = 2
+theme_override_constants/h_separation = 32
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="Label" type="Label" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=1041697641]
+layout_mode = 2
+text = "Map Sizing:"
+label_settings = SubResource("LabelSettings_vaj68")
+
+[node name="MapSizeOptions" type="OptionButton" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=1531113943]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+selected = 0
+item_count = 2
+popup/item_0/text = "Stretch to cover"
+popup/item_0/id = 0
+popup/item_1/text = "Fit to screen"
+popup/item_1/id = 1
+
+[node name="Label2" type="Label" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=432850856]
+layout_mode = 2
+text = "Player count:"
+label_settings = SubResource("LabelSettings_vaj68")
+
+[node name="PlayerCountBox" type="SpinBox" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=97827603]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+min_value = 2.0
+max_value = 3.0
+value = 2.0
+rounded = true
+
+[node name="Player1Label" type="Label" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=1948063805]
+layout_mode = 2
+text = "Player 1:"
+label_settings = SubResource("LabelSettings_vaj68")
+
+[node name="Player1FactionOptions" type="OptionButton" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=779527836]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+selected = 0
+item_count = 3
+popup/item_0/text = "Pirates"
+popup/item_0/id = 0
+popup/item_1/text = "Clerics"
+popup/item_1/id = 1
+popup/item_2/text = "Mycolings"
+popup/item_2/id = 4
+
+[node name="Player2Label" type="Label" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=628593958]
+layout_mode = 2
+text = "Player 2:"
+label_settings = SubResource("LabelSettings_vaj68")
+
+[node name="Player2FactionOptions" type="OptionButton" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=1253757015]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+selected = 0
+item_count = 3
+popup/item_0/text = "Pirates"
+popup/item_0/id = 0
+popup/item_1/text = "Clerics"
+popup/item_1/id = 1
+popup/item_2/text = "Mycolings"
+popup/item_2/id = 4
+
+[node name="Player3Label" type="Label" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=1967035861]
+layout_mode = 2
+text = "Player 3:"
+label_settings = SubResource("LabelSettings_vaj68")
+
+[node name="Player3FactionOptions" type="OptionButton" parent="OptionsScreen/VBoxContainer/GridContainer" unique_id=1290700060]
+layout_mode = 2
+theme = ExtResource("14_215e1")
+selected = 0
+item_count = 3
+popup/item_0/text = "Pirates"
+popup/item_0/id = 0
+popup/item_1/text = "Clerics"
+popup/item_1/id = 1
+popup/item_2/text = "Mycolings"
+popup/item_2/id = 4
+
+[node name="StartButton" type="Button" parent="OptionsScreen/VBoxContainer" unique_id=18618609]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("14_215e1")
+theme_override_font_sizes/font_size = 24
+text = "Start"
