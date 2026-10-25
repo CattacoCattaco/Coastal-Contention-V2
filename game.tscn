@@ -71,7 +71,7 @@ z_index = 5
 texture = ExtResource("4_fc0e3")
 centered = false
 
-[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "next_button", "cancel_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "victory_screen", "victory_label", "new_game_button")]
+[node name="ActionHandler" type="VBoxContainer" parent="." unique_id=257338427 node_paths=PackedStringArray("player_bar", "instruction_label", "next_button", "cancel_button", "troop_count_selection_panel", "troop_count_box", "finish_move_button", "map", "new_game_button")]
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
@@ -91,8 +91,6 @@ troop_count_selection_panel = NodePath("../TroopCountSelectionPanel")
 troop_count_box = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/TroopCountBox")
 finish_move_button = NodePath("../TroopCountSelectionPanel/MarginContainer/VBoxContainer/FinishMoveButton")
 map = NodePath("../Map")
-victory_screen = NodePath("../VictoryScreen")
-victory_label = NodePath("../VictoryScreen/VictoryLabel")
 new_game_button = NodePath("../VictoryScreen/NewGameButton")
 actions = Array[ExtResource("13_e36ub")]([ExtResource("14_hb5m1"), ExtResource("15_x5p1p")])
 button_theme = ExtResource("14_215e1")
@@ -107,7 +105,7 @@ layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Cancel"
 
-[node name="PlayerBar" type="PanelContainer" parent="." unique_id=1844579216 node_paths=PackedStringArray("names_holder")]
+[node name="PlayerBar" type="PanelContainer" parent="." unique_id=1844579216 node_paths=PackedStringArray("names_holder", "victory_screen", "victory_label")]
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
@@ -119,6 +117,8 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_80cx4")
 script = ExtResource("1_80cx4")
 names_holder = NodePath("MarginContainer/HBoxContainer")
+victory_screen = NodePath("../VictoryScreen")
+victory_label = NodePath("../VictoryScreen/VictoryLabel")
 starting_players = Array[int]([0, 1, 4])
 label_settings = SubResource("LabelSettings_k6pfa")
 outline_shader = ExtResource("3_e8heu")

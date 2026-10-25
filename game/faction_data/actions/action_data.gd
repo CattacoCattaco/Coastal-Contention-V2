@@ -28,10 +28,13 @@ func _init(p_outline_color := Color(), p_stage_count: int = 1,
 	action_name = p_action_name
 
 
+## Gets the type of input required for the stage
 @abstract func _get_stage_input(stage: int) -> StageInput
 
+## Gets the instruction displayed for the stage
 @abstract func _get_stage_instruction(stage: int) -> String
 
+## Gets the selectable territories during the stage for territory select stages
 @abstract func _get_selectable_territories(map: Map, player_bar: PlayerBar,
 		stage: int, selected_territories: Array[Territory]) -> Array[Territory]
 
@@ -39,3 +42,7 @@ func _init(p_outline_color := Color(), p_stage_count: int = 1,
 		selected_territories: Array[Territory]) -> Array[Faction]
 
 @abstract func _get_action_menu(stage: int) -> ActionMenu
+
+@abstract func _do_action(selected_territories: Array[Territory],
+		selected_players: Array[Faction], map: Map, troop_count_box: SpinBox,
+		player_bar: PlayerBar) -> void

@@ -6,6 +6,8 @@ const Faction = Globals.Faction
 signal player_added(faction: Faction)
 
 @export var names_holder: HBoxContainer
+@export var victory_screen: ColorRect
+@export var victory_label: Label
 
 @export var starting_players: Array[Faction]
 @export var label_settings: LabelSettings
@@ -81,6 +83,29 @@ func setup_player_bar() -> void:
 
 
 func remove_player(faction: Faction) -> void:
+	_remove_player_no_loss_check(faction)
+	
+	if players.size() == 1:
+		do_victory(players[0])
+
+
+func remove_players(factions: Array[Faction]) -> void:
+	for faction: Faction in factions:
+		_remove_player_no_loss_check(faction)
+	
+	if players.size() == 1:
+		do_victory(players[0])
+	else:
+		do_draw(factions)
+
+
+# Don't call directly, just meant for use in remove_player and remove_players
+func _remove_player_no_loss_check(faction: Faction) -> void:
+	if players[current_turn] == faction:
+		next()
+	elif players.find(faction) < current_turn:
+		current_turn -= 1
+	
 	player_names[faction].queue_free()
 	players.erase(faction)
 	player_names.erase(faction)
@@ -104,3 +129,29 @@ func highlight_player(player: Faction, color: Color) -> void:
 
 func get_current_player() -> Faction:
 	return players[current_turn]
+
+
+func do_draw(factions: Array[Faction]) -> void:
+	victory_screen.show()
+	
+	var faction_names: Array[String] = [
+		Globals.FACTION_NAMES[factions[0]]
+	]
+	for i: int in range(1, factions.size()):
+		faction_names.append(Globals.FACTION_NAMES[factions[i]].to_lower())
+	
+	if factions.size() == 2:
+		victory_label.text = "%s and %s drew." % faction_names
+	else:
+		victory_label.text = ""
+		
+		for i: int in range(factions.size() - 1):
+			victory_label.text += faction_names[i] + ", "
+		
+		victory_label.text += "and %s drew." % faction_names[-1]
+
+
+func do_victory(faction: Faction) -> void:
+	victory_screen.show()
+	
+	victory_label.text = "%s won!" % Globals.FACTION_NAMES[faction]

@@ -13,14 +13,13 @@ const ActionMenu = ActionData.ActionMenu
 @export var troop_count_box: SpinBox
 @export var finish_move_button: Button
 @export var map: Map
-@export var victory_screen: ColorRect
-@export var victory_label: Label
 @export var new_game_button: Button
 
 @export var actions: Array[ActionData]
 @export var button_theme: Theme
 
 var highlighted_players: Array[Faction] = []
+var selected_players: Array[Faction] = []
 var highlighted_territories: Array[Territory] = []
 var selected_territories: Array[Territory] = []
 var current_action: ActionData = null
@@ -51,7 +50,7 @@ func _ready() -> void:
 	
 	next_button.pressed.connect(_next_turn)
 	cancel_button.pressed.connect(_cancel_action)
-	finish_move_button.pressed.connect(_finish_move)
+	finish_move_button.pressed.connect(_finish_move_pressed)
 	new_game_button.pressed.connect(_new_turn)
 
 
@@ -73,7 +72,6 @@ func _territory_pressed(territory: Territory) -> void:
 	
 	selected_territories.append(territory)
 	current_stage += 1
-	instruction_label.text = current_action._get_stage_instruction(current_stage)
 	
 	start_stage()
 
@@ -82,76 +80,51 @@ func _player_selected(faction: Faction) -> void:
 	if faction not in highlighted_players:
 		return
 	
-	finish_attack(faction)
+	unhighlight_players()
+	highlighted_players = []
+	
+	selected_players.append(faction)
+	current_stage += 1
+	
+	start_stage()
+
+
+func _finish_move_pressed() -> void:
+	current_stage += 1
+	
+	start_stage()
 
 
 func _start_action(action: ActionData) -> void:
 	_cancel_action()
 	cancel_button.show()
 	
-	instruction_label.text = action._get_stage_instruction(1)
-	
 	current_action = action
 	
 	start_stage()
 
 
-func _finish_move() -> void:
-	var current_player: Faction = player_bar.get_current_player()
-	var move_count: int = roundi(troop_count_box.value)
-	selected_territories[0].remove_troops(move_count, current_player)
-	selected_territories[1].add_troops(move_count, current_player)
-	
-	actions_left -= 1
-	if actions_left == 0:
-		_next_turn()
-	
-	_cancel_action()
-
-
-func finish_attack(faction_attacked: Faction) -> void:
-	selected_territories[0].remove_troops(1, player_bar.get_current_player())
-	selected_territories[0].remove_troops(2, faction_attacked)
-	
-	actions_left -= 1
-	if actions_left == 0:
-		_next_turn()
-	
-	_cancel_action()
-	
-	var attacked_lost: bool = true
-	var attacker_lost: bool = true
-	for continent_territories: Array in map.continents:
-		for territory: Territory in continent_territories:
-			if faction_attacked in territory.troop_hexes:
-				attacked_lost = false
-			if player_bar.get_current_player() in territory.troop_hexes:
-				attacker_lost = false
-			
-			if not (attacked_lost or attacker_lost): break
-		
-		if not (attacked_lost or attacker_lost): break
-	
-	if attacked_lost and attacker_lost:
-		player_bar.remove_player(faction_attacked)
-		player_bar.remove_player(player_bar.get_current_player())
-		
-		if player_bar.players.size() == 0:
-			do_draw([faction_attacked, player_bar.get_current_player()])
-	elif attacked_lost:
-		player_bar.remove_player(faction_attacked)
-		
-		if player_bar.players.size() == 1:
-			do_victory(player_bar.get_current_player())
-	elif attacker_lost:
-		player_bar.remove_player(player_bar.get_current_player())
-		
-		if player_bar.players.size() == 1:
-			do_victory(faction_attacked)
-
-
 func start_stage() -> void:
+	if current_stage > current_action.stage_count:
+		var old_current_player: Faction = player_bar.get_current_player()
+		
+		current_action._do_action(selected_territories, selected_players, map,
+				troop_count_box, player_bar)
+		
+		var new_current_player: Faction = player_bar.get_current_player()
+		
+		actions_left -= 1
+		if actions_left == 0 and new_current_player == old_current_player:
+			_next_turn()
+		else:
+			_cancel_action()
+		
+		return
+	
 	var stage_input: StageInput = current_action._get_stage_input(current_stage)
+	
+	instruction_label.text = current_action._get_stage_instruction(
+			current_stage)
 	
 	match stage_input:
 		StageInput.TERRITORY_SELECT:
@@ -201,6 +174,7 @@ func _cancel_action() -> void:
 	unhighlight_territories()
 	
 	highlighted_players = []
+	selected_players = []
 	highlighted_territories = []
 	selected_territories = []
 	
@@ -233,29 +207,3 @@ func highlight_territories() -> void:
 func unhighlight_territories() -> void:
 	for territory: Territory in highlighted_territories:
 		territory.set_outline_color(Color.TRANSPARENT)
-
-
-func do_draw(factions: Array[Faction]) -> void:
-	victory_screen.show()
-	
-	var faction_names: Array[String] = [
-		Globals.FACTION_NAMES[factions[0]]
-	]
-	for i: int in range(1, factions.size()):
-		faction_names.append(Globals.FACTION_NAMES[factions[i]].to_lower())
-	
-	if factions.size() == 2:
-		victory_label.text = "%s and %s drew." % faction_names
-	else:
-		victory_label.text = ""
-		
-		for i: int in range(factions.size() - 1):
-			victory_label.text += faction_names[i] + ", "
-		
-		victory_label.text += "and %s drew." % faction_names[-1]
-
-
-func do_victory(faction: Faction) -> void:
-	victory_screen.show()
-	
-	victory_label.text = "%s won!" % Globals.FACTION_NAMES[faction]

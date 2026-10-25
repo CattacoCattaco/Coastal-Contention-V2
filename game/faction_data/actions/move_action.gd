@@ -62,3 +62,12 @@ func _get_action_menu(stage: int) -> ActionMenu:
 		return ActionMenu.MOVE_MENU
 	
 	return ActionMenu.ERROR
+
+
+func _do_action(selected_territories: Array[Territory],
+		_selected_players: Array[Faction], _map: Map, troop_count_box: SpinBox,
+		player_bar: PlayerBar) -> void:
+	var current_player: Faction = player_bar.get_current_player()
+	var move_count: int = roundi(troop_count_box.value)
+	selected_territories[0].remove_troops(move_count, current_player)
+	selected_territories[1].add_troops(move_count, current_player)
