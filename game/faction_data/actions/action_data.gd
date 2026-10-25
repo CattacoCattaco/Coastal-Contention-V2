@@ -14,8 +14,6 @@ enum ActionMenu {
 	ERROR,
 }
 
-const Faction = Globals.Faction
-
 @export var outline_color: Color
 @export var stage_count: int
 @export var action_name: String
@@ -39,10 +37,10 @@ func _init(p_outline_color := Color(), p_stage_count: int = 1,
 		stage: int, selected_territories: Array[Territory]) -> Array[Territory]
 
 @abstract func _get_selectable_players(player_bar: PlayerBar, stage: int,
-		selected_territories: Array[Territory]) -> Array[Faction]
+		selected_territories: Array[Territory]) -> Array[FactionData]
 
 @abstract func _get_action_menu(stage: int) -> ActionMenu
 
 @abstract func _do_action(selected_territories: Array[Territory],
-		selected_players: Array[Faction], map: Map, troop_count_box: SpinBox,
-		player_bar: PlayerBar) -> void
+		selected_players: Array[FactionData], map: Map,
+		troop_count_box: SpinBox, player_bar: PlayerBar) -> void

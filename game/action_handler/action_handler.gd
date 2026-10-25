@@ -1,7 +1,8 @@
 class_name ActionHandler
 extends VBoxContainer
 
-const Faction = Globals.Faction
+signal action_completed
+
 const StageInput = ActionData.StageInput
 const ActionMenu = ActionData.ActionMenu
 
@@ -18,8 +19,8 @@ const ActionMenu = ActionData.ActionMenu
 @export var actions: Array[ActionData]
 @export var button_theme: Theme
 
-var highlighted_players: Array[Faction] = []
-var selected_players: Array[Faction] = []
+var highlighted_players: Array[FactionData] = []
+var selected_players: Array[FactionData] = []
 var highlighted_territories: Array[Territory] = []
 var selected_territories: Array[Territory] = []
 var current_action: ActionData = null
@@ -51,10 +52,28 @@ func _ready() -> void:
 	next_button.pressed.connect(_next_turn)
 	cancel_button.pressed.connect(_cancel_action)
 	finish_move_button.pressed.connect(_finish_move_pressed)
-	new_game_button.pressed.connect(_new_turn)
+	new_game_button.pressed.connect(_setup)
+	
+	_setup()
 
 
-func _player_name_added(faction: Faction) -> void:
+func _setup() -> void:
+	await  player_bar.setup_complete
+	
+	for faction: FactionData in player_bar.players:
+		for action: ActionData in faction.setup_actions:
+			_start_action(action)
+			
+			print(action)
+			
+			await action_completed
+		
+		_next_turn()
+	
+	_new_turn()
+
+
+func _player_name_added(faction: FactionData) -> void:
 	var player_button: Button = player_bar.player_name_buttons[faction]
 	player_button.pressed.connect(_player_selected.bind(faction))
 
@@ -76,7 +95,7 @@ func _territory_pressed(territory: Territory) -> void:
 	start_stage()
 
 
-func _player_selected(faction: Faction) -> void:
+func _player_selected(faction: FactionData) -> void:
 	if faction not in highlighted_players:
 		return
 	
@@ -101,23 +120,28 @@ func _start_action(action: ActionData) -> void:
 	
 	current_action = action
 	
+	print(current_action)
+	print(current_action.stage_count)
+	
 	start_stage()
 
 
 func start_stage() -> void:
 	if current_stage > current_action.stage_count:
-		var old_current_player: Faction = player_bar.get_current_player()
+		var old_current_player: FactionData = player_bar.get_current_player()
 		
 		current_action._do_action(selected_territories, selected_players, map,
 				troop_count_box, player_bar)
 		
-		var new_current_player: Faction = player_bar.get_current_player()
+		var new_current_player: FactionData = player_bar.get_current_player()
 		
 		actions_left -= 1
 		if actions_left == 0 and new_current_player == old_current_player:
 			_next_turn()
 		else:
 			_cancel_action()
+		
+		action_completed.emit()
 		
 		return
 	
@@ -137,11 +161,11 @@ func start_stage() -> void:
 			
 			highlight_territories()
 		StageInput.PLAYER_SELECT:
-			var selectable_players: Array[Faction]
+			var selectable_players: Array[FactionData]
 			selectable_players = current_action._get_selectable_players(
 					player_bar, current_stage, selected_territories)
 			
-			for selectable_player: Faction in selectable_players:
+			for selectable_player: FactionData in selectable_players:
 				highlighted_players.append(selectable_player)
 			
 			highlight_players()
@@ -150,7 +174,7 @@ func start_stage() -> void:
 				ActionMenu.MOVE_MENU:
 					troop_count_selection_panel.show()
 					
-					var player: Faction = player_bar.get_current_player()
+					var player: FactionData = player_bar.get_current_player()
 					var troop_hex: Hex
 					troop_hex = selected_territories[0].troop_hexes[player]
 					
@@ -191,9 +215,9 @@ func _cancel_action() -> void:
 
 
 func highlight_players() -> void:
-	for player: Faction in highlighted_players:
-		var override_colors: Dictionary
-		override_colors = Globals.FACTION_BAR_OVERRIDE_COLORS[player]
+	for player: FactionData in highlighted_players:
+		var override_colors: Dictionary[Color, Color]
+		override_colors = player.name_highlight_overrides
 		
 		var highlight_color: Color = current_action.outline_color
 		if highlight_color in override_colors:
@@ -203,7 +227,7 @@ func highlight_players() -> void:
 
 
 func unhighlight_players() -> void:
-	for player: Faction in highlighted_players:
+	for player: FactionData in highlighted_players:
 		player_bar.highlight_player(player, Color.TRANSPARENT)
 
 

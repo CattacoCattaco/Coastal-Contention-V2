@@ -1,23 +1,22 @@
 class_name PlayerBar
 extends PanelContainer
 
-const Faction = Globals.Faction
-
-signal player_added(faction: Faction)
+signal player_added(faction: FactionData)
+signal setup_complete
 
 @export var names_holder: HBoxContainer
 @export var victory_screen: ColorRect
 @export var victory_label: Label
 
-@export var starting_players: Array[Faction]
+@export var starting_players: Array[FactionData]
 @export var label_settings: LabelSettings
 @export var outline_shader: Shader
 
 var current_turn: int = -1
 
-var players: Array[Faction]
-var player_names: Dictionary[Faction, ColorRect] = {}
-var player_name_buttons: Dictionary[Faction, Button] = {}
+var players: Array[FactionData]
+var player_names: Dictionary[FactionData, ColorRect] = {}
+var player_name_buttons: Dictionary[FactionData, Button] = {}
 
 
 func _ready() -> void:
@@ -36,18 +35,18 @@ func reset_player_bar() -> void:
 func setup_player_bar() -> void:
 	players = starting_players
 	
-	for player: Faction in players:
+	for player: FactionData in players:
 		var name_rect := ColorRect.new()
 		names_holder.add_child(name_rect)
 		player_names[player] = name_rect
 		
-		name_rect.color = Globals.FACTION_COLORS[player]
+		name_rect.color = player.color
 		
 		var name_label := Label.new()
 		name_rect.add_child(name_label)
 		
 		name_label.label_settings = label_settings
-		name_label.text = Globals.FACTION_NAMES[player]
+		name_label.text = player.name
 		name_label.size = Vector2(0, 0)
 		
 		await RenderingServer.frame_post_draw
@@ -80,17 +79,18 @@ func setup_player_bar() -> void:
 		player_added.emit(player)
 	
 	next()
+	setup_complete.emit()
 
 
-func remove_player(faction: Faction) -> void:
+func remove_player(faction: FactionData) -> void:
 	_remove_player_no_loss_check(faction)
 	
 	if players.size() == 1:
 		do_victory(players[0])
 
 
-func remove_players(factions: Array[Faction]) -> void:
-	for faction: Faction in factions:
+func remove_players(factions: Array[FactionData]) -> void:
+	for faction: FactionData in factions:
 		_remove_player_no_loss_check(faction)
 	
 	if players.size() == 1:
@@ -100,7 +100,7 @@ func remove_players(factions: Array[Faction]) -> void:
 
 
 # Don't call directly, just meant for use in remove_player and remove_players
-func _remove_player_no_loss_check(faction: Faction) -> void:
+func _remove_player_no_loss_check(faction: FactionData) -> void:
 	if players[current_turn] == faction:
 		next()
 	elif players.find(faction) < current_turn:
@@ -123,22 +123,22 @@ func next() -> void:
 	highlight_player(get_current_player(), Color("#e8c170"))
 
 
-func highlight_player(player: Faction, color: Color) -> void:
+func highlight_player(player: FactionData, color: Color) -> void:
 	player_names[player].material.set_shader_parameter("outline_color", color)
 
 
-func get_current_player() -> Faction:
+func get_current_player() -> FactionData:
 	return players[current_turn]
 
 
-func do_draw(factions: Array[Faction]) -> void:
+func do_draw(factions: Array[FactionData]) -> void:
 	victory_screen.show()
 	
 	var faction_names: Array[String] = [
-		Globals.FACTION_NAMES[factions[0]]
+		factions[0].name
 	]
 	for i: int in range(1, factions.size()):
-		faction_names.append(Globals.FACTION_NAMES[factions[i]].to_lower())
+		faction_names.append(factions[i].name.to_lower())
 	
 	if factions.size() == 2:
 		victory_label.text = "%s and %s drew." % faction_names
@@ -151,7 +151,7 @@ func do_draw(factions: Array[Faction]) -> void:
 		victory_label.text += "and %s drew." % faction_names[-1]
 
 
-func do_victory(faction: Faction) -> void:
+func do_victory(faction: FactionData) -> void:
 	victory_screen.show()
 	
-	victory_label.text = "%s won!" % Globals.FACTION_NAMES[faction]
+	victory_label.text = "%s won!" % faction.name

@@ -35,7 +35,7 @@ func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 	
 	match stage:
 		1:
-			var current_player: Faction = player_bar.get_current_player()
+			var current_player: FactionData = player_bar.get_current_player()
 			for continent: Array in map.continents:
 				for territory: Territory in continent:
 					if current_player not in territory.troop_hexes:
@@ -53,7 +53,7 @@ func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 
 
 func _get_selectable_players(_player_bar: PlayerBar, _stage: int,
-		_selected_territories: Array[Territory]) -> Array[Faction]:
+		_selected_territories: Array[Territory]) -> Array[FactionData]:
 	return []
 
 
@@ -65,9 +65,9 @@ func _get_action_menu(stage: int) -> ActionMenu:
 
 
 func _do_action(selected_territories: Array[Territory],
-		_selected_players: Array[Faction], _map: Map, troop_count_box: SpinBox,
+		_selected_players: Array[FactionData], _map: Map, troop_count_box: SpinBox,
 		player_bar: PlayerBar) -> void:
-	var current_player: Faction = player_bar.get_current_player()
+	var current_player: FactionData = player_bar.get_current_player()
 	var move_count: int = roundi(troop_count_box.value)
 	selected_territories[0].remove_troops(move_count, current_player)
 	selected_territories[1].add_troops(move_count, current_player)

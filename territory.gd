@@ -1,14 +1,12 @@
 class_name Territory
 extends TextureButton
 
-const Faction = Globals.Faction
-
 const SHADER = preload("res://shaders/outline.gdshader")
 
 var territory: TerritoryData
 var shader_material: ShaderMaterial
 var hexes: Dictionary[Vector2i, Hex] = {}
-var troop_hexes: Dictionary[Faction, Hex] = {}
+var troop_hexes: Dictionary[FactionData, Hex] = {}
 var border_territories: Array[Territory] = []
 
 var is_down: bool = false
@@ -43,7 +41,7 @@ func _ready() -> void:
 	mouse_exited.connect(_mouse_exited)
 
 
-func add_troops(count: int, faction: Faction) -> void:
+func add_troops(count: int, faction: FactionData) -> void:
 	if faction in troop_hexes:
 		troop_hexes[faction].add_troops(count)
 	else:
@@ -56,11 +54,11 @@ func add_troops(count: int, faction: Faction) -> void:
 
 
 func remove_all_troops() -> void:
-	for faction: Faction in troop_hexes:
+	for faction: FactionData in troop_hexes:
 		remove_troops(troop_hexes[faction].troop_count, faction)
 
 
-func remove_troops(count: int, faction: Faction) -> void:
+func remove_troops(count: int, faction: FactionData) -> void:
 	if faction in troop_hexes:
 		troop_hexes[faction].remove_troops(count)
 		if troop_hexes[faction].troop_count == 0:

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FactionData" format=3 uid="uid://n65h33v0t7gq"]
+
+[ext_resource type="Script" uid="uid://c61log6o4x8n3" path="res://game/faction_data/faction_data.gd" id="1_48p7n"]
+[ext_resource type="Script" uid="uid://bmnskqiojn3b2" path="res://game/faction_data/actions/action_data.gd" id="2_a0ts8"]
+[ext_resource type="Resource" uid="uid://bw6vr80p0r03r" path="res://game/faction_data/actions/data/cleric_recruit_setup.tres" id="3_48p7n"]
+[ext_resource type="Texture2D" uid="uid://ddq1slgmppk6k" path="res://game/map/hex/troop/cleric.png" id="4_a0ts8"]
+
+[resource]
+script = ExtResource("1_48p7n")
+name = "Clerics"
+color = Color(0.74509805, 0.46666667, 0.16862746, 1)
+troop_sprite = ExtResource("4_a0ts8")
+setup_actions = Array[ExtResource("2_a0ts8")]([ExtResource("3_48p7n")])
+metadata/_custom_type_script = "uid://c61log6o4x8n3"

@@ -1,14 +1,5 @@
 class_name Globals
 
-enum Faction {
-	PIRATES,
-	CLERICS,
-	DRUIDS,
-	ARCHERS,
-	MYCOLINGS,
-	ROBOTS,
-}
-
 enum Continent {
 	RED,
 	GOLD,
@@ -25,46 +16,11 @@ enum Biome {
 	SWAMP,
 }
 
-const FACTION_NAMES: Array[String] = [
-	"Pirates",
-	"Clerics",
-	"Druids",
-	"Archers",
-	"Mycolings",
-	"Robots",
-]
-
-const FACTION_COLORS: Array[Color] = [
-	Color("#a53030"),
-	Color("#be772b"),
-	Color("#ad7757"),
-	Color("#75a743"),
-	Color("#a23e8c"),
-	Color("#577277"),
-]
-
-const FACTION_TROOPS: Array[Texture2D] = [
-	preload("res://game/map/hex/troop/pirate.png"),
-	preload("res://game/map/hex/troop/cleric.png"),
-	preload("res://game/map/hex/troop/pirate.png"),
-	preload("res://game/map/hex/troop/pirate.png"),
-	preload("res://game/map/hex/troop/mycoling.png"),
-	preload("res://game/map/hex/troop/pirate.png"),
-]
-
-const FACTION_BAR_OVERRIDE_COLORS: Array[Dictionary] = [
-	{
-		Color("#a53030"): Color("#cf573c"),
-	},
-	{
-	},
-	{
-	},
-	{
-	},
-	{
-		Color("#a53030"): Color("#cf573c"),
-	},
-	{
-	},
+const FACTIONS: Array[FactionData] = [
+	preload("res://game/faction_data/data/pirates.tres"),
+	preload("res://game/faction_data/data/clerics.tres"),
+	preload("res://game/faction_data/data/druids.tres"),
+	preload("res://game/faction_data/data/archers.tres"),
+	preload("res://game/faction_data/data/mycolings.tres"),
+	preload("res://game/faction_data/data/robots.tres"),
 ]

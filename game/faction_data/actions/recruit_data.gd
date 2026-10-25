@@ -69,7 +69,7 @@ func _get_selectable_territories(map: Map, _player_bar: PlayerBar, stage: int,
 
 
 func _get_selectable_players(_player_bar: PlayerBar, _stage: int,
-		_selected_territories: Array[Territory]) -> Array[Faction]:
+		_selected_territories: Array[Territory]) -> Array[FactionData]:
 	return []
 
 
@@ -78,7 +78,7 @@ func _get_action_menu(_stage: int) -> ActionMenu:
 
 
 func _do_action(selected_territories: Array[Territory],
-		_selected_players: Array[Faction], map: Map, _troop_count_box: SpinBox,
+		_selected_players: Array[FactionData], map: Map, _troop_count_box: SpinBox,
 		player_bar: PlayerBar) -> void:
 	if territory_count == RECRUIT_ALL:
 		for continent: Array in map.continents:

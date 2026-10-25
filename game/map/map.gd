@@ -1,7 +1,6 @@
 class_name Map
 extends Sprite2D
 
-const Faction = Globals.Faction
 const Continent = Globals.Continent
 
 const HEX_ORIGIN = Vector2(706, 442)
@@ -53,20 +52,6 @@ func _reset() -> void:
 
 func setup() -> void:
 	victory_screen.hide()
-	
-	for i in range(3):
-		var red_territory: Territory = continents[Continent.RED].pick_random()
-		while Faction.PIRATES in red_territory.troop_hexes:
-			red_territory = continents[Continent.RED].pick_random()
-		
-		red_territory.add_troops(3, Faction.PIRATES)
-	
-	for territory: Territory in continents[Continent.MAGENTA]:
-		for border_territory: Territory in territory.border_territories:
-			if Faction.MYCOLINGS not in border_territory.troop_hexes:
-				border_territory.add_troops(1, Faction.MYCOLINGS)
-			if border_territory.territory.continent == Continent.RED:
-				border_territory.add_troops(8, Faction.CLERICS)
 
 
 func _game_input(event: InputEvent) -> void:

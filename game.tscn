@@ -23,6 +23,10 @@
 [ext_resource type="Resource" uid="uid://bgs4fvedug3of" path="res://game/faction_data/actions/data/pirate_recruit_setup.tres" id="16_hb5m1"]
 [ext_resource type="Resource" uid="uid://bfroqkotyypf" path="res://game/faction_data/actions/data/mycoling_recruit_setup.tres" id="17_x5p1p"]
 [ext_resource type="Resource" uid="uid://bw6vr80p0r03r" path="res://game/faction_data/actions/data/cleric_recruit_setup.tres" id="18_qhcbd"]
+[ext_resource type="Script" uid="uid://c61log6o4x8n3" path="res://game/faction_data/faction_data.gd" id="21_xa8c5"]
+[ext_resource type="Resource" uid="uid://dnrucd5i1dx2h" path="res://game/faction_data/data/pirates.tres" id="22_5b14r"]
+[ext_resource type="Resource" uid="uid://n65h33v0t7gq" path="res://game/faction_data/data/clerics.tres" id="23_bnpwn"]
+[ext_resource type="Resource" uid="uid://dlbbby4nu4rfx" path="res://game/faction_data/data/mycolings.tres" id="24_36jdj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80cx4"]
 content_margin_left = 0.0
@@ -122,7 +126,7 @@ script = ExtResource("1_80cx4")
 names_holder = NodePath("MarginContainer/HBoxContainer")
 victory_screen = NodePath("../VictoryScreen")
 victory_label = NodePath("../VictoryScreen/VictoryLabel")
-starting_players = Array[int]([0, 1, 4])
+starting_players = Array[ExtResource("21_xa8c5")]([ExtResource("22_5b14r"), ExtResource("23_bnpwn"), ExtResource("24_36jdj")])
 label_settings = SubResource("LabelSettings_k6pfa")
 outline_shader = ExtResource("3_e8heu")
 

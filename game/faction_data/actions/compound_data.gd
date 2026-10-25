@@ -52,7 +52,7 @@ func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 
 
 func _get_selectable_players(player_bar: PlayerBar, stage: int,
-		selected_territories: Array[Territory]) -> Array[Faction]:
+		selected_territories: Array[Territory]) -> Array[FactionData]:
 	var current_stage: int = 0
 	var current_selected_territory_index: int = 0
 	
@@ -84,14 +84,14 @@ func _get_action_menu(stage: int) -> ActionMenu:
 
 
 func _do_action(selected_territories: Array[Territory],
-		selected_players: Array[Faction], map: Map, troop_count_box: SpinBox,
+		selected_players: Array[FactionData], map: Map, troop_count_box: SpinBox,
 		player_bar: PlayerBar) -> void:
 	var current_selected_territory_index: int = 0
 	var current_selected_player_index: int = 0
 	
 	for action: ActionData in actions:
 		var p_selected_territories: Array[Territory] = []
-		var p_selected_players: Array[Faction] = []
+		var p_selected_players: Array[FactionData] = []
 		
 		for i in range(action.stage_count):
 			var stage_input: StageInput = action._get_stage_input(i)
@@ -102,7 +102,7 @@ func _do_action(selected_territories: Array[Territory],
 					current_selected_territory_index += 1
 					p_selected_territories.append(selected_territory)
 				StageInput.PLAYER_SELECT:
-					var selected_player: Faction = selected_players[
+					var selected_player: FactionData = selected_players[
 							current_selected_player_index]
 					current_selected_player_index += 1
 					p_selected_players.append(selected_player)

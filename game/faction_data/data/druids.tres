@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FactionData" format=3 uid="uid://ddibvkypclrje"]
+
+[ext_resource type="Script" uid="uid://c61log6o4x8n3" path="res://game/faction_data/faction_data.gd" id="1_jyo3c"]
+[ext_resource type="Script" uid="uid://bmnskqiojn3b2" path="res://game/faction_data/actions/action_data.gd" id="2_aabvg"]
+[ext_resource type="Texture2D" uid="uid://ddq1slgmppk6k" path="res://game/map/hex/troop/cleric.png" id="4_wps6j"]
+
+[resource]
+script = ExtResource("1_jyo3c")
+name = "Druids"
+color = Color(0.6784314, 0.46666667, 0.34117648, 1)
+troop_sprite = ExtResource("4_wps6j")
+metadata/_custom_type_script = "uid://c61log6o4x8n3"

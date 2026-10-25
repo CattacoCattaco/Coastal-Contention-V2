@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FactionData" format=3 uid="uid://h210uycfe2ad"]
+
+[ext_resource type="Script" uid="uid://c61log6o4x8n3" path="res://game/faction_data/faction_data.gd" id="1_alv84"]
+[ext_resource type="Script" uid="uid://bmnskqiojn3b2" path="res://game/faction_data/actions/action_data.gd" id="2_liy2g"]
+[ext_resource type="Texture2D" uid="uid://ddq1slgmppk6k" path="res://game/map/hex/troop/cleric.png" id="3_o2dm3"]
+
+[resource]
+script = ExtResource("1_alv84")
+name = "Robots"
+color = Color(0.34117648, 0.44705883, 0.46666667, 1)
+troop_sprite = ExtResource("3_o2dm3")
+metadata/_custom_type_script = "uid://c61log6o4x8n3"
