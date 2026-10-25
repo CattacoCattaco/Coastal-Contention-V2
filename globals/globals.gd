@@ -18,6 +18,13 @@ enum Continent {
 	SILVER,
 }
 
+enum Biome {
+	PLAINS,
+	MOUNTAINS,
+	FOREST,
+	SWAMP,
+}
+
 const FACTION_NAMES: Array[String] = [
 	"Pirates",
 	"Clerics",

@@ -6,6 +6,7 @@ extends ActionData
 @export_tool_button("Update steps") var update_steps := func () -> void:
 	stage_count = 0
 	for action: ActionData in actions: stage_count += action.stage_count
+	ResourceSaver.save(self, resource_path)
 
 
 func _init(p_outline_color := Color(), p_stage_count: int = 3,

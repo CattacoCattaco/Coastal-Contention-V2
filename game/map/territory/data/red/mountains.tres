@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_2jklv")
+biome = 1
 hexes = Array[Vector2i]([Vector2i(18, 1), Vector2i(19, 1), Vector2i(19, 2), Vector2i(20, 2), Vector2i(20, 3), Vector2i(21, 2), Vector2i(21, 3)])
 borders = Array[String](["uid://bn5vjo852gfgp"])
 silhouette = ExtResource("2_cse08")
