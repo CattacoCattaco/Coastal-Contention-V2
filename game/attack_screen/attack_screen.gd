@@ -24,6 +24,9 @@ const DIE_SPRITES: Array[Texture2D] = [
 @export var attacked_troops_label: Label
 @export var continue_button: Button
 
+var attacker_rolls: Array[int] = []
+var attacked_rolls: Array[int] = []
+
 
 func _ready() -> void:
 	continue_button.pressed.connect(_close)
@@ -35,11 +38,13 @@ func _close() -> void:
 
 
 func roll_dice(attacker_count: int, attacked_count: int) -> void:
+	continue_button.hide()
+	
 	var attacker_dice: Array[TextureRect] = []
 	var attacked_dice: Array[TextureRect] = []
 	
-	var attacker_rolls: Array[int] = []
-	var attacked_rolls: Array[int] = []
+	attacker_rolls = []
+	attacked_rolls = []
 	
 	var attacker_roll_frame_counts: Array[int] = []
 	var attacked_roll_frame_counts: Array[int] = []
@@ -85,6 +90,8 @@ func roll_dice(attacker_count: int, attacked_count: int) -> void:
 		
 		if unrolled_dice:
 			await get_tree().create_timer(0.25).timeout
+	
+	continue_button.show()
 
 
 func create_die() -> TextureRect:

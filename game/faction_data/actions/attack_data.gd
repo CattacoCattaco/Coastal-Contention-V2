@@ -1,6 +1,11 @@
 class_name AttackData
 extends ActionData
 
+const MAX_ATTACKER_DICE: int = 4
+const MAX_ATTACKED_DICE: int = 6
+const ATTACKER_HIT_MIN: int = 3
+const ATTACKED_HIT_MIN: int = 4
+
 
 func _init(p_outline_color := Color(), p_stage_count: int = 2,
 		p_action_name: String = "Attack") -> void:
@@ -68,8 +73,19 @@ func _do_action(selected_territories: Array[Territory],
 		selected_players: Array[FactionData], map: Map,
 		_troop_count_box: SpinBox, player_bar: PlayerBar,
 		attack_screen: AttackScreen) -> void:
+	attack_screen.attacker_hits_label.text = "Hits: --"
+	attack_screen.attacked_hits_label.text = "Hits: --"
+	
+	attack_screen.attacker_troops_label.text = "Troops left: --"
+	attack_screen.attacked_troops_label.text = "Troops left: --"
+	
 	var attacker: FactionData = player_bar.get_current_player()
 	var attacked: FactionData = selected_players[0]
+	
+	var attacker_troops: int
+	var attacked_troops: int
+	attacker_troops = selected_territories[0].troop_hexes[attacker].troop_count
+	attacked_troops = selected_territories[0].troop_hexes[attacked].troop_count
 	
 	attack_screen.show()
 	
@@ -81,15 +97,23 @@ func _do_action(selected_territories: Array[Territory],
 	attack_screen.attacker_label.text = attacker.name
 	attack_screen.attacked_label.text = attacked.name
 	
-	await attack_screen.roll_dice(3, 2)
+	var attacker_dice: int = min(attacker_troops, MAX_ATTACKER_DICE)
+	var attacked_dice: int = min(attacked_troops, MAX_ATTACKED_DICE)
+	await attack_screen.roll_dice(attacker_dice, attacked_dice)
 	
-	var attacker_hits: int = 2
-	var attacked_hits: int = 1
+	var attacker_hits: int = 0
+	var attacked_hits: int = 0
 	
-	var attacker_troops: int
-	var attacked_troops: int
-	attacker_troops = selected_territories[0].troop_hexes[attacker].troop_count
-	attacked_troops = selected_territories[0].troop_hexes[attacked].troop_count
+	for i in range(attacker_dice):
+		if attack_screen.attacker_rolls[i] >= ATTACKER_HIT_MIN:
+			attacker_hits += 1
+	for i in range(attacked_dice):
+		if attack_screen.attacked_rolls[i] >= ATTACKED_HIT_MIN:
+			attacked_hits += 1
+	
+	attack_screen.attacker_hits_label.text = "Hits: %s" % attacker_hits
+	attack_screen.attacked_hits_label.text = "Hits: %s" % attacked_hits
+	
 	attacker_troops -= attacked_hits
 	attacked_troops -= attacker_hits
 	
@@ -98,10 +122,11 @@ func _do_action(selected_territories: Array[Territory],
 	if attacked_troops < 0:
 		attacked_troops = 0
 	
-	attack_screen.attacker_troops_label.text = (
-			"Troops left: %s" % attacker_troops)
-	attack_screen.attacked_troops_label.text = (
-			"Troops left: %s" % attacked_troops)
+	var attacker_troops_text: String = "Troops left: %s" % attacker_troops 
+	var attacked_troops_text: String = "Troops left: %s" % attacked_troops
+	
+	attack_screen.attacker_troops_label.text = attacker_troops_text
+	attack_screen.attacked_troops_label.text = attacked_troops_text
 	
 	await attack_screen.closed
 	
