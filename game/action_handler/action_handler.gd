@@ -62,6 +62,8 @@ func _ready() -> void:
 func _setup() -> void:
 	await  player_bar.setup_complete
 	
+	hide()
+	
 	for faction: FactionData in player_bar.players:
 		for action: ActionData in faction.setup_actions:
 			_start_action(action)
@@ -71,6 +73,8 @@ func _setup() -> void:
 		_next_turn()
 	
 	_new_turn()
+	
+	show()
 
 
 func _player_name_added(faction: FactionData) -> void:
