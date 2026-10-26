@@ -198,7 +198,7 @@ layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Finish Move"
 
-[node name="AttackScreen" type="Control" parent="." unique_id=939173465 node_paths=PackedStringArray("attacker_bg", "attacked_bg", "attacker_label", "attacked_label", "attacker_hits_label", "attacked_hits_label", "attacker_troops_label", "attacked_troops_label", "continue_button")]
+[node name="AttackScreen" type="Control" parent="." unique_id=939173465 node_paths=PackedStringArray("attacker_bg", "attacked_bg", "attacker_label", "attacked_label", "attacker_dice_holder", "attacked_dice_holder", "attacker_hits_label", "attacked_hits_label", "attacker_troops_label", "attacked_troops_label", "continue_button")]
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
@@ -211,6 +211,8 @@ attacker_bg = NodePath("AttackerBG")
 attacked_bg = NodePath("AttackedBG")
 attacker_label = NodePath("AttackerBG/AttackerLabel")
 attacked_label = NodePath("AttackedBG/AttackedLabel")
+attacker_dice_holder = NodePath("AttackerBG/AttackerDiceHolder")
+attacked_dice_holder = NodePath("AttackedBG/AttackedDiceHolder")
 attacker_hits_label = NodePath("AttackerBG/AttackerHitsLabel")
 attacked_hits_label = NodePath("AttackedBG/AttackedHitsLabel")
 attacker_troops_label = NodePath("AttackerBG/AttackerTroopsLabel")
@@ -249,6 +251,17 @@ grow_vertical = 2
 text = "Hits taken: 1"
 label_settings = SubResource("LabelSettings_5b14r")
 horizontal_alignment = 1
+
+[node name="AttackerDiceHolder" type="GridContainer" parent="AttackScreen/AttackerBG" unique_id=1272920272]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.15
+anchor_right = 0.75
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
 
 [node name="AttackerTroopsLabel" type="Label" parent="AttackScreen/AttackerBG" unique_id=809765188]
 layout_mode = 1
@@ -309,6 +322,17 @@ grow_vertical = 2
 text = "Troops left: 1"
 label_settings = SubResource("LabelSettings_5b14r")
 horizontal_alignment = 1
+
+[node name="AttackedDiceHolder" type="GridContainer" parent="AttackScreen/AttackedBG" unique_id=1972086635]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.15
+anchor_right = 0.75
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
 
 [node name="ContinueButton" type="Button" parent="AttackScreen" unique_id=1044282917]
 layout_mode = 1

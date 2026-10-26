@@ -81,6 +81,8 @@ func _do_action(selected_territories: Array[Territory],
 	attack_screen.attacker_label.text = attacker.name
 	attack_screen.attacked_label.text = attacked.name
 	
+	await attack_screen.roll_dice(3, 2)
+	
 	var attacker_hits: int = 2
 	var attacked_hits: int = 1
 	
