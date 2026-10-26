@@ -36,6 +36,9 @@ signal closed
 @export var defender_troops_label: Label
 @export var continue_button: Button
 
+@export var outline_shader: Shader
+@export var outline_color: Color
+
 var dice: Array[TextureRect] = []
 var attacker_rolls: Array[int] = []
 var defender_rolls: Array[int] = []
@@ -139,6 +142,13 @@ func roll_die(die: TextureRect, frame_count: int, rolls_list: Array[int],
 	roll = randi_range(1, 6)
 	if roll >= hit_min:
 		die.texture = DIE_SPRITES[roll - 1]
+		
+		var shader_material := ShaderMaterial.new()
+		shader_material.shader = outline_shader
+		shader_material.set_shader_parameter("size_pixels", Vector2(128, 128))
+		shader_material.set_shader_parameter("outline_color", outline_color)
+		
+		die.material = shader_material
 	else:
 		die.texture = FAIL_DIE_SPRITES[roll - 1]
 	

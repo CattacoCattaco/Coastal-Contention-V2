@@ -218,6 +218,8 @@ defender_hits_label = NodePath("DefenderBG/DefenderHitsLabel")
 attacker_troops_label = NodePath("AttackerBG/AttackerTroopsLabel")
 defender_troops_label = NodePath("DefenderBG/DefenderTroopsLabel")
 continue_button = NodePath("ContinueButton")
+outline_shader = ExtResource("3_e8heu")
+outline_color = Color(0.87058824, 0.61960787, 0.25490198, 1)
 
 [node name="AttackerBG" type="ColorRect" parent="AttackScreen" unique_id=496770667]
 layout_mode = 1
