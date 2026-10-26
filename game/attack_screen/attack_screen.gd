@@ -36,6 +36,7 @@ signal closed
 @export var defender_troops_label: Label
 @export var continue_button: Button
 
+var dice: Array[TextureRect] = []
 var attacker_rolls: Array[int] = []
 var defender_rolls: Array[int] = []
 
@@ -50,6 +51,11 @@ func _close() -> void:
 
 
 func roll_dice(attacker_count: int, defender_count: int) -> void:
+	for die: TextureRect in dice:
+		die.queue_free()
+	
+	dice = []
+	
 	continue_button.hide()
 	
 	var attacker_dice: Array[TextureRect] = []
@@ -63,7 +69,8 @@ func roll_dice(attacker_count: int, defender_count: int) -> void:
 	
 	for i in range(attacker_count):
 		var die: TextureRect = create_die()
-		attacker_dice.push_back(die)
+		dice.append(die)
+		attacker_dice.append(die)
 		attacker_dice_holder.add_child(die)
 		
 		var frame_count: int = randi_range(10, 20)
@@ -74,7 +81,8 @@ func roll_dice(attacker_count: int, defender_count: int) -> void:
 	
 	for i in range(defender_count):
 		var die: TextureRect = create_die()
-		defender_dice.push_back(die)
+		dice.append(die)
+		defender_dice.append(die)
 		defender_dice_holder.add_child(die)
 		
 		var frame_count: int = randi_range(10, 20)
