@@ -1,7 +1,8 @@
 class_name AttackScreen
 extends Control
 
-signal closed
+const ATTACKER_HIT_MIN: int = AttackData.ATTACKER_HIT_MIN
+const DEFENDER_HIT_MIN: int = AttackData.DEFENDER_HIT_MIN
 
 const DIE_SPRITES: Array[Texture2D] = [
 	preload("res://game/attack_screen/dice/die_1.png"),
@@ -11,6 +12,17 @@ const DIE_SPRITES: Array[Texture2D] = [
 	preload("res://game/attack_screen/dice/die_5.png"),
 	preload("res://game/attack_screen/dice/die_6.png"),
 ]
+
+const FAIL_DIE_SPRITES: Array[Texture2D] = [
+	preload("res://game/attack_screen/dice/die_bad_1.png"),
+	preload("res://game/attack_screen/dice/die_bad_2.png"),
+	preload("res://game/attack_screen/dice/die_bad_3.png"),
+	preload("res://game/attack_screen/dice/die_bad_4.png"),
+	preload("res://game/attack_screen/dice/die_bad_5.png"),
+	preload("res://game/attack_screen/dice/die_bad_6.png"),
+]
+
+signal closed
 
 @export var attacker_bg: ColorRect
 @export var defender_bg: ColorRect
@@ -58,7 +70,7 @@ func roll_dice(attacker_count: int, defender_count: int) -> void:
 		attacker_roll_frame_counts.append(frame_count)
 		attacker_rolls.push_back(0)
 		
-		roll_die(die, frame_count, attacker_rolls, i)
+		roll_die(die, frame_count, attacker_rolls, i, ATTACKER_HIT_MIN)
 	
 	for i in range(defender_count):
 		var die: TextureRect = create_die()
@@ -69,7 +81,7 @@ func roll_dice(attacker_count: int, defender_count: int) -> void:
 		defender_roll_frame_counts.append(frame_count)
 		defender_rolls.push_back(0)
 		
-		roll_die(die, frame_count, defender_rolls, i)
+		roll_die(die, frame_count, defender_rolls, i, DEFENDER_HIT_MIN)
 	
 	await get_tree().create_timer(4.5).timeout
 	
@@ -107,7 +119,7 @@ func create_die() -> TextureRect:
 
 
 func roll_die(die: TextureRect, frame_count: int, rolls_list: Array[int],
-		roll_index: int) -> void:
+		roll_index: int, hit_min: int) -> void:
 	var roll: int
 	
 	for i in range(frame_count):
@@ -117,7 +129,10 @@ func roll_die(die: TextureRect, frame_count: int, rolls_list: Array[int],
 		await get_tree().create_timer(frame_length).timeout
 	
 	roll = randi_range(1, 6)
-	die.texture = DIE_SPRITES[roll - 1]
+	if roll >= hit_min:
+		die.texture = DIE_SPRITES[roll - 1]
+	else:
+		die.texture = FAIL_DIE_SPRITES[roll - 1]
 	
 	rolls_list[roll_index] = roll
 
