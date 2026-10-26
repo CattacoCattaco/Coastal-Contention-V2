@@ -13,19 +13,19 @@ const DIE_SPRITES: Array[Texture2D] = [
 ]
 
 @export var attacker_bg: ColorRect
-@export var attacked_bg: ColorRect
+@export var defender_bg: ColorRect
 @export var attacker_label: Label
-@export var attacked_label: Label
+@export var defender_label: Label
 @export var attacker_dice_holder: GridContainer
-@export var attacked_dice_holder: GridContainer
+@export var defender_dice_holder: GridContainer
 @export var attacker_hits_label: Label
-@export var attacked_hits_label: Label
+@export var defender_hits_label: Label
 @export var attacker_troops_label: Label
-@export var attacked_troops_label: Label
+@export var defender_troops_label: Label
 @export var continue_button: Button
 
 var attacker_rolls: Array[int] = []
-var attacked_rolls: Array[int] = []
+var defender_rolls: Array[int] = []
 
 
 func _ready() -> void:
@@ -37,17 +37,17 @@ func _close() -> void:
 	closed.emit()
 
 
-func roll_dice(attacker_count: int, attacked_count: int) -> void:
+func roll_dice(attacker_count: int, defender_count: int) -> void:
 	continue_button.hide()
 	
 	var attacker_dice: Array[TextureRect] = []
-	var attacked_dice: Array[TextureRect] = []
+	var defender_dice: Array[TextureRect] = []
 	
 	attacker_rolls = []
-	attacked_rolls = []
+	defender_rolls = []
 	
 	var attacker_roll_frame_counts: Array[int] = []
-	var attacked_roll_frame_counts: Array[int] = []
+	var defender_roll_frame_counts: Array[int] = []
 	
 	for i in range(attacker_count):
 		var die: TextureRect = create_die()
@@ -60,16 +60,16 @@ func roll_dice(attacker_count: int, attacked_count: int) -> void:
 		
 		roll_die(die, frame_count, attacker_rolls, i)
 	
-	for i in range(attacked_count):
+	for i in range(defender_count):
 		var die: TextureRect = create_die()
-		attacked_dice.push_back(die)
-		attacked_dice_holder.add_child(die)
+		defender_dice.push_back(die)
+		defender_dice_holder.add_child(die)
 		
 		var frame_count: int = randi_range(10, 20)
-		attacked_roll_frame_counts.append(frame_count)
-		attacked_rolls.push_back(0)
+		defender_roll_frame_counts.append(frame_count)
+		defender_rolls.push_back(0)
 		
-		roll_die(die, frame_count, attacked_rolls, i)
+		roll_die(die, frame_count, defender_rolls, i)
 	
 	await get_tree().create_timer(4.5).timeout
 	
@@ -83,7 +83,7 @@ func roll_dice(attacker_count: int, attacked_count: int) -> void:
 				break
 		
 		if not unrolled_dice:
-			for roll: int in attacked_rolls:
+			for roll: int in defender_rolls:
 				if roll == 0:
 					unrolled_dice = true
 					break

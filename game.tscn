@@ -198,7 +198,7 @@ layout_mode = 2
 theme = ExtResource("14_215e1")
 text = "Finish Move"
 
-[node name="AttackScreen" type="Control" parent="." unique_id=939173465 node_paths=PackedStringArray("attacker_bg", "attacked_bg", "attacker_label", "attacked_label", "attacker_dice_holder", "attacked_dice_holder", "attacker_hits_label", "attacked_hits_label", "attacker_troops_label", "attacked_troops_label", "continue_button")]
+[node name="AttackScreen" type="Control" parent="." unique_id=939173465 node_paths=PackedStringArray("attacker_bg", "defender_bg", "attacker_label", "defender_label", "attacker_dice_holder", "defender_dice_holder", "attacker_hits_label", "defender_hits_label", "attacker_troops_label", "defender_troops_label", "continue_button")]
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
@@ -208,15 +208,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("26_xa8c5")
 attacker_bg = NodePath("AttackerBG")
-attacked_bg = NodePath("AttackedBG")
+defender_bg = NodePath("DefenderBG")
 attacker_label = NodePath("AttackerBG/AttackerLabel")
-attacked_label = NodePath("AttackedBG/AttackedLabel")
+defender_label = NodePath("DefenderBG/DefenderLabel")
 attacker_dice_holder = NodePath("AttackerBG/AttackerDiceHolder")
-attacked_dice_holder = NodePath("AttackedBG/AttackedDiceHolder")
+defender_dice_holder = NodePath("DefenderBG/DefenderDiceHolder")
 attacker_hits_label = NodePath("AttackerBG/AttackerHitsLabel")
-attacked_hits_label = NodePath("AttackedBG/AttackedHitsLabel")
+defender_hits_label = NodePath("DefenderBG/DefenderHitsLabel")
 attacker_troops_label = NodePath("AttackerBG/AttackerTroopsLabel")
-attacked_troops_label = NodePath("AttackedBG/AttackedTroopsLabel")
+defender_troops_label = NodePath("DefenderBG/DefenderTroopsLabel")
 continue_button = NodePath("ContinueButton")
 
 [node name="AttackerBG" type="ColorRect" parent="AttackScreen" unique_id=496770667]
@@ -276,7 +276,7 @@ text = "Troops left: 3"
 label_settings = SubResource("LabelSettings_5b14r")
 horizontal_alignment = 1
 
-[node name="AttackedBG" type="ColorRect" parent="AttackScreen" unique_id=1134690679]
+[node name="DefenderBG" type="ColorRect" parent="AttackScreen" unique_id=1134690679]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -284,7 +284,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.74509805, 0.46666667, 0.16862746, 0.7490196)
 
-[node name="AttackedLabel" type="Label" parent="AttackScreen/AttackedBG" unique_id=466662150]
+[node name="DefenderLabel" type="Label" parent="AttackScreen/DefenderBG" unique_id=466662150]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -297,7 +297,7 @@ text = "Clerics"
 label_settings = SubResource("LabelSettings_xa8c5")
 horizontal_alignment = 1
 
-[node name="AttackedHitsLabel" type="Label" parent="AttackScreen/AttackedBG" unique_id=1479107415]
+[node name="DefenderHitsLabel" type="Label" parent="AttackScreen/DefenderBG" unique_id=1479107415]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -310,7 +310,7 @@ text = "Hits taken: 2"
 label_settings = SubResource("LabelSettings_5b14r")
 horizontal_alignment = 1
 
-[node name="AttackedTroopsLabel" type="Label" parent="AttackScreen/AttackedBG" unique_id=2093818083]
+[node name="DefenderTroopsLabel" type="Label" parent="AttackScreen/DefenderBG" unique_id=2093818083]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -323,7 +323,7 @@ text = "Troops left: 1"
 label_settings = SubResource("LabelSettings_5b14r")
 horizontal_alignment = 1
 
-[node name="AttackedDiceHolder" type="GridContainer" parent="AttackScreen/AttackedBG" unique_id=1972086635]
+[node name="DefenderDiceHolder" type="GridContainer" parent="AttackScreen/DefenderBG" unique_id=1972086635]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.25
