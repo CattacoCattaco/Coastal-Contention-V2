@@ -386,7 +386,6 @@ theme_override_font_sizes/font_size = 32
 text = "New Game"
 
 [node name="OptionsScreen" type="ColorRect" parent="." unique_id=1378528856 node_paths=PackedStringArray("map_size_options", "player_count_box", "player_faction_labels", "player_faction_options", "start_button")]
-visible = false
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
