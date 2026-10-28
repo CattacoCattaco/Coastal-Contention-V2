@@ -27,6 +27,9 @@
 [ext_resource type="Resource" uid="uid://dlbbby4nu4rfx" path="res://game/faction_data/data/mycolings.tres" id="24_36jdj"]
 [ext_resource type="Script" uid="uid://duoqbhlw64rw1" path="res://game/options_screen/options_screen.gd" id="26_i2p71"]
 [ext_resource type="Script" uid="uid://d28nfpi7206w7" path="res://game/attack_screen/attack_screen.gd" id="26_xa8c5"]
+[ext_resource type="Resource" uid="uid://ddibvkypclrje" path="res://game/faction_data/data/druids.tres" id="28_36jdj"]
+[ext_resource type="Resource" uid="uid://nv6hustb2are" path="res://game/faction_data/data/archers.tres" id="29_xfvwf"]
+[ext_resource type="Resource" uid="uid://h210uycfe2ad" path="res://game/faction_data/data/robots.tres" id="30_dhpj7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80cx4"]
 content_margin_left = 0.0
@@ -400,6 +403,7 @@ player_count_box = NodePath("VBoxContainer/GridContainer/PlayerCountBox")
 player_faction_labels = [NodePath("VBoxContainer/GridContainer/Player1Label"), NodePath("VBoxContainer/GridContainer/Player2Label"), NodePath("VBoxContainer/GridContainer/Player3Label")]
 player_faction_options = [NodePath("VBoxContainer/GridContainer/Player1FactionOptions"), NodePath("VBoxContainer/GridContainer/Player2FactionOptions"), NodePath("VBoxContainer/GridContainer/Player3FactionOptions")]
 start_button = NodePath("VBoxContainer/StartButton")
+factions = Array[ExtResource("21_xa8c5")]([ExtResource("22_5b14r"), ExtResource("23_bnpwn"), ExtResource("28_36jdj"), ExtResource("29_xfvwf"), ExtResource("24_36jdj"), ExtResource("30_dhpj7")])
 
 [node name="VBoxContainer" type="VBoxContainer" parent="OptionsScreen" unique_id=1621565669]
 layout_mode = 1

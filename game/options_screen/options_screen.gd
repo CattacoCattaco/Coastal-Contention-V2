@@ -16,6 +16,8 @@ signal options_selected
 @export var player_faction_options: Array[OptionButton]
 @export var start_button: Button
 
+@export var factions: Array[FactionData]
+
 var player_of_faction_index: Array[OptionButton] = []
 var player_faction_indeces: Dictionary[OptionButton, int] = {}
 
@@ -73,7 +75,7 @@ func _start_button_pressed() -> void:
 	
 	for i in range(roundi(player_count_box.value)):
 		var faction_index: int = player_faction_options[i].get_selected_id()
-		players.append(Globals.FACTIONS[faction_index])
+		players.append(factions[faction_index])
 	
 	players_selected.emit(players)
 	
