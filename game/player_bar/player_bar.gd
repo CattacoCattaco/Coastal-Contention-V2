@@ -15,8 +15,10 @@ signal setup_complete
 
 var current_turn: int = -1
 
-var players: Array[FactionData]
-var player_names: Dictionary[FactionData, ColorRect] = {}
+var players: Array[FactionData] = []
+var vp_counts: Dictionary[FactionData, int] = {}
+var player_name_bars: Dictionary[FactionData, ColorRect] = {}
+var player_vp_labels: Dictionary[FactionData, Label] = {}
 var player_name_buttons: Dictionary[FactionData, Button] = {}
 
 
@@ -31,9 +33,9 @@ func _players_selected(selected_players: Array[FactionData]) -> void:
 
 func reset_player_bar() -> void:
 	for faction in players:
-		player_names[faction].queue_free()
+		player_name_bars[faction].queue_free()
 	
-	player_names = {}
+	player_name_bars = {}
 	player_name_buttons = {}
 	current_turn = -1
 
@@ -44,21 +46,34 @@ func setup_player_bar() -> void:
 	for player: FactionData in players:
 		var name_rect := ColorRect.new()
 		names_holder.add_child(name_rect)
-		player_names[player] = name_rect
+		player_name_bars[player] = name_rect
 		
 		name_rect.color = player.color
 		
+		var h_box_container := HBoxContainer.new()
+		name_rect.add_child(h_box_container)
+		
+		h_box_container.add_theme_constant_override("separation", 8)
+		h_box_container.position = Vector2(2, 2)
+		
 		var name_label := Label.new()
-		name_rect.add_child(name_label)
+		h_box_container.add_child(name_label)
 		
 		name_label.label_settings = label_settings
 		name_label.text = player.name
 		name_label.size = Vector2(0, 0)
 		
+		var vp_label := Label.new()
+		h_box_container.add_child(vp_label)
+		player_vp_labels[player] = vp_label
+		
+		vp_label.label_settings = label_settings
+		vp_label.text = "VP: 0"
+		vp_label.size = Vector2(0, 0)
+		
 		await RenderingServer.frame_post_draw
 		
-		name_rect.custom_minimum_size = name_label.size + Vector2(2, 4)
-		name_label.position = Vector2(2, 2)
+		name_rect.custom_minimum_size = h_box_container.size + Vector2(2, 4)
 		
 		await RenderingServer.frame_post_draw
 		
@@ -112,9 +127,9 @@ func _remove_player_no_loss_check(faction: FactionData) -> void:
 	elif players.find(faction) < current_turn:
 		current_turn -= 1
 	
-	player_names[faction].queue_free()
+	player_name_bars[faction].queue_free()
 	players.erase(faction)
-	player_names.erase(faction)
+	player_name_bars.erase(faction)
 	player_name_buttons.erase(faction)
 
 
@@ -130,11 +145,31 @@ func next() -> void:
 
 
 func highlight_player(player: FactionData, color: Color) -> void:
-	player_names[player].material.set_shader_parameter("outline_color", color)
+	var shader_material: ShaderMaterial = player_name_bars[player].material
+	shader_material.set_shader_parameter("outline_color", color)
 
 
 func get_current_player() -> FactionData:
 	return players[current_turn]
+
+
+func gain_vps(count: int, player: FactionData) -> void:
+	set_vp_count(vp_counts[player] + count, player)
+
+
+func lose_vps(count: int, player: FactionData) -> void:
+	set_vp_count(vp_counts[player] + count, player)
+
+
+func set_vp_count(count: int, player: FactionData) -> void:
+	vp_counts[player] = count
+	player_vp_labels[player].text = "VP: %d" % count
+	
+	await RenderingServer.frame_post_draw
+	
+	var h_box_container: HBoxContainer = player_vp_labels[player].get_parent()
+	
+	player_name_bars[player].size = h_box_container.size + Vector2(2, 4)
 
 
 func do_draw(factions: Array[FactionData]) -> void:
