@@ -4,6 +4,8 @@ extends PanelContainer
 signal player_added(faction: FactionData)
 signal setup_complete
 
+const VPS_TO_WIN: int = 15
+
 @export var names_holder: HBoxContainer
 @export var victory_screen: ColorRect
 @export var victory_label: Label
@@ -170,6 +172,9 @@ func set_vp_count(count: int, player: FactionData) -> void:
 	var h_box_container: HBoxContainer = player_vp_labels[player].get_parent()
 	
 	player_name_bars[player].size = h_box_container.size + Vector2(2, 4)
+	
+	if count >= VPS_TO_WIN:
+		do_victory(player)
 
 
 func do_draw(factions: Array[FactionData]) -> void:
