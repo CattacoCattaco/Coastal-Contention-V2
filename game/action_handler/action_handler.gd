@@ -54,14 +54,11 @@ func _ready() -> void:
 	next_button.pressed.connect(_next_turn)
 	cancel_button.pressed.connect(_cancel_action)
 	finish_move_button.pressed.connect(_finish_move_pressed)
-	new_game_button.pressed.connect(_setup)
 	
-	_setup()
+	player_bar.setup_complete.connect(_setup)
 
 
 func _setup() -> void:
-	await  player_bar.setup_complete
-	
 	hide()
 	
 	for faction: FactionData in player_bar.players:

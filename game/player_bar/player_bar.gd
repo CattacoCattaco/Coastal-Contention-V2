@@ -9,6 +9,7 @@ const VPS_TO_WIN: int = 15
 @export var names_holder: HBoxContainer
 @export var victory_screen: ColorRect
 @export var victory_label: Label
+@export var new_game_button: Button
 @export var options_screen: OptionsScreen
 
 @export var starting_players: Array[FactionData]
@@ -40,6 +41,8 @@ func reset_player_bar() -> void:
 	player_name_bars = {}
 	player_name_buttons = {}
 	current_turn = -1
+	
+	setup_player_bar()
 
 
 func setup_player_bar() -> void:
