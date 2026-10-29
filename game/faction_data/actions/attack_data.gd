@@ -99,6 +99,7 @@ func _do_action(selected_territories: Array[Territory],
 	
 	var attacker_dice: int = min(attacker_troops, MAX_ATTACKER_DICE)
 	var defender_dice: int = min(defender_troops, MAX_DEFENDER_DICE)
+	
 	await attack_screen.roll_dice(attacker_dice, defender_dice)
 	
 	var attacker_hits: int = 0
@@ -114,13 +115,16 @@ func _do_action(selected_territories: Array[Territory],
 	attack_screen.attacker_hits_label.text = "Hits: %s" % attacker_hits
 	attack_screen.defender_hits_label.text = "Hits: %s" % defender_hits
 	
-	attacker_troops -= defender_hits
-	defender_troops -= attacker_hits
+	var attacker_actual_hits: int = attacker_hits
+	var defender_actual_hits: int = defender_hits
 	
-	if attacker_troops < 0:
-		attacker_troops = 0
-	if defender_troops < 0:
-		defender_troops = 0
+	if defender_troops < attacker_actual_hits:
+		attacker_actual_hits = defender_troops
+	if attacker_troops < defender_actual_hits:
+		defender_actual_hits = attacker_troops
+	
+	attacker_troops -= defender_actual_hits
+	defender_troops -= attacker_actual_hits
 	
 	var attacker_troops_text: String = "Troops left: %s" % attacker_troops 
 	var defender_troops_text: String = "Troops left: %s" % defender_troops
@@ -130,8 +134,8 @@ func _do_action(selected_territories: Array[Territory],
 	
 	await attack_screen.closed
 	
-	selected_territories[0].remove_troops(1, attacker)
-	selected_territories[0].remove_troops(2, defender)
+	selected_territories[0].remove_troops(defender_actual_hits, attacker)
+	selected_territories[0].remove_troops(attacker_actual_hits, defender)
 	
 	var defender_lost: bool = true
 	var attacker_lost: bool = true
@@ -155,3 +159,5 @@ func _do_action(selected_territories: Array[Territory],
 		player_bar.remove_player(defender)
 	elif attacker_lost:
 		player_bar.remove_player(attacker)
+	
+	player_bar.gain_vps(attacker_actual_hits, attacker)

@@ -52,6 +52,17 @@ func setup_player_bar() -> void:
 		
 		name_rect.color = player.color
 		
+		var name_rect_material := ShaderMaterial.new()
+		name_rect_material.shader = outline_shader
+		name_rect_material.set_shader_parameter(
+				"override_opaque_color", name_rect.color)
+		name_rect_material.set_shader_parameter(
+				"use_override_opaque_color", true)
+		name_rect_material.set_shader_parameter(
+				"outline_color", Color.TRANSPARENT)
+		
+		name_rect.material = name_rect_material
+		
 		var h_box_container := HBoxContainer.new()
 		name_rect.add_child(h_box_container)
 		
@@ -70,27 +81,8 @@ func setup_player_bar() -> void:
 		player_vp_labels[player] = vp_label
 		
 		vp_label.label_settings = label_settings
-		vp_label.text = "VP: 0"
-		vp_label.size = Vector2(0, 0)
 		
-		await RenderingServer.frame_post_draw
-		
-		name_rect.custom_minimum_size = h_box_container.size + Vector2(2, 4)
-		
-		await RenderingServer.frame_post_draw
-		
-		var name_rect_material := ShaderMaterial.new()
-		name_rect_material.shader = outline_shader
-		name_rect_material.set_shader_parameter(
-				"size_pixels", name_rect.size)
-		name_rect_material.set_shader_parameter(
-				"override_opaque_color", name_rect.color)
-		name_rect_material.set_shader_parameter(
-				"use_override_opaque_color", true)
-		name_rect_material.set_shader_parameter(
-				"outline_color", Color.TRANSPARENT)
-		
-		name_rect.material = name_rect_material
+		set_vp_count(0, player)
 		
 		var name_button := Button.new()
 		name_rect.add_child(name_button)
@@ -164,17 +156,26 @@ func lose_vps(count: int, player: FactionData) -> void:
 
 
 func set_vp_count(count: int, player: FactionData) -> void:
+	var vp_label: Label = player_vp_labels[player]
+	
 	vp_counts[player] = count
-	player_vp_labels[player].text = "VP: %d" % count
+	
+	vp_label.text = "VP: %d" % count
+	vp_label.size = Vector2(0, 0)
 	
 	await RenderingServer.frame_post_draw
 	
-	var h_box_container: HBoxContainer = player_vp_labels[player].get_parent()
+	var h_box_container: HBoxContainer = vp_label.get_parent()
+	var name_rect: ColorRect = player_name_bars[player]
 	
-	player_name_bars[player].size = h_box_container.size + Vector2(2, 4)
+	name_rect.custom_minimum_size = h_box_container.size + Vector2(2, 4)
 	
 	if count >= VPS_TO_WIN:
 		do_victory(player)
+	
+	await RenderingServer.frame_post_draw
+	
+	name_rect.material.set_shader_parameter("size_pixels", name_rect.size)
 
 
 func do_draw(factions: Array[FactionData]) -> void:
