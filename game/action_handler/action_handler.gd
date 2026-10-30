@@ -17,16 +17,17 @@ const ActionMenu = ActionData.ActionMenu
 @export var attack_screen: AttackScreen
 @export var new_game_button: Button
 
-@export var actions: Array[ActionData]
 @export var button_theme: Theme
 
+var action_buttons: Array[Button] = []
 var highlighted_players: Array[FactionData] = []
 var selected_players: Array[FactionData] = []
 var highlighted_territories: Array[Territory] = []
 var selected_territories: Array[Territory] = []
 var current_action: ActionData = null
+var current_phase: int = 0
 var current_stage: int = 1
-var actions_left: int = 3
+var actions_used: Array[ActionData]
 
 
 func _ready() -> void:
@@ -39,17 +40,6 @@ func _ready() -> void:
 	for continent: Array in map.continents:
 		for territory: Territory in continent:
 			territory.pressed.connect(_territory_pressed.bind(territory))
-	
-	for action: ActionData in actions:
-		var action_button := Button.new()
-		add_child(action_button)
-		
-		action_button.theme = button_theme
-		action_button.text = action.action_name
-		action_button.pressed.connect(_start_action.bind(action))
-	
-	next_button.move_to_front()
-	cancel_button.move_to_front()
 	
 	next_button.pressed.connect(_next_turn)
 	cancel_button.pressed.connect(_cancel_action)
@@ -68,8 +58,6 @@ func _setup() -> void:
 			await action_completed
 		
 		_next_turn()
-	
-	_new_turn()
 	
 	show()
 
@@ -126,18 +114,15 @@ func _start_action(action: ActionData) -> void:
 
 func start_stage() -> void:
 	if current_stage > current_action.stage_count:
-		var old_current_player: FactionData = player_bar.get_current_player()
-		
 		# THIS DOES NOT REMOVE THE NEED FOR THE BELOW await!!!
 		# _do_action() may or may not be asyncronous
 		@warning_ignore("redundant_await")
 		await current_action._do_action(selected_territories, selected_players,
 				map, troop_count_box, player_bar, attack_screen)
 		
-		var new_current_player: FactionData = player_bar.get_current_player()
+		actions_used.append(current_action)
 		
-		actions_left -= 1
-		if actions_left == 0 and new_current_player == old_current_player:
+		if get_phase()._is_phase_over(actions_used):
 			_next_turn()
 		else:
 			_cancel_action()
@@ -189,13 +174,15 @@ func start_stage() -> void:
 
 
 func _next_turn() -> void:
-	_new_turn()
-	
 	player_bar.next()
+	
+	_new_turn()
 
 
 func _new_turn() -> void:
-	actions_left = 3
+	current_phase = 0
+	
+	start_phase()
 	
 	_cancel_action()
 
@@ -204,8 +191,8 @@ func _cancel_action() -> void:
 	current_action = null
 	current_stage = 1
 	
-	instruction_label.text = "Choose an action. (%d/3 actions left)"
-	instruction_label.text %= actions_left
+	var message: String = get_phase()._get_select_action_message(actions_used)
+	instruction_label.text = message
 	
 	unhighlight_players()
 	unhighlight_territories()
@@ -218,6 +205,39 @@ func _cancel_action() -> void:
 	troop_count_selection_panel.hide()
 	attack_screen.hide()
 	cancel_button.hide()
+
+
+func start_phase() -> void:
+	actions_used = []
+	
+	var phase: Phase = get_phase()
+	var actions: Array[ActionData] = phase._get_available_actions()
+	
+	list_actions(actions)
+
+
+func get_phase() -> Phase:
+	var current_player: FactionData = player_bar.get_current_player()
+	return current_player.turn_phases[current_phase]
+
+
+func list_actions(actions: Array[ActionData]) -> void:
+	for button: Button in action_buttons:
+		button.queue_free()
+	
+	action_buttons = []
+	
+	for action: ActionData in actions:
+		var action_button := Button.new()
+		add_child(action_button)
+		action_buttons.append(action_button)
+		
+		action_button.theme = button_theme
+		action_button.text = action.action_name
+		action_button.pressed.connect(_start_action.bind(action))
+	
+	next_button.move_to_front()
+	cancel_button.move_to_front()
 
 
 func highlight_players() -> void:
@@ -234,6 +254,9 @@ func highlight_players() -> void:
 
 func unhighlight_players() -> void:
 	for player: FactionData in highlighted_players:
+		if player == player_bar.get_current_player():
+			continue
+		
 		player_bar.highlight_player(player, Color.TRANSPARENT)
 
 

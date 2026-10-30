@@ -46,7 +46,7 @@ func reset_player_bar() -> void:
 
 
 func setup_player_bar() -> void:
-	players = starting_players
+	players = starting_players.duplicate()
 	
 	for player: FactionData in players:
 		var name_rect := ColorRect.new()
@@ -159,6 +159,9 @@ func lose_vps(count: int, player: FactionData) -> void:
 
 
 func set_vp_count(count: int, player: FactionData) -> void:
+	if player not in players:
+		return
+	
 	var vp_label: Label = player_vp_labels[player]
 	
 	vp_counts[player] = count
@@ -167,6 +170,9 @@ func set_vp_count(count: int, player: FactionData) -> void:
 	vp_label.size = Vector2(0, 0)
 	
 	await RenderingServer.frame_post_draw
+	
+	if player not in players:
+		return
 	
 	var h_box_container: HBoxContainer = vp_label.get_parent()
 	var name_rect: ColorRect = player_name_bars[player]
@@ -177,6 +183,9 @@ func set_vp_count(count: int, player: FactionData) -> void:
 		do_victory(player)
 	
 	await RenderingServer.frame_post_draw
+	
+	if player not in players:
+		return
 	
 	name_rect.material.set_shader_parameter("size_pixels", name_rect.size)
 

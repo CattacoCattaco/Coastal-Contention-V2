@@ -1,12 +1,24 @@
 [gd_resource type="Resource" script_class="FactionData" format=3 uid="uid://h210uycfe2ad"]
 
 [ext_resource type="Script" uid="uid://c61log6o4x8n3" path="res://game/faction_data/faction_data.gd" id="1_alv84"]
+[ext_resource type="Script" uid="uid://cfenxjt4l3qt7" path="res://game/faction_data/phases/phase.gd" id="2_b3ouo"]
 [ext_resource type="Script" uid="uid://bmnskqiojn3b2" path="res://game/faction_data/actions/action_data.gd" id="2_liy2g"]
 [ext_resource type="Texture2D" uid="uid://ddq1slgmppk6k" path="res://game/map/hex/troop/cleric.png" id="3_o2dm3"]
+[ext_resource type="Resource" uid="uid://mmv25a107lhl" path="res://game/faction_data/actions/data/attack.tres" id="4_8le4m"]
+[ext_resource type="Resource" uid="uid://2ffomh74aadw" path="res://game/faction_data/actions/data/move.tres" id="5_xq2fc"]
+[ext_resource type="Resource" uid="uid://ihn54lf0afau" path="res://game/faction_data/actions/data/recruit.tres" id="6_e8fnp"]
+[ext_resource type="Script" uid="uid://bejc327wg23v1" path="res://game/faction_data/phases/action_count_phase.gd" id="7_728bh"]
+
+[sub_resource type="Resource" id="Resource_b3ouo"]
+script = ExtResource("7_728bh")
+action_count = 3
+actions = Array[ExtResource("2_liy2g")]([ExtResource("4_8le4m"), ExtResource("5_xq2fc"), ExtResource("6_e8fnp")])
+metadata/_custom_type_script = "uid://bejc327wg23v1"
 
 [resource]
 script = ExtResource("1_alv84")
 name = "Robots"
 color = Color(0.34117648, 0.44705883, 0.46666667, 1)
 troop_sprite = ExtResource("3_o2dm3")
+turn_phases = Array[ExtResource("2_b3ouo")]([SubResource("Resource_b3ouo")])
 metadata/_custom_type_script = "uid://c61log6o4x8n3"

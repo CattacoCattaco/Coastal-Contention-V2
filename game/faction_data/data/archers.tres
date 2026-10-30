@@ -3,10 +3,22 @@
 [ext_resource type="Script" uid="uid://c61log6o4x8n3" path="res://game/faction_data/faction_data.gd" id="1_17yf3"]
 [ext_resource type="Script" uid="uid://bmnskqiojn3b2" path="res://game/faction_data/actions/action_data.gd" id="2_cheh5"]
 [ext_resource type="Texture2D" uid="uid://ddq1slgmppk6k" path="res://game/map/hex/troop/cleric.png" id="3_pftnk"]
+[ext_resource type="Script" uid="uid://cfenxjt4l3qt7" path="res://game/faction_data/phases/phase.gd" id="4_77si0"]
+[ext_resource type="Resource" uid="uid://mmv25a107lhl" path="res://game/faction_data/actions/data/attack.tres" id="5_g1aj0"]
+[ext_resource type="Resource" uid="uid://2ffomh74aadw" path="res://game/faction_data/actions/data/move.tres" id="6_lwtks"]
+[ext_resource type="Resource" uid="uid://ihn54lf0afau" path="res://game/faction_data/actions/data/recruit.tres" id="7_wpqkk"]
+[ext_resource type="Script" uid="uid://bejc327wg23v1" path="res://game/faction_data/phases/action_count_phase.gd" id="8_8dxe7"]
+
+[sub_resource type="Resource" id="Resource_3w5u0"]
+script = ExtResource("8_8dxe7")
+action_count = 3
+actions = Array[ExtResource("2_cheh5")]([ExtResource("5_g1aj0"), ExtResource("6_lwtks"), ExtResource("7_wpqkk")])
+metadata/_custom_type_script = "uid://bejc327wg23v1"
 
 [resource]
 script = ExtResource("1_17yf3")
 name = "Archers"
 color = Color(0.45882353, 0.654902, 0.2627451, 1)
 troop_sprite = ExtResource("3_pftnk")
+turn_phases = Array[ExtResource("4_77si0")]([SubResource("Resource_3w5u0")])
 metadata/_custom_type_script = "uid://c61log6o4x8n3"

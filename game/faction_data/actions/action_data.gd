@@ -36,11 +36,14 @@ func _init(p_outline_color := Color(), p_stage_count: int = 1,
 @abstract func _get_selectable_territories(map: Map, player_bar: PlayerBar,
 		stage: int, selected_territories: Array[Territory]) -> Array[Territory]
 
+## Gets the selectable players during the stage for player select stages
 @abstract func _get_selectable_players(player_bar: PlayerBar, stage: int,
 		selected_territories: Array[Territory]) -> Array[FactionData]
 
+## Gets the action menu during the stage for action menu stages
 @abstract func _get_action_menu(stage: int) -> ActionMenu
 
+## Resolves an action once selections are made
 @abstract func _do_action(selected_territories: Array[Territory],
 		selected_players: Array[FactionData], map: Map,
 		troop_count_box: SpinBox, player_bar: PlayerBar,

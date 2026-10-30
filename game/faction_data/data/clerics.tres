@@ -5,6 +5,17 @@
 [ext_resource type="Script" uid="uid://bmnskqiojn3b2" path="res://game/faction_data/actions/action_data.gd" id="2_a0ts8"]
 [ext_resource type="Resource" uid="uid://bw6vr80p0r03r" path="res://game/faction_data/actions/data/cleric_recruit_setup.tres" id="3_48p7n"]
 [ext_resource type="Texture2D" uid="uid://ddq1slgmppk6k" path="res://game/map/hex/troop/cleric.png" id="4_a0ts8"]
+[ext_resource type="Script" uid="uid://cfenxjt4l3qt7" path="res://game/faction_data/phases/phase.gd" id="6_tc1se"]
+[ext_resource type="Resource" uid="uid://mmv25a107lhl" path="res://game/faction_data/actions/data/attack.tres" id="7_qvlr5"]
+[ext_resource type="Resource" uid="uid://2ffomh74aadw" path="res://game/faction_data/actions/data/move.tres" id="8_no3pw"]
+[ext_resource type="Resource" uid="uid://ihn54lf0afau" path="res://game/faction_data/actions/data/recruit.tres" id="9_a2om4"]
+[ext_resource type="Script" uid="uid://bejc327wg23v1" path="res://game/faction_data/phases/action_count_phase.gd" id="10_clhsk"]
+
+[sub_resource type="Resource" id="Resource_7ry1c"]
+script = ExtResource("10_clhsk")
+action_count = 4
+actions = Array[ExtResource("2_a0ts8")]([ExtResource("7_qvlr5"), ExtResource("8_no3pw"), ExtResource("9_a2om4")])
+metadata/_custom_type_script = "uid://bejc327wg23v1"
 
 [resource]
 script = ExtResource("1_48p7n")
@@ -13,4 +24,5 @@ color = Color(0.74509805, 0.46666667, 0.16862746, 1)
 troop_sprite = ExtResource("4_a0ts8")
 control_banners = ExtResource("1_a0ts8")
 setup_actions = Array[ExtResource("2_a0ts8")]([ExtResource("3_48p7n")])
+turn_phases = Array[ExtResource("6_tc1se")]([SubResource("Resource_7ry1c")])
 metadata/_custom_type_script = "uid://c61log6o4x8n3"
