@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CreateTokenData" format=3 uid="uid://bpss2lgtpwhsa"]
+
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_u8g2u"]
+[ext_resource type="Script" uid="uid://cxw0owyu8g5ph" path="res://game/faction_data/actions/predicates/control_predicate.gd" id="3_hicw2"]
+[ext_resource type="Script" uid="uid://dm6ls6pra0vi0" path="res://game/faction_data/actions/create_token_data.gd" id="4_vpuig"]
+[ext_resource type="Texture2D" uid="uid://cdb2ww0exut1g" path="res://game/map/hex/token/faith.png" id="5_w47hp"]
+
+[sub_resource type="Resource" id="Resource_es3dq"]
+script = ExtResource("3_hicw2")
+metadata/_custom_type_script = "uid://cxw0owyu8g5ph"
+
+[resource]
+script = ExtResource("4_vpuig")
+token_sprite = ExtResource("5_w47hp")
+message = "Choose territory to place faith in"
+predicates = Array[ExtResource("1_u8g2u")]([SubResource("Resource_es3dq")])
+incrament_faith = true
+outline_color = Color(0.87058824, 0.61960787, 0.25490198, 1)
+stage_count = 1
+action_name = "Spread Faith"
+metadata/_custom_type_script = "uid://dm6ls6pra0vi0"

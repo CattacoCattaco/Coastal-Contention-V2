@@ -131,7 +131,7 @@ func start_stage() -> void:
 		
 		if not in_setup:
 			if get_phase()._is_phase_over(actions_used, cleric_faith_panel):
-				_next_turn()
+				next_phase()
 			else:
 				list_actions(get_phase()._get_available_actions(actions_used,
 						cleric_faith_panel))
@@ -183,6 +183,16 @@ func start_stage() -> void:
 					troop_count_box.value = 1
 					troop_count_box.min_value = 1
 					troop_count_box.max_value = troop_hex.troop_count
+
+
+func next_phase() -> void:
+	current_phase += 1
+	
+	if current_phase == player_bar.get_current_player().turn_phases.size():
+		_next_turn()
+	else:
+		start_phase()
+		_cancel_action()
 
 
 func _next_turn() -> void:
