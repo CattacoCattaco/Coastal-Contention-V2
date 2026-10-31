@@ -20,6 +20,7 @@ const ActionMenu = ActionData.ActionMenu
 
 @export var button_theme: Theme
 
+var in_setup: bool = false
 var action_buttons: Array[Button] = []
 var highlighted_players: Array[FactionData] = []
 var selected_players: Array[FactionData] = []
@@ -50,6 +51,8 @@ func _ready() -> void:
 
 
 func _setup() -> void:
+	in_setup = true
+	
 	hide()
 	
 	for faction: FactionData in player_bar.players:
@@ -61,6 +64,8 @@ func _setup() -> void:
 		_next_turn()
 	
 	show()
+	
+	in_setup = false
 
 
 func _player_name_added(faction: FactionData) -> void:
@@ -124,8 +129,13 @@ func start_stage() -> void:
 		
 		actions_used.append(current_action)
 		
-		if get_phase()._is_phase_over(actions_used):
-			_next_turn()
+		if not in_setup:
+			if get_phase()._is_phase_over(actions_used, cleric_faith_panel):
+				_next_turn()
+			else:
+				list_actions(get_phase()._get_available_actions(actions_used,
+						cleric_faith_panel))
+				_cancel_action()
 		else:
 			_cancel_action()
 		
@@ -193,7 +203,8 @@ func _cancel_action() -> void:
 	current_action = null
 	current_stage = 1
 	
-	var message: String = get_phase()._get_select_action_message(actions_used)
+	var message: String = get_phase()._get_select_action_message(actions_used,
+			cleric_faith_panel)
 	instruction_label.text = message
 	
 	unhighlight_players()
@@ -213,7 +224,8 @@ func start_phase() -> void:
 	actions_used = []
 	
 	var phase: Phase = get_phase()
-	var actions: Array[ActionData] = phase._get_available_actions()
+	var actions: Array[ActionData] = phase._get_available_actions(actions_used,
+			cleric_faith_panel)
 	
 	list_actions(actions)
 

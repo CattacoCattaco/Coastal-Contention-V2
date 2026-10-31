@@ -10,13 +10,12 @@
 [ext_resource type="Resource" uid="uid://mmv25a107lhl" path="res://game/faction_data/actions/data/attack.tres" id="7_qvlr5"]
 [ext_resource type="Resource" uid="uid://2ffomh74aadw" path="res://game/faction_data/actions/data/move.tres" id="8_no3pw"]
 [ext_resource type="Resource" uid="uid://ihn54lf0afau" path="res://game/faction_data/actions/data/recruit.tres" id="9_a2om4"]
-[ext_resource type="Script" uid="uid://bejc327wg23v1" path="res://game/faction_data/phases/action_count_phase.gd" id="10_clhsk"]
+[ext_resource type="Script" uid="uid://p1a6yypmqhko" path="res://game/faction_data/phases/faith_based_phase.gd" id="10_tc1se"]
 
-[sub_resource type="Resource" id="Resource_7ry1c"]
-script = ExtResource("10_clhsk")
-action_count = 4
-actions = Array[ExtResource("2_a0ts8")]([ExtResource("7_qvlr5"), ExtResource("8_no3pw"), ExtResource("9_a2om4")])
-metadata/_custom_type_script = "uid://bejc327wg23v1"
+[sub_resource type="Resource" id="Resource_xa8c5"]
+script = ExtResource("10_tc1se")
+actions = Array[ExtResource("2_a0ts8")]([ExtResource("8_no3pw"), null, ExtResource("7_qvlr5"), ExtResource("9_a2om4")])
+metadata/_custom_type_script = "uid://p1a6yypmqhko"
 
 [resource]
 script = ExtResource("1_48p7n")
@@ -25,5 +24,5 @@ color = Color(0.74509805, 0.46666667, 0.16862746, 1)
 troop_sprite = ExtResource("4_a0ts8")
 control_banners = ExtResource("1_a0ts8")
 setup_actions = Array[ExtResource("2_a0ts8")]([ExtResource("3_48p7n"), ExtResource("5_qvlr5")])
-turn_phases = Array[ExtResource("6_tc1se")]([SubResource("Resource_7ry1c")])
+turn_phases = Array[ExtResource("6_tc1se")]([SubResource("Resource_xa8c5")])
 metadata/_custom_type_script = "uid://c61log6o4x8n3"
