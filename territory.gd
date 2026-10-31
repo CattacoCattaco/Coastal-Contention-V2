@@ -59,11 +59,13 @@ func add_troops(count: int, faction: FactionData) -> void:
 		troop_hexes[faction].add_troops(count)
 	else:
 		for hex: Hex in hexes.values():
-			if hex.is_empty():
-				hex.set_faction(faction)
-				hex.add_troops(count)
-				troop_hexes[faction] = hex
-				break
+			if not hex.is_empty():
+				continue
+			
+			hex.set_faction(faction)
+			hex.add_troops(count)
+			troop_hexes[faction] = hex
+			break
 	
 	if faction != controller:
 		var new_controller: FactionData = _get_new_controller()
@@ -74,14 +76,16 @@ func add_troops(count: int, faction: FactionData) -> void:
 
 func add_token(sprite: Texture2D, faction: FactionData) -> void:
 	for hex: Hex in hexes.values():
-		if hex.is_empty():
-			hex.set_token(sprite, faction)
-			
-			if faction not in token_hexes:
-				token_hexes[faction] = []
-			
-			token_hexes[faction].append(faction)
-			break
+		if not hex.is_empty():
+			continue
+		
+		hex.set_token(sprite, faction)
+		
+		if faction not in token_hexes:
+			token_hexes[faction] = []
+		
+		token_hexes[faction].append(hex)
+		break
 	
 	if faction != controller:
 		var new_controller: FactionData = _get_new_controller()
@@ -100,16 +104,48 @@ func remove_all_troops() -> void:
 
 
 func remove_troops(count: int, faction: FactionData) -> void:
-	if faction in troop_hexes:
-		troop_hexes[faction].remove_troops(count)
-		if troop_hexes[faction].troop_count == 0:
-			troop_hexes.erase(faction)
+	if faction not in troop_hexes:
+		return
+	
+	troop_hexes[faction].remove_troops(count)
+	if troop_hexes[faction].troop_count == 0:
+		troop_hexes.erase(faction)
+	
+	if faction == controller:
+		var new_controller: FactionData = _get_new_controller()
 		
-		if faction == controller:
-			var new_controller: FactionData = _get_new_controller()
-			
-			if new_controller and new_controller != faction:
-				set_control(new_controller)
+		if new_controller and new_controller != faction:
+			set_control(new_controller)
+
+
+func remove_token(sprite: Texture2D, faction: FactionData) -> void:
+	if faction not in token_hexes:
+		return
+	
+	for hex: Hex in token_hexes[faction]:
+		if hex.token.texture != sprite:
+			continue
+		
+		hex.remove_token()
+		token_hexes[faction].erase(hex)
+	
+	if faction == controller:
+		var new_controller: FactionData = _get_new_controller()
+		
+		if new_controller and new_controller != faction:
+			set_control(new_controller)
+
+
+func replace_token(old_sprite: Texture2D, new_sprite: Texture2D,
+		faction: FactionData) -> void:
+	if faction not in token_hexes:
+		return
+	
+	for hex: Hex in token_hexes[faction]:
+		if hex.token.texture != old_sprite:
+			continue
+		
+		hex.token.texture = new_sprite
 
 
 func _get_new_controller() -> FactionData:

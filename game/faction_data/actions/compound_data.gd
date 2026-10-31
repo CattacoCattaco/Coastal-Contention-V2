@@ -3,7 +3,7 @@ class_name CompoundData
 extends ActionData
 
 @export var actions: Array[ActionData]
-@export_tool_button("Update steps") var update_steps := func () -> void:
+@export_tool_button("Update stages") var update_stages := func () -> void:
 	stage_count = 0
 	for action: ActionData in actions: stage_count += action.stage_count
 	ResourceSaver.save(self, resource_path)

@@ -7,16 +7,15 @@
 [ext_resource type="Texture2D" uid="uid://10xhyw4wadch" path="res://game/map/hex/troop/mycoling.png" id="4_0u1g0"]
 [ext_resource type="Resource" uid="uid://daa8d6gjkgekg" path="res://game/faction_data/actions/data/setup_spores.tres" id="5_m6jgd"]
 [ext_resource type="Script" uid="uid://cfenxjt4l3qt7" path="res://game/faction_data/phases/phase.gd" id="6_mctrb"]
-[ext_resource type="Resource" uid="uid://mmv25a107lhl" path="res://game/faction_data/actions/data/attack.tres" id="7_m6jgd"]
-[ext_resource type="Resource" uid="uid://2ffomh74aadw" path="res://game/faction_data/actions/data/move.tres" id="8_urouy"]
-[ext_resource type="Resource" uid="uid://ihn54lf0afau" path="res://game/faction_data/actions/data/recruit.tres" id="9_mw8d3"]
-[ext_resource type="Script" uid="uid://bejc327wg23v1" path="res://game/faction_data/phases/action_count_phase.gd" id="10_83tl1"]
+[ext_resource type="Script" uid="uid://bobpvmy085hqs" path="res://game/faction_data/phases/unlimited_phase.gd" id="8_j3lnm"]
+[ext_resource type="Resource" uid="uid://cj8wtao234pbt" path="res://game/faction_data/actions/data/mycoling_retreat.tres" id="8_mctrb"]
+[ext_resource type="Resource" uid="uid://dc60n6uresmkl" path="res://game/faction_data/actions/data/mycoling_expand.tres" id="9_m6jgd"]
+[ext_resource type="Resource" uid="uid://dv2w1ne7nhpbh" path="res://game/faction_data/actions/data/mycoling_attack.tres" id="10_m6jgd"]
 
-[sub_resource type="Resource" id="Resource_4ca85"]
-script = ExtResource("10_83tl1")
-action_count = 4
-actions = Array[ExtResource("2_0u1g0")]([ExtResource("7_m6jgd"), ExtResource("8_urouy"), ExtResource("9_mw8d3")])
-metadata/_custom_type_script = "uid://bejc327wg23v1"
+[sub_resource type="Resource" id="Resource_xa8c5"]
+script = ExtResource("8_j3lnm")
+actions = Array[ExtResource("2_0u1g0")]([ExtResource("8_mctrb"), ExtResource("9_m6jgd"), ExtResource("10_m6jgd")])
+metadata/_custom_type_script = "uid://bobpvmy085hqs"
 
 [resource]
 script = ExtResource("1_0rujk")
@@ -28,5 +27,5 @@ name_highlight_overrides = Dictionary[Color, Color]({
 Color(0.64705884, 0.1882353, 0.1882353, 1): Color(0.8117647, 0.34117648, 0.23529412, 1)
 })
 setup_actions = Array[ExtResource("2_0u1g0")]([ExtResource("3_0rujk"), ExtResource("5_m6jgd")])
-turn_phases = Array[ExtResource("6_mctrb")]([SubResource("Resource_4ca85")])
+turn_phases = Array[ExtResource("6_mctrb")]([SubResource("Resource_xa8c5")])
 metadata/_custom_type_script = "uid://c61log6o4x8n3"

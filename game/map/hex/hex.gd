@@ -23,6 +23,14 @@ func set_token(sprite: Texture2D, new_faction: FactionData) -> void:
 	token.texture = sprite
 
 
+func remove_token() -> void:
+	token.hide()
+
+
+func has_token(sprite: Texture2D) -> bool:
+	return token.visible and token.texture == sprite
+
+
 func set_control(new_faction: FactionData) -> void:
 	faction = new_faction
 	control_banners.show()
