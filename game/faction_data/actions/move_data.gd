@@ -1,9 +1,17 @@
 class_name MoveData
 extends ActionData
 
+@export var start_predicates: Array[Predicate]
+@export var end_predicates: Array[Predicate]
+
 
 func _init(p_outline_color := Color(), p_stage_count: int = 3,
-		p_action_name: String = "Move") -> void:
+		p_action_name: String = "Move",
+		p_start_predicates: Array[Predicate] = [],
+		p_end_predicates: Array[Predicate] = []) -> void:
+	start_predicates = p_start_predicates
+	end_predicates = p_end_predicates
+	
 	super(p_outline_color, p_stage_count, p_action_name)
 
 
@@ -40,6 +48,19 @@ func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 				for territory: Territory in continent:
 					if current_player not in territory.troop_hexes:
 						continue
+					if not Predicate.fits_list(start_predicates, territory,
+							player_bar):
+						continue
+					
+					var valid_end: bool = false
+					for neighbor: Territory in territory.border_territories:
+						if Predicate.fits_list(end_predicates, neighbor,
+								player_bar):
+							valid_end = true
+							break
+					
+					if not valid_end:
+						continue
 					
 					territories.append(territory)
 		2:
@@ -47,6 +68,10 @@ func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 			neighbors = selected_territories[0].border_territories
 			
 			for territory: Territory in neighbors:
+				if not Predicate.fits_list(end_predicates, territory,
+						player_bar):
+					continue
+				
 				territories.append(territory)
 	
 	return territories

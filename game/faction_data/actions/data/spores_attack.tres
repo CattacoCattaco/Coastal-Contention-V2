@@ -1,17 +1,26 @@
 [gd_resource type="Resource" script_class="SporeActionData" format=3 uid="uid://dv2w1ne7nhpbh"]
 
-[ext_resource type="Script" uid="uid://4dupallh46gs" path="res://game/faction_data/actions/attack_data.gd" id="1_h21ss"]
-[ext_resource type="Script" uid="uid://j6u8hjle0e54" path="res://game/faction_data/actions/spore_action_data.gd" id="2_63ufw"]
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_8a05x"]
+[ext_resource type="Script" uid="uid://dnat4dtblnhme" path="res://game/faction_data/actions/predicates/has_token_predicate.gd" id="2_cb3fl"]
+[ext_resource type="Texture2D" uid="uid://dts1nj5e8vtlr" path="res://game/map/hex/token/spore.png" id="3_ljk8r"]
+[ext_resource type="Script" uid="uid://4dupallh46gs" path="res://game/faction_data/actions/attack_data.gd" id="4_11jpi"]
+[ext_resource type="Script" uid="uid://j6u8hjle0e54" path="res://game/faction_data/actions/spore_action_data.gd" id="5_k62i2"]
+
+[sub_resource type="Resource" id="Resource_xa8c5"]
+script = ExtResource("2_cb3fl")
+sprite = ExtResource("3_ljk8r")
+metadata/_custom_type_script = "uid://dnat4dtblnhme"
 
 [sub_resource type="Resource" id="Resource_ns7eq"]
-script = ExtResource("1_h21ss")
+script = ExtResource("4_11jpi")
+predicates = Array[ExtResource("1_8a05x")]([SubResource("Resource_xa8c5")])
 outline_color = Color(0.64705884, 0.1882353, 0.1882353, 1)
 stage_count = 2
 action_name = "Attack"
 metadata/_custom_type_script = "uid://4dupallh46gs"
 
 [resource]
-script = ExtResource("2_63ufw")
+script = ExtResource("5_k62i2")
 base_action = SubResource("Resource_ns7eq")
 outline_color = Color(0.64705884, 0.1882353, 0.1882353, 1)
 stage_count = 2

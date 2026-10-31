@@ -6,9 +6,14 @@ const MAX_DEFENDER_DICE: int = 6
 const ATTACKER_HIT_MIN: int = 3
 const DEFENDER_HIT_MIN: int = 4
 
+@export var predicates: Array[Predicate]
+
 
 func _init(p_outline_color := Color(), p_stage_count: int = 2,
-		p_action_name: String = "Attack") -> void:
+		p_action_name: String = "Attack", p_predicates: Array[Predicate] = []
+		) -> void:
+	predicates = p_predicates
+	
 	super(p_outline_color, p_stage_count, p_action_name)
 
 
@@ -42,6 +47,8 @@ func _get_selectable_territories(map: Map, player_bar: PlayerBar, stage: int,
 				if territory.troop_hexes.size() < 2:
 					continue
 				if player_bar.get_current_player() not in territory.troop_hexes:
+					continue
+				if not Predicate.fits_list(predicates, territory, player_bar):
 					continue
 				
 				territories.append(territory)
