@@ -2,8 +2,8 @@
 class_name CreateTokenData
 extends ActionData
 
-const RECRUIT_ANY: int = -1
-const RECRUIT_ALL: int = -2
+const CREATE_ANY: int = -1
+const CREATE_ALL: int = -2
 
 ## Number of territories to recruit to
 ## [br]-1 = any number (not implemented)
@@ -13,9 +13,9 @@ const RECRUIT_ALL: int = -2
 		territory_count = value
 		stage_count = value
 		
-		if value == RECRUIT_ANY:
+		if value == CREATE_ANY:
 			stage_count = -1
-		if value == RECRUIT_ALL:
+		if value == CREATE_ALL:
 			stage_count = 0
 
 @export var token_sprite: Texture2D
@@ -85,7 +85,7 @@ func _do_action(selected_territories: Array[Territory],
 		_token_count_box: SpinBox, player_bar: PlayerBar,
 		_attack_screen: AttackScreen, cleric_faith_panel: ClericFaithPanel
 		) -> void:
-	if territory_count == RECRUIT_ALL:
+	if territory_count == CREATE_ALL:
 		for continent: Array in map.continents:
 			for territory: Territory in continent:
 				if not Predicate.fits_list(predicates, territory, player_bar):

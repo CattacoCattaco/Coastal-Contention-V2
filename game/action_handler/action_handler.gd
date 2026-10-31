@@ -61,11 +61,14 @@ func _setup() -> void:
 			
 			await action_completed
 		
-		_next_turn()
+		if faction != player_bar.players[-1]:
+			_next_turn()
 	
 	show()
 	
 	in_setup = false
+	
+	_next_turn()
 
 
 func _player_name_added(faction: FactionData) -> void:
@@ -131,7 +134,7 @@ func start_stage() -> void:
 		
 		if not in_setup:
 			if get_phase()._is_phase_over(actions_used, cleric_faith_panel):
-				next_phase()
+				_next_phase()
 			else:
 				list_actions(get_phase()._get_available_actions(actions_used,
 						cleric_faith_panel))
@@ -185,14 +188,14 @@ func start_stage() -> void:
 					troop_count_box.max_value = troop_hex.troop_count
 
 
-func next_phase() -> void:
+func _next_phase() -> void:
 	current_phase += 1
 	
 	if current_phase == player_bar.get_current_player().turn_phases.size():
 		_next_turn()
 	else:
-		start_phase()
 		_cancel_action()
+		start_phase()
 
 
 func _next_turn() -> void:
@@ -230,6 +233,13 @@ func _cancel_action() -> void:
 	cancel_button.hide()
 
 
+func _restart_action(hide_cancel: bool) -> void:
+	_start_action(current_action)
+	
+	if hide_cancel:
+		cancel_button.hide()
+
+
 func start_phase() -> void:
 	actions_used = []
 	
@@ -237,7 +247,33 @@ func start_phase() -> void:
 	var actions: Array[ActionData] = phase._get_available_actions(actions_used,
 			cleric_faith_panel)
 	
-	list_actions(actions)
+	if phase is DoActionPhase:
+		unlist_actions()
+		
+		var restart_button := Button.new()
+		add_child(restart_button)
+		action_buttons.append(restart_button)
+		
+		restart_button.theme = button_theme
+		restart_button.text = "Restart"
+		restart_button.pressed.connect(_restart_action.bind(true))
+		
+		if phase.is_optional:
+			var skip_button := Button.new()
+			add_child(skip_button)
+			action_buttons.append(skip_button)
+			
+			skip_button.theme = button_theme
+			skip_button.text = "Skip"
+			skip_button.pressed.connect(_next_phase)
+		
+		next_button.move_to_front()
+		
+		_start_action(actions[0])
+		
+		cancel_button.hide()
+	else:
+		list_actions(actions)
 
 
 func get_phase() -> Phase:
@@ -246,10 +282,7 @@ func get_phase() -> Phase:
 
 
 func list_actions(actions: Array[ActionData]) -> void:
-	for button: Button in action_buttons:
-		button.queue_free()
-	
-	action_buttons = []
+	unlist_actions()
 	
 	for action: ActionData in actions:
 		var action_button := Button.new()
@@ -262,6 +295,13 @@ func list_actions(actions: Array[ActionData]) -> void:
 	
 	next_button.move_to_front()
 	cancel_button.move_to_front()
+
+
+func unlist_actions() -> void:
+	for button: Button in action_buttons:
+		button.queue_free()
+	
+	action_buttons = []
 
 
 func highlight_players() -> void:

@@ -54,6 +54,17 @@ func remove_control() -> void:
 	biome_hex.remove_control()
 
 
+func has_token(sprite: Texture2D, faction: FactionData) -> bool:
+	if faction not in token_hexes:
+		return false
+	
+	for hex: Hex in token_hexes[faction]:
+		if hex.has_token(sprite):
+			return true
+	
+	return false
+
+
 func add_troops(count: int, faction: FactionData) -> void:
 	if faction in troop_hexes:
 		troop_hexes[faction].add_troops(count)

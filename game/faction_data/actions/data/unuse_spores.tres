@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ReplaceTokenData" format=3 uid="uid://dmqi5oxwglqi4"]
+
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_gw17g"]
+[ext_resource type="Texture2D" uid="uid://dts1nj5e8vtlr" path="res://game/map/hex/token/spore.png" id="1_o2tk1"]
+[ext_resource type="Script" uid="uid://bry4n0y2tjei4" path="res://game/faction_data/actions/replace_token_data.gd" id="2_04ae6"]
+[ext_resource type="Texture2D" uid="uid://cypv2sq2yglek" path="res://game/map/hex/token/spore_used.png" id="2_h50xo"]
+
+[resource]
+script = ExtResource("2_04ae6")
+territory_count = -2
+old_token_sprite = ExtResource("2_h50xo")
+new_token_sprite = ExtResource("1_o2tk1")
+message = "Unuse spores"
+outline_color = Color(0.87058824, 0.61960787, 0.25490198, 1)
+action_name = "Unuse spores"
+metadata/_custom_type_script = "uid://bry4n0y2tjei4"

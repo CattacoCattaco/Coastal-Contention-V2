@@ -10,20 +10,20 @@
 [ext_resource type="Resource" uid="uid://mmv25a107lhl" path="res://game/faction_data/actions/data/attack.tres" id="7_qvlr5"]
 [ext_resource type="Resource" uid="uid://2ffomh74aadw" path="res://game/faction_data/actions/data/move.tres" id="8_no3pw"]
 [ext_resource type="Resource" uid="uid://ihn54lf0afau" path="res://game/faction_data/actions/data/recruit.tres" id="9_a2om4"]
-[ext_resource type="Script" uid="uid://bejc327wg23v1" path="res://game/faction_data/phases/action_count_phase.gd" id="10_clhsk"]
 [ext_resource type="Script" uid="uid://p1a6yypmqhko" path="res://game/faction_data/phases/faith_based_phase.gd" id="10_tc1se"]
 [ext_resource type="Resource" uid="uid://bpss2lgtpwhsa" path="res://game/faction_data/actions/data/place_faith.tres" id="12_a2om4"]
+[ext_resource type="Script" uid="uid://na1ao8prde7q" path="res://game/faction_data/phases/do_action_phase.gd" id="13_a2om4"]
 
 [sub_resource type="Resource" id="Resource_xa8c5"]
 script = ExtResource("10_tc1se")
 actions = Array[ExtResource("2_a0ts8")]([ExtResource("8_no3pw"), null, ExtResource("7_qvlr5"), ExtResource("9_a2om4")])
 metadata/_custom_type_script = "uid://p1a6yypmqhko"
 
-[sub_resource type="Resource" id="Resource_no3pw"]
-script = ExtResource("10_clhsk")
-action_count = 1
-actions = Array[ExtResource("2_a0ts8")]([ExtResource("12_a2om4")])
-metadata/_custom_type_script = "uid://bejc327wg23v1"
+[sub_resource type="Resource" id="Resource_clhsk"]
+script = ExtResource("13_a2om4")
+action = ExtResource("12_a2om4")
+is_optional = true
+metadata/_custom_type_script = "uid://na1ao8prde7q"
 
 [resource]
 script = ExtResource("1_48p7n")
@@ -32,5 +32,5 @@ color = Color(0.74509805, 0.46666667, 0.16862746, 1)
 troop_sprite = ExtResource("4_a0ts8")
 control_banners = ExtResource("1_a0ts8")
 setup_actions = Array[ExtResource("2_a0ts8")]([ExtResource("3_48p7n"), ExtResource("5_qvlr5")])
-turn_phases = Array[ExtResource("6_tc1se")]([SubResource("Resource_xa8c5"), SubResource("Resource_no3pw")])
+turn_phases = Array[ExtResource("6_tc1se")]([SubResource("Resource_xa8c5"), SubResource("Resource_clhsk")])
 metadata/_custom_type_script = "uid://c61log6o4x8n3"
