@@ -80,7 +80,8 @@ func _get_action_menu(_stage: int) -> ActionMenu:
 func _do_action(selected_territories: Array[Territory],
 		_selected_players: Array[FactionData], map: Map,
 		_troop_count_box: SpinBox, player_bar: PlayerBar,
-		_attack_screen: AttackScreen) -> void:
+		_attack_screen: AttackScreen, _cleric_faith_panel: ClericFaithPanel
+		) -> void:
 	if territory_count == RECRUIT_ALL:
 		for continent: Array in map.continents:
 			for territory: Territory in continent:

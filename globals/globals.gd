@@ -15,3 +15,10 @@ enum Biome {
 	FOREST,
 	SWAMP,
 }
+
+const BIOME_NAMES: Array[String] = [
+	"Plains",
+	"Mountains",
+	"Forest",
+	"Swamp",
+]

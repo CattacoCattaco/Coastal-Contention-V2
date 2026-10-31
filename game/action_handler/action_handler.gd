@@ -11,6 +11,7 @@ const ActionMenu = ActionData.ActionMenu
 @export var instruction_label: Label
 @export var next_button: Button
 @export var cancel_button: Button
+@export var cleric_faith_panel: ClericFaithPanel
 @export var troop_count_selection_panel: PanelContainer
 @export var troop_count_box: SpinBox
 @export var finish_move_button: Button
@@ -118,7 +119,8 @@ func start_stage() -> void:
 		# _do_action() may or may not be asyncronous
 		@warning_ignore("redundant_await")
 		await current_action._do_action(selected_territories, selected_players,
-				map, troop_count_box, player_bar, attack_screen)
+				map, troop_count_box, player_bar, attack_screen,
+				cleric_faith_panel)
 		
 		actions_used.append(current_action)
 		

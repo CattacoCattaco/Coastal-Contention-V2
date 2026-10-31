@@ -21,6 +21,7 @@ territory_count = 2
 token_sprite = ExtResource("4_dbr43")
 message = "Choose territories to place faith in"
 predicates = Array[ExtResource("1_qj466")]([SubResource("Resource_nda3j"), SubResource("Resource_es3dq")])
+incrament_faith = true
 outline_color = Color(0.87058824, 0.61960787, 0.25490198, 1)
 stage_count = 2
 action_name = "Setup Faith"

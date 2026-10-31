@@ -72,7 +72,8 @@ func _get_action_menu(_stage: int) -> ActionMenu:
 func _do_action(selected_territories: Array[Territory],
 		selected_players: Array[FactionData], map: Map,
 		_troop_count_box: SpinBox, player_bar: PlayerBar,
-		attack_screen: AttackScreen) -> void:
+		attack_screen: AttackScreen, _cleric_faith_panel: ClericFaithPanel
+		) -> void:
 	attack_screen.attacker_hits_label.text = "Hits: --"
 	attack_screen.defender_hits_label.text = "Hits: --"
 	

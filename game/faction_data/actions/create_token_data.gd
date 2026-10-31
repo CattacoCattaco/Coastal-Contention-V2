@@ -23,15 +23,19 @@ const RECRUIT_ALL: int = -2
 
 @export var predicates: Array[Predicate]
 
+@export var incrament_faith: bool
+
 
 func _init(p_outline_color := Color(), p_stage_count: int = 1,
 		p_action_name: String = "Recruit", p_territory_count: int = 1,
 		p_token_sprite: Texture2D = null, p_message: String = "",
-		p_predicates: Array[Predicate] = []) -> void:
+		p_predicates: Array[Predicate] = [], p_incrament_faith: bool = false
+		) -> void:
 	territory_count = p_territory_count
 	token_sprite = p_token_sprite
 	message = p_message
 	predicates = p_predicates
+	incrament_faith = p_incrament_faith
 	
 	super(p_outline_color, p_stage_count, p_action_name)
 
@@ -79,7 +83,8 @@ func _get_action_menu(_stage: int) -> ActionMenu:
 func _do_action(selected_territories: Array[Territory],
 		_selected_players: Array[FactionData], map: Map,
 		_token_count_box: SpinBox, player_bar: PlayerBar,
-		_attack_screen: AttackScreen) -> void:
+		_attack_screen: AttackScreen, cleric_faith_panel: ClericFaithPanel
+		) -> void:
 	if territory_count == RECRUIT_ALL:
 		for continent: Array in map.continents:
 			for territory: Territory in continent:
@@ -90,3 +95,5 @@ func _do_action(selected_territories: Array[Territory],
 	
 	for territory: Territory in selected_territories:
 		territory.add_token(token_sprite, player_bar.get_current_player())
+		if incrament_faith:
+			cleric_faith_panel.add_faith(territory.territory.biome)
