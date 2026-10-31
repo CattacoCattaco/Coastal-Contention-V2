@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CreateTokenData" format=3 uid="uid://dypyqhqd2377h"]
+
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_qj466"]
+[ext_resource type="Script" uid="uid://dm6ls6pra0vi0" path="res://game/faction_data/actions/create_token_data.gd" id="2_5eh65"]
+[ext_resource type="Script" uid="uid://bqxbflsyhdvki" path="res://game/faction_data/actions/predicates/continent_predicate.gd" id="2_knq0g"]
+[ext_resource type="Script" uid="uid://cxw0owyu8g5ph" path="res://game/faction_data/actions/predicates/control_predicate.gd" id="3_dbr43"]
+[ext_resource type="Texture2D" uid="uid://cdb2ww0exut1g" path="res://game/map/hex/token/faith.png" id="4_dbr43"]
+
+[sub_resource type="Resource" id="Resource_nda3j"]
+script = ExtResource("2_knq0g")
+continent = 1
+metadata/_custom_type_script = "uid://bqxbflsyhdvki"
+
+[sub_resource type="Resource" id="Resource_es3dq"]
+script = ExtResource("3_dbr43")
+metadata/_custom_type_script = "uid://cxw0owyu8g5ph"
+
+[resource]
+script = ExtResource("2_5eh65")
+territory_count = 2
+token_sprite = ExtResource("4_dbr43")
+message = "Choose territories to place faith in"
+predicates = Array[ExtResource("1_qj466")]([SubResource("Resource_nda3j"), SubResource("Resource_es3dq")])
+outline_color = Color(0.87058824, 0.61960787, 0.25490198, 1)
+stage_count = 2
+action_name = "Setup Faith"
+metadata/_custom_type_script = "uid://dm6ls6pra0vi0"

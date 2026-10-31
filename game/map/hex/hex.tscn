@@ -4,20 +4,26 @@
 [ext_resource type="Texture2D" uid="uid://dtik6lkdavrac" path="res://game/map/hex/troop/pirate.png" id="2_8e6va"]
 [ext_resource type="Script" uid="uid://dyn5ikjh7eyey" path="res://game/map/hex/hex.gd" id="2_rjy37"]
 [ext_resource type="Texture2D" uid="uid://bxwhrkms6avab" path="res://game/map/territory/control_banners/pirate_banners.png" id="3_51ni3"]
+[ext_resource type="Texture2D" uid="uid://cdb2ww0exut1g" path="res://game/map/hex/token/faith.png" id="3_nda3j"]
 [ext_resource type="FontFile" uid="uid://f62wb8ipy4ap" path="res://UI/pixel_font_6px.ttf" id="3_rjy37"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5a5g6"]
 font = ExtResource("3_rjy37")
 font_size = 6
 
-[node name="Hex" type="Sprite2D" unique_id=1038356430 node_paths=PackedStringArray("control_banners", "troop", "troop_count_label")]
+[node name="Hex" type="Sprite2D" unique_id=1038356430 node_paths=PackedStringArray("token", "control_banners", "troop", "troop_count_label")]
 z_index = -5
 texture = ExtResource("1_5nuwp")
 centered = false
 script = ExtResource("2_rjy37")
+token = NodePath("Token")
 control_banners = NodePath("ControlBanners")
 troop = NodePath("Troop")
 troop_count_label = NodePath("TroopCount")
+
+[node name="Token" type="Sprite2D" parent="." unique_id=1306088947]
+position = Vector2(19, 16)
+texture = ExtResource("3_nda3j")
 
 [node name="ControlBanners" type="Sprite2D" parent="." unique_id=730158339]
 position = Vector2(19, 16)

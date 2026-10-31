@@ -7,6 +7,7 @@ var territory: TerritoryData
 var shader_material: ShaderMaterial
 var hexes: Dictionary[Vector2i, Hex] = {}
 var troop_hexes: Dictionary[FactionData, Hex] = {}
+var token_hexes: Dictionary[FactionData, Array] = {}
 var biome_hex: Hex
 var border_territories: Array[Territory] = []
 var controller: FactionData = null
@@ -71,6 +72,24 @@ func add_troops(count: int, faction: FactionData) -> void:
 			set_control(new_controller)
 
 
+func add_token(sprite: Texture2D, faction: FactionData) -> void:
+	for hex: Hex in hexes.values():
+		if hex.is_empty():
+			hex.set_token(sprite, faction)
+			
+			if faction not in token_hexes:
+				token_hexes[faction] = []
+			
+			token_hexes[faction].append(faction)
+			break
+	
+	if faction != controller:
+		var new_controller: FactionData = _get_new_controller()
+		
+		if new_controller == faction:
+			set_control(new_controller)
+
+
 func remove_all_troops() -> void:
 	var start_controller: FactionData = controller
 	
@@ -94,15 +113,28 @@ func remove_troops(count: int, faction: FactionData) -> void:
 
 
 func _get_new_controller() -> FactionData:
-	var most_troops: int = 0
+	var most_pieces: int = 0
 	var new_controller: FactionData = null
 	
 	for faction: FactionData in troop_hexes:
-		var troop_count: int = troop_hexes[faction].troop_count
-		if troop_count > most_troops:
-			most_troops = troop_count
+		var piece_count: int = troop_hexes[faction].troop_count
+		
+		if faction in token_hexes:
+			piece_count += token_hexes[faction].size()
+		
+		if piece_count > most_pieces:
+			most_pieces = piece_count
 			new_controller = faction
-		elif troop_count == most_troops:
+		elif piece_count == most_pieces:
+			new_controller = null
+	
+	for faction: FactionData in token_hexes:
+		var token_count: int = token_hexes[faction].size()
+		
+		if token_count > most_pieces:
+			most_pieces = token_count
+			new_controller = faction
+		elif token_count == most_pieces:
 			new_controller = null
 	
 	return new_controller
