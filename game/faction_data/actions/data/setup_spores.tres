@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="CreateTokenData" format=3 uid="uid://daa8d6gjkgekg"]
+
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_ch3nq"]
+[ext_resource type="Script" uid="uid://dyhd56msp2wtj" path="res://game/faction_data/actions/predicates/neighbor_predicate.gd" id="3_ch3nq"]
+[ext_resource type="Script" uid="uid://bycpu8w0jahrf" path="res://game/faction_data/actions/predicates/pieces_predicate.gd" id="3_lvewc"]
+[ext_resource type="Script" uid="uid://b23kh0wus6wra" path="res://game/faction_data/actions/predicates/not_predicate.gd" id="3_vch67"]
+[ext_resource type="Script" uid="uid://dm6ls6pra0vi0" path="res://game/faction_data/actions/create_token_data.gd" id="4_vch67"]
+[ext_resource type="Texture2D" uid="uid://dts1nj5e8vtlr" path="res://game/map/hex/token/spore.png" id="5_lvewc"]
+
+[sub_resource type="Resource" id="Resource_ji3wk"]
+script = ExtResource("3_lvewc")
+count_troops = true
+count_tokens = true
+min_pieces = 1
+metadata/_custom_type_script = "uid://bycpu8w0jahrf"
+
+[sub_resource type="Resource" id="Resource_xa8c5"]
+script = ExtResource("3_vch67")
+predicate = SubResource("Resource_ji3wk")
+metadata/_custom_type_script = "uid://b23kh0wus6wra"
+
+[sub_resource type="Resource" id="Resource_ch3nq"]
+script = ExtResource("3_lvewc")
+count_troops = true
+min_pieces = 1
+metadata/_custom_type_script = "uid://bycpu8w0jahrf"
+
+[sub_resource type="Resource" id="Resource_mdnkn"]
+script = ExtResource("3_ch3nq")
+predicates = Array[ExtResource("1_ch3nq")]([SubResource("Resource_ch3nq")])
+metadata/_custom_type_script = "uid://dyhd56msp2wtj"
+
+[resource]
+script = ExtResource("4_vch67")
+territory_count = 2
+token_sprite = ExtResource("5_lvewc")
+message = "Choose territories to place spores in"
+predicates = Array[ExtResource("1_ch3nq")]([SubResource("Resource_xa8c5"), SubResource("Resource_mdnkn")])
+incrament_faith = true
+outline_color = Color(0.87058824, 0.61960787, 0.25490198, 1)
+stage_count = 2
+action_name = "Setup Spores"
+metadata/_custom_type_script = "uid://dm6ls6pra0vi0"
