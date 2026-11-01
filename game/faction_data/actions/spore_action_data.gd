@@ -116,5 +116,7 @@ func _do_action(selected_territories: Array[Territory],
 	if territory_index == EXTERNAL_SPORE_SELECTION:
 		selected_territories.pop_back()
 	
-	base_action._do_action(selected_territories, selected_players, map,
+	# May or may not be async
+	@warning_ignore("redundant_await")
+	await base_action._do_action(selected_territories, selected_players, map,
 			troop_count_box, player_bar, attack_screen, cleric_faith_panel)
