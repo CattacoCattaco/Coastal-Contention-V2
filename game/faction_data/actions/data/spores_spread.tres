@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="SporeActionData" format=3 uid="uid://cu3u73wav4htp"]
+
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_7uxbh"]
+[ext_resource type="Script" uid="uid://dnat4dtblnhme" path="res://game/faction_data/actions/predicates/has_token_predicate.gd" id="2_y22eo"]
+[ext_resource type="Texture2D" uid="uid://dts1nj5e8vtlr" path="res://game/map/hex/token/spore.png" id="3_0oqn4"]
+[ext_resource type="Script" uid="uid://dyhd56msp2wtj" path="res://game/faction_data/actions/predicates/neighbor_predicate.gd" id="4_0oqn4"]
+[ext_resource type="Script" uid="uid://b23kh0wus6wra" path="res://game/faction_data/actions/predicates/not_predicate.gd" id="5_elr7o"]
+[ext_resource type="Script" uid="uid://j6u8hjle0e54" path="res://game/faction_data/actions/spore_action_data.gd" id="5_uv5mm"]
+[ext_resource type="Script" uid="uid://dm6ls6pra0vi0" path="res://game/faction_data/actions/create_token_data.gd" id="6_uv5mm"]
+[ext_resource type="Texture2D" uid="uid://cypv2sq2yglek" path="res://game/map/hex/token/spore_used.png" id="7_elr7o"]
+
+[sub_resource type="Resource" id="Resource_255md"]
+script = ExtResource("2_y22eo")
+sprite = ExtResource("3_0oqn4")
+metadata/_custom_type_script = "uid://dnat4dtblnhme"
+
+[sub_resource type="Resource" id="Resource_776hn"]
+script = ExtResource("4_0oqn4")
+predicates = Array[ExtResource("1_7uxbh")]([SubResource("Resource_255md")])
+metadata/_custom_type_script = "uid://dyhd56msp2wtj"
+
+[sub_resource type="Resource" id="Resource_bee14"]
+script = ExtResource("5_elr7o")
+predicate = SubResource("Resource_255md")
+metadata/_custom_type_script = "uid://b23kh0wus6wra"
+
+[sub_resource type="Resource" id="Resource_0yric"]
+script = ExtResource("6_uv5mm")
+token_sprite = ExtResource("7_elr7o")
+message = "Choose a territory to spread spores to"
+predicates = Array[ExtResource("1_7uxbh")]([SubResource("Resource_776hn"), SubResource("Resource_bee14")])
+outline_color = Color(0.87058824, 0.61960787, 0.25490198, 1)
+stage_count = 1
+action_name = "Spread"
+metadata/_custom_type_script = "uid://dm6ls6pra0vi0"
+
+[resource]
+script = ExtResource("5_uv5mm")
+territory_index = -1
+base_action = SubResource("Resource_0yric")
+outline_color = Color(0.87058824, 0.61960787, 0.25490198, 1)
+stage_count = 2
+action_name = "Spread"
+metadata/_custom_type_script = "uid://j6u8hjle0e54"

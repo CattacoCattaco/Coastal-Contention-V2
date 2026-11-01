@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="SporeActionData" format=3 uid="uid://bc5c2jkxqlmjr"]
+
+[ext_resource type="Script" uid="uid://teifcegv858i" path="res://game/faction_data/actions/predicates/predicate.gd" id="1_ys6d5"]
+[ext_resource type="Script" uid="uid://dnat4dtblnhme" path="res://game/faction_data/actions/predicates/has_token_predicate.gd" id="2_ue7jc"]
+[ext_resource type="Texture2D" uid="uid://dts1nj5e8vtlr" path="res://game/map/hex/token/spore.png" id="3_22478"]
+[ext_resource type="Script" uid="uid://b6cihs35qjvgw" path="res://game/faction_data/actions/recruit_data.gd" id="4_tfq0q"]
+[ext_resource type="Script" uid="uid://j6u8hjle0e54" path="res://game/faction_data/actions/spore_action_data.gd" id="7_37igy"]
+
+[sub_resource type="Resource" id="Resource_d5eo4"]
+script = ExtResource("2_ue7jc")
+sprite = ExtResource("3_22478")
+metadata/_custom_type_script = "uid://dnat4dtblnhme"
+
+[sub_resource type="Resource" id="Resource_0m2h7"]
+script = ExtResource("4_tfq0q")
+predicates = Array[ExtResource("1_ys6d5")]([SubResource("Resource_d5eo4")])
+outline_color = Color(0.45882353, 0.654902, 0.2627451, 1)
+stage_count = 1
+action_name = "Grow"
+metadata/_custom_type_script = "uid://b6cihs35qjvgw"
+
+[resource]
+script = ExtResource("7_37igy")
+remove_spore = true
+base_action = SubResource("Resource_0m2h7")
+outline_color = Color(0.45882353, 0.654902, 0.2627451, 1)
+stage_count = 1
+action_name = "Grow"
+metadata/_custom_type_script = "uid://j6u8hjle0e54"
